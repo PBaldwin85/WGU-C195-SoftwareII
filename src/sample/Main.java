@@ -7,14 +7,34 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Main {
+import java.io.IOException;
 
+public class Main extends Application {
+
+    public void start(Stage stage) throws IOException {
+        JDBC.openConnection();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 875, 325);
+        stage.setTitle("");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void stop() {
+        JDBC.closeConnection();
+    }
+    /**
     public static void main(String[] args) {
         JDBC.openConnection();
 
 
+
+
         JDBC.closeConnection();
     }
+     */
+
+
 
 
 }
