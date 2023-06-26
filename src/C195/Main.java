@@ -19,6 +19,7 @@ public class Main extends Application {
         stage.show();
     }
 
+
     public void stop() {
         JDBC.closeConnection();
     }

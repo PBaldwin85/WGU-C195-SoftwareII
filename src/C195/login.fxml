@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="C195.Controller">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="C195.login">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -13,12 +13,12 @@
    <children>
       <AnchorPane prefHeight="310.0" prefWidth="464.0">
          <children>
-            <TextField layoutX="168.0" layoutY="104.0" />
-            <TextField layoutX="168.0" layoutY="143.0" />
+            <TextField fx:id="username" layoutX="168.0" layoutY="104.0" />
+            <TextField fx:id="password" layoutX="168.0" layoutY="143.0" />
             <Label layoutX="103.0" layoutY="108.0" text="Username" />
             <Label layoutX="105.0" layoutY="147.0" text="Password" />
             <Button layoutX="220.0" layoutY="178.0" mnemonicParsing="false" text="Login" />
-            <Button layoutX="351.0" layoutY="261.0" mnemonicParsing="false" text="Exit" />
+            <Button layoutX="351.0" layoutY="261.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
             <Label layoutX="266.0" layoutY="229.0" text="Location:" />
          </children>
       </AnchorPane>
