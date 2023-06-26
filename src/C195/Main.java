@@ -13,7 +13,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         JDBC.openConnection();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 875, 325);
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         stage.setTitle("");
         stage.setScene(scene);
         stage.show();
