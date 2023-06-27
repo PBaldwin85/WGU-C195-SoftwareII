@@ -8,15 +8,15 @@
         <TableView fx:id="appointmentTableView" layoutX="65.0" layoutY="34.0" prefHeight="243.0" prefWidth="827.0">
             <columns>
                 <TableColumn fx:id="appointmentId" prefWidth="100.0" text="Appointment_ID" />
-                <TableColumn fx:id="appointmentTitle" prefWidth="50.0" text="Title" />
-                <TableColumn fx:id="appointmentDescription" prefWidth="73.0" text="Description" />
-                <TableColumn fx:id="locationColumn" prefWidth="55.0" text="Location" />
-                <TableColumn fx:id="contactColumn" prefWidth="57.0" text="Contact" />
-                <TableColumn fx:id="typeColumn" minWidth="6.0" prefWidth="54.0" text="Type" />
-                <TableColumn fx:id="startColumn" prefWidth="119.0" text="Start Date and Time" />
-                <TableColumn fx:id="endColumn" prefWidth="137.0" text="End Date and Time" />
-                <TableColumn fx:id="customerColumn" prefWidth="90.0" text="Customer_ID" />
-                <TableColumn fx:id="userColumn" prefWidth="91.0" text="User_ID" />
+                <TableColumn fx:id="appointmentTitle" prefWidth="42.0" text="Title" />
+                <TableColumn fx:id="appointmentDescription" prefWidth="72.0" text="Description" />
+                <TableColumn fx:id="locationColumn" prefWidth="57.0" text="Location" />
+                <TableColumn fx:id="contactColumn" prefWidth="88.0" text="Contact" />
+                <TableColumn fx:id="typeColumn" minWidth="6.0" prefWidth="101.0" text="Type" />
+                <TableColumn fx:id="startColumn" prefWidth="120.0" text="Start Date and Time" />
+                <TableColumn fx:id="endColumn" prefWidth="119.0" text="End Date and Time" />
+                <TableColumn fx:id="customerColumn" prefWidth="78.0" text="Customer_ID" />
+                <TableColumn fx:id="userColumn" prefWidth="48.0" text="User_ID" />
             </columns>
         </TableView>
         <Button layoutX="73.0" layoutY="286.0" mnemonicParsing="false" onAction="#AddButton" text="Add" />
@@ -29,7 +29,7 @@
                 <TableColumn fx:id="phoneColumn" prefWidth="105.0" text="Phone Number" />
                 <TableColumn fx:id="addressColumn" prefWidth="150.0" text="Address" />
                 <TableColumn fx:id="postalCodeColumn" prefWidth="109.0" text="Postal Code" />
-                <TableColumn fx:id="stateColumn" prefWidth="161.0" text="State" />
+                <TableColumn fx:id="stateColumn" prefWidth="161.0" text="State/Province" />
                 <TableColumn fx:id="countryColumn" prefWidth="85.0" text="Country" />
             </columns>
         </TableView>
