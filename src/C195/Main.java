@@ -37,12 +37,27 @@ public class Main extends Application {
 
     public static int generateAppointmentId() {
         appointmentId ++;
+        System.out.println("Appointment Id: " + appointmentId);
         return appointmentId;
     }
 
     public static int getAppointmentId() {
         return appointmentId;
     }
+
+
+    private static int customerId = 0;
+
+    public static int generateCustomerId() {
+        customerId ++;
+        System.out.println("Customer id: " + customerId);
+        return customerId;
+    }
+
+    public static int getCustomerId() {
+        return customerId;
+    }
+
 
     public void stop() {
         JDBC.closeConnection();

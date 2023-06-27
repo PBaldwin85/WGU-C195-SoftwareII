@@ -20,13 +20,12 @@ public class CustomerEditorController implements Initializable {
     public TextField addressField;
     public TextField phoneField;
     public TextField zipField;
-
-    public static int customerId;
     public AnchorPane mainWindow;
     public ComboBox stateBox;
     public ComboBox countryBox;
 
 
+    public static int customerId;
     /** Sets the part ID value. */
     public static void customerId(int num) {
         customerId = num;

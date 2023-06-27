@@ -81,7 +81,7 @@ public class ScheduleController implements Initializable {
     }
 
     public void AddCustomer(ActionEvent actionEvent) throws IOException {
-        CustomerEditorController.customerId(Main.generateAppointmentId());
+        CustomerEditorController.customerId(Main.generateCustomerId());
 
 
 
@@ -91,7 +91,7 @@ public class ScheduleController implements Initializable {
         stage.close();
         Parent addPartParent = loader.load();
         CustomerEditorController CustomerEditorController = loader.getController();
-        CustomerEditorController.setData(Main.getAppointmentId());
+        CustomerEditorController.setData(Main.getCustomerId());
         Scene scene = new Scene(addPartParent);
         stage.setScene(scene);
         stage.show();

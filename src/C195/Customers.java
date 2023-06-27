@@ -54,6 +54,7 @@ public class Customers {
             ResultSet result = statement.executeQuery(query);
 
             while (result.next()) {
+                Main.generateCustomerId();
                 Integer id = Integer.valueOf(result.getString("Customer_ID"));
                 String customerName = result.getString("Customer_Name");
                 String phoneNumber = result.getString("Phone");

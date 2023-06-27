@@ -69,6 +69,7 @@ public class Appointments extends Lists {
             ResultSet result = statement.executeQuery(query);
 
             while (result.next()) {
+                Main.generateAppointmentId();
                 Integer id = Integer.valueOf(result.getString("Appointment_ID"));
                 String title = result.getString("Title");
                 String description = result.getString("Description");
