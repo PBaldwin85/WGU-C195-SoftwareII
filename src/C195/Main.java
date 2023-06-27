@@ -20,6 +20,7 @@ public class Main extends Application {
         JDBC.openConnection();
 
         Country.populateCountries();
+        States.populateStates();
 
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
