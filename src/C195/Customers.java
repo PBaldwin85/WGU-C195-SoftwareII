@@ -54,12 +54,13 @@ public class Customers {
             ResultSet result = statement.executeQuery(query);
 
             while (result.next()) {
+                Integer id = Integer.valueOf(result.getString("Customer_ID"));
                 String customerName = result.getString("Customer_Name");
                 String phoneNumber = result.getString("Phone");
                 String address = result.getString("Address");
                 String zip = result.getString("Postal_Code");
 
-                Customers customer = new Customers(0, customerName, address, zip, phoneNumber, "", "");
+                Customers customer = new Customers(id, customerName, address, zip, phoneNumber, "", "");
                 Lists.customerList.add(customer);
             }
         } catch (Exception e) {

@@ -43,8 +43,8 @@ public class AppointmentEditorController {
         String type = typeField.getText();
         String startDate = startDateField.getText();
         String endDate = EndDateField.getText();
-        String customerId = CustomerIdField.getText();
-        String userId = userField.getText();
+        Integer customerId = Integer.valueOf(CustomerIdField.getText());
+        Integer userId = Integer.valueOf(userField.getText());
 
         Appointments appointment = new Appointments(appointmentId, title, description, location, contact, type, startDate, endDate, customerId, userId);
 

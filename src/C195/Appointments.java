@@ -1,5 +1,10 @@
 package C195;
 
+import helper.JDBC;
+
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class Appointments extends Lists {
 
     private Integer appointmentId;
@@ -16,13 +21,13 @@ public class Appointments extends Lists {
 
     private final String endDate;
 
-    private final String customerId;
+    private final Integer customerId;
 
-    private final String userId;
+    private final Integer userId;
 
 
 
-    Appointments(Integer appointmentId, String title, String description, String location, String contact, String type, String startDate, String endDate, String customerId, String userId) {
+    Appointments(Integer appointmentId, String title, String description, String location, String contact, String type, String startDate, String endDate, Integer customerId, Integer userId) {
         this.appointmentId = appointmentId;
         this.title = title;
         this.description = description;
@@ -51,9 +56,35 @@ public class Appointments extends Lists {
 
     public String getEndDate() {return endDate;}
 
-    public String getCustomerId() {return customerId;}
+    public Integer getCustomerId() {return customerId;}
 
-    public String getUserId() {return userId;}
+    public Integer getUserId() {return userId;}
 
+
+
+    public static void populateAppointments() {
+        try {
+            String query = "SELECT * FROM client_schedule.appointments";
+            Statement statement = JDBC.getConnection().createStatement();
+            ResultSet result = statement.executeQuery(query);
+
+            while (result.next()) {
+                Integer id = Integer.valueOf(result.getString("Appointment_ID"));
+                String title = result.getString("Title");
+                String description = result.getString("Description");
+                String location = result.getString("Location");
+                String start = result.getString("Start");
+                String end = result.getString("End");
+                Integer customerId = Integer.valueOf(result.getString("Customer_ID"));
+                Integer userId = Integer.valueOf(result.getString("User_ID"));
+
+                Appointments appointments = new Appointments(id, "", "", "", "", "", start
+                        , end, customerId, userId);
+                Lists.appointmentList.add(appointments);
+            }
+        } catch (Exception e) {
+            System.out.println("Error:" + e.getMessage());
+        }
+    }
 
 }
