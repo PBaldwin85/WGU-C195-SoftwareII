@@ -2,6 +2,8 @@ package helper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public abstract class JDBC {
 
@@ -12,8 +14,8 @@ public abstract class JDBC {
     private static final String jdbcUrl = protocol + vendor + location + databaseName + "?connectionTimeZone = SERVER"; // LOCAL
     private static final String driver = "com.mysql.cj.jdbc.Driver";
     private static final String userName = "sqlUser";
-    private static String password = "Passw0rd!";
     public static Connection connection;
+    private static String password = "Passw0rd!";
 
     public static void openConnection() {
 
@@ -21,11 +23,18 @@ public abstract class JDBC {
             Class.forName(driver);
             connection = DriverManager.getConnection(jdbcUrl, userName, password);
             System.out.println("Connection successful!");
-        }
+
+            }
+
+
         catch(Exception e)
         {
             System.out.println("Error:" + e.getMessage());
         }
+    }
+
+    public static Connection getConnection() {
+        return connection;
     }
 
     public static void closeConnection() {

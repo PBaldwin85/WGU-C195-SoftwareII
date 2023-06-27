@@ -7,11 +7,34 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Main extends Application {
 
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws IOException, SQLException {
         JDBC.openConnection();
+
+        try {
+            String query = "SELECT Country FROM client_schedule.countries";
+            Statement statement = JDBC.getConnection().createStatement();
+            ResultSet result = statement.executeQuery(query);
+
+            while (result.next()) {
+                String Country = result.getString("Country");
+                System.out.println(Country);
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error:" + e.getMessage());
+        }
+
+
+
+
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         stage.setTitle("");
