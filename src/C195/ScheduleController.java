@@ -97,8 +97,36 @@ public class ScheduleController implements Initializable {
         stage.show();
     }
 
+    public void UpdateAppointment(ActionEvent actionEvent) {
+        Appointments selectedAppointment = (Appointments) appointmentTableView.getSelectionModel().getSelectedItem();
+        if (selectedAppointment != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AppointmentEditor.fxml"));
+            Stage stage = (Stage) mainWindow.getScene().getWindow();
+            stage.close();
+            try {
+                Parent addPartParent = loader.load();
+                AppointmentEditorController AppointmentEditorController = loader.getController();
+                AppointmentEditorController.setData(
+                        selectedAppointment.getAppointmentId(),
+                        selectedAppointment.getTitle(),
+                        selectedAppointment.getDescription(),
+                        selectedAppointment.getLocation(),
+                        selectedAppointment.getContact(),
+                        selectedAppointment.getType(),
+                        selectedAppointment.getStartDate(),
+                        selectedAppointment.getEndDate(),
+                        selectedAppointment.getCustomerId(),
+                        selectedAppointment.getUserId()
+                );
+                Scene scene = new Scene(addPartParent);
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-
+        }
+    }
 
     public void logout(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
@@ -110,8 +138,7 @@ public class ScheduleController implements Initializable {
         stage.show();
     }
 
-    public void UpdateAppointment(ActionEvent actionEvent) {
-    }
+
 
     public void DeleteAppointment(ActionEvent actionEvent) {
     }

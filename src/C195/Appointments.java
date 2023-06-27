@@ -9,21 +9,21 @@ public class Appointments extends Lists {
 
     private Integer appointmentId;
 
-    private final String title;
-    private final String description;
-    private final String location;
+    private String title;
+    private String description;
+    private String location;
 
-    private final String contact;
+    private String contact;
 
-    private final String type;
+    private String type;
 
-    private final String startDate;
+    private String startDate;
 
-    private final String endDate;
+    private String endDate;
 
-    private final Integer customerId;
+    private Integer customerId;
 
-    private final Integer userId;
+    private Integer userId;
 
 
 
@@ -92,4 +92,39 @@ public class Appointments extends Lists {
         }
     }
 
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 }
