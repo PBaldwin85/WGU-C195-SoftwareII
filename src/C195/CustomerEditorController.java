@@ -38,10 +38,12 @@ public class CustomerEditorController implements Initializable {
 
     public void initialize(URL url, ResourceBundle resourceBundle){
         stateBox.setItems(States.states);
-        countryBox.setItems(States.states);
+        countryBox.setItems(Country.countries);
 
         stateBox.getSelectionModel().selectFirst();
         countryBox.getSelectionModel().selectFirst();
+
+        System.out.println(Country.countries);
 
 
 
