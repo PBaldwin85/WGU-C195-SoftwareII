@@ -73,12 +73,16 @@ public class Appointments extends Lists {
                 String title = result.getString("Title");
                 String description = result.getString("Description");
                 String location = result.getString("Location");
+                String type = result.getString("Type");
                 String start = result.getString("Start");
                 String end = result.getString("End");
                 Integer customerId = Integer.valueOf(result.getString("Customer_ID"));
                 Integer userId = Integer.valueOf(result.getString("User_ID"));
 
-                Appointments appointments = new Appointments(id, "", "", "", "", "", start
+                Integer contactId = Integer.valueOf(result.getString("Contact_ID"));
+                String contact = (String) Contacts.getName(contactId);
+
+                Appointments appointments = new Appointments(id, title, description, location, contact, type, start
                         , end, customerId, userId);
                 Lists.appointmentList.add(appointments);
             }

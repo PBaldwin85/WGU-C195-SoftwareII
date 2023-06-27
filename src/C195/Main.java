@@ -23,6 +23,7 @@ public class Main extends Application {
         States.populateStates();
         Customers.populateCustomers();
         Appointments.populateAppointments();
+        Contacts.populateNames();
 
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
