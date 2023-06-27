@@ -49,7 +49,7 @@ public class Customers {
 
     public static void populateCustomers() {
         try {
-            String query = "SELECT * FROM client_schedule.customers;";
+            String query = "SELECT * FROM client_schedule.customers";
             Statement statement = JDBC.getConnection().createStatement();
             ResultSet result = statement.executeQuery(query);
 
@@ -60,7 +60,13 @@ public class Customers {
                 String address = result.getString("Address");
                 String zip = result.getString("Postal_Code");
 
-                Customers customer = new Customers(id, customerName, address, zip, phoneNumber, "", "");
+                Integer divisionId = Integer.valueOf(result.getString("Division_ID"));
+                String division = (String) States.getDivision(divisionId);
+
+                Integer countryId = (Integer) States.getCountryId(divisionId);
+                String country = (String) Country.getCountry(countryId);
+
+                Customers customer = new Customers(id, customerName, address, zip, phoneNumber, division, country);
                 Lists.customerList.add(customer);
             }
         } catch (Exception e) {
