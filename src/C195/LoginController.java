@@ -1,5 +1,6 @@
 package C195;
 
+import helper.JDBC;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,7 @@ public class LoginController {
     public AnchorPane mainWindow;
 
     public void login() throws IOException {
+        JDBC.openConnection();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
         Stage stage = (Stage) mainWindow.getScene().getWindow();
         stage.close();
