@@ -19,6 +19,16 @@ public class Main extends Application {
         stage.show();
     }
 
+    private static int appointmentId = 0;
+
+    public static int generateAppointmentId() {
+        appointmentId ++;
+        return appointmentId;
+    }
+
+    public static int getAppointmentId() {
+        return appointmentId;
+    }
 
     public void stop() {
         JDBC.closeConnection();

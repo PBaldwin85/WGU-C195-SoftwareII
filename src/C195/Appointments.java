@@ -2,6 +2,8 @@ package C195;
 
 public class Appointments extends AppointmentList {
 
+    private Integer appointmentId;
+
     private final String title;
     private final String description;
     private final String location;
@@ -20,7 +22,8 @@ public class Appointments extends AppointmentList {
 
 
 
-    Appointments(String title, String description, String location, String contact, String type, String startDate, String endDate, String customerId, String userId) {
+    Appointments(Integer appointmentId, String title, String description, String location, String contact, String type, String startDate, String endDate, String customerId, String userId) {
+        this.appointmentId = appointmentId;
         this.title = title;
         this.description = description;
         this.location = location;
@@ -31,6 +34,8 @@ public class Appointments extends AppointmentList {
         this.customerId = customerId;
         this.userId = userId;
     }
+
+    public Integer getAppointmentId() {return appointmentId;}
 
     public String getTitle() {return title;}
 

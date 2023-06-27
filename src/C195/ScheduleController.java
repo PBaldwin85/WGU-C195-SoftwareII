@@ -33,6 +33,7 @@ public class ScheduleController implements Initializable {
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentTableView.setItems(AppointmentList.getAppointments());
+        appointmentId.setCellValueFactory(new PropertyValueFactory<>("AppointmentId"));
         appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
         appointmentDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("Location"));
@@ -46,10 +47,17 @@ public class ScheduleController implements Initializable {
     }
 
     public void AddButton(ActionEvent actionEvent) throws IOException {
+        AppointmentEditorController.AppointmentId(Main.generateAppointmentId());
+
+
+
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AppointmentEditor.fxml"));
         Stage stage = (Stage) mainWindow.getScene().getWindow();
         stage.close();
         Parent addPartParent = loader.load();
+        AppointmentEditorController AppointmentEditorController = loader.getController();
+        AppointmentEditorController.setData(Main.getAppointmentId());
         Scene scene = new Scene(addPartParent);
         stage.setScene(scene);
         stage.show();
@@ -68,4 +76,3 @@ public class ScheduleController implements Initializable {
         stage.show();
     }
 }
-

@@ -23,7 +23,19 @@ public class AppointmentEditorController {
     public TextField CustomerIdField;
     public TextField userField;
 
+    /** Holds the part ID value. */
+    public static int appointment;
+    /** Sets the part ID value. */
+    public static void AppointmentId(int num) {
+        appointment = num;
+    }
+    /** Returns the part ID. */
+    public static int getAppointmentId() {
+        return appointment;
+    }
+
     public void saveButton(ActionEvent actionEvent) throws IOException {
+        Integer appointmentId = Integer.valueOf(AppointmentIdField.getText());
         String title = titleField.getText();
         String description = descriptionField.getText();
         String location = locationField.getText();
@@ -34,7 +46,7 @@ public class AppointmentEditorController {
         String customerId = CustomerIdField.getText();
         String userId = userField.getText();
 
-        Appointments appointment = new Appointments(title, description, location, contact, type, startDate, endDate, customerId, userId);
+        Appointments appointment = new Appointments(appointmentId, title, description, location, contact, type, startDate, endDate, customerId, userId);
 
         AppointmentList.addAppointment(appointment);
 
@@ -59,5 +71,10 @@ public class AppointmentEditorController {
         stage.show();
 
     }
-}
 
+    public void setData(Integer id) {
+
+        AppointmentIdField.setText(String.valueOf(id));
+
+    }
+}
