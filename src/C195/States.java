@@ -17,8 +17,6 @@ public class States {
         return name;
     }
 
-
-
     public static void populateStates() {
         try {
             String query = "SELECT DIVISION FROM client_schedule.first_level_divisions;";

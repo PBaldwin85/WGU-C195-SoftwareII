@@ -1,14 +1,19 @@
 package C195;
 
+import helper.JDBC;
+
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class Customers {
 
     private final Integer customerId;
 
     private final String name;
     private final String address;
-    private final Integer zip;
+    private final String zip;
 
-    private final Integer phone;
+    private final String phone;
 
     private final String state;
 
@@ -16,7 +21,7 @@ public class Customers {
 
 
 
-    Customers(Integer id, String name, String address, Integer zip, Integer phone, String state, String country) {
+    Customers(Integer id, String name, String address, String zip, String phone, String state, String country) {
         this.customerId = id;
         this.name = name;
         this.address = address;
@@ -26,20 +31,40 @@ public class Customers {
         this.country = country;
     }
 
+
     public Integer getCustomerId() {return customerId;}
 
     public String getName() {return name;}
 
     public String getAddress() {return address;}
 
-    public Integer getZip() {return zip;}
+    public String getZip() {return zip;}
 
-    public Integer getPhone() {return phone;}
+    public String getPhone() {return phone;}
 
     public String getState() {return state;}
 
     public String getCountry() {return country;}
 
 
+    public static void populateCustomers() {
+        try {
+            String query = "SELECT * FROM client_schedule.customers;";
+            Statement statement = JDBC.getConnection().createStatement();
+            ResultSet result = statement.executeQuery(query);
+
+            while (result.next()) {
+                String customerName = result.getString("Customer_Name");
+                String phoneNumber = result.getString("Phone");
+                String address = result.getString("Address");
+                String zip = result.getString("Postal_Code");
+
+                Customers customer = new Customers(0, customerName, address, zip, phoneNumber, "", "");
+                Lists.customerList.add(customer);
+            }
+        } catch (Exception e) {
+            System.out.println("Error:" + e.getMessage());
+        }
+    }
 
 }

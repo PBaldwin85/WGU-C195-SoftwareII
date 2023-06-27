@@ -43,10 +43,6 @@ public class CustomerEditorController implements Initializable {
         stateBox.getSelectionModel().selectFirst();
         countryBox.getSelectionModel().selectFirst();
 
-        System.out.println(Country.countries);
-
-
-
     }
 
 
@@ -54,8 +50,8 @@ public class CustomerEditorController implements Initializable {
         Integer customerId = Integer.valueOf(customerIdField.getText());
         String name = nameField.getText();
         String address = addressField.getText();
-        Integer zipcode = Integer.valueOf(zipField.getText());
-        Integer phone = Integer.valueOf(phoneField.getText());
+        String zipcode = zipField.getText();
+        String phone = phoneField.getText();
 
         String state = String.valueOf(stateBox.getValue());
         String country = String.valueOf(countryBox.getValue());
