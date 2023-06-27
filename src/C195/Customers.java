@@ -9,15 +9,15 @@ public class Customers {
 
     private final Integer customerId;
 
-    private final String name;
-    private final String address;
-    private final String zip;
+    private String name;
+    private String address;
+    private String zip;
 
-    private final String phone;
+    private String phone;
 
-    private final String state;
+    private String state;
 
-    private final String country;
+    private String country;
 
 
 
@@ -29,6 +29,10 @@ public class Customers {
         this.phone = phone;
         this.state = state;
         this.country = country;
+    }
+
+    public static void deleteCustomer(Customers selectedCustomer) {
+        Lists.customerList.remove(selectedCustomer);
     }
 
 
@@ -75,4 +79,27 @@ public class Customers {
         }
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 }

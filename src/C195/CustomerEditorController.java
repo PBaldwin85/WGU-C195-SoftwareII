@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static C195.Lists.appointmentList;
+import static C195.Lists.customerList;
+
 public class CustomerEditorController implements Initializable {
     public TextField customerIdField;
     public TextField nameField;
@@ -26,6 +29,8 @@ public class CustomerEditorController implements Initializable {
 
 
     public static int customerId;
+
+
     /** Sets the part ID value. */
     public static void customerId(int num) {
         customerId = num;
@@ -51,15 +56,14 @@ public class CustomerEditorController implements Initializable {
         String address = addressField.getText();
         String zipcode = zipField.getText();
         String phone = phoneField.getText();
-
         String state = String.valueOf(stateBox.getValue());
         String country = String.valueOf(countryBox.getValue());
 
 
 
-        Customers customers = new Customers(customerId, name, address, zipcode, phone, state, country);
+        Customers customer = new Customers(customerId, name, address, zipcode, phone, state, country);
 
-        Lists.addCustomer(customers);
+        updateCustomer(customer);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
         Stage stage = (Stage) mainWindow.getScene().getWindow();
@@ -73,10 +77,39 @@ public class CustomerEditorController implements Initializable {
     public void CancelButton(ActionEvent actionEvent) {
     }
 
+    public void updateCustomer(Customers customers) {
+        boolean found = false;
+        for (Customers existing : customerList) {
+            if (existing.getCustomerId() == customers.getCustomerId()) {
+                found = true;
+                System.out.println("match");
+                existing.setName(customers.getName());
+                existing.setPhone(customers.getPhone());
+                existing.setAddress(customers.getAddress());
+                existing.setZip(customers.getZip());
+                existing.setState(customers.getState());
+                existing.setCountry(customers.getCountry());
+            }
+        }
+        if (!found) {
+            Lists.addCustomer(customers);
+        }
+    }
+
     public void setData(Integer id) {
 
         customerIdField.setText(String.valueOf(id));
 
+    }
+
+    public void setData(Integer customerId, String name, String phone, String address, String zip, String state, String country) {
+        customerIdField.setText(String.valueOf(customerId));
+        nameField.setText(String.valueOf(name));
+        phoneField.setText(String.valueOf(phone));
+        addressField.setText(String.valueOf(address));
+        zipField.setText(String.valueOf(zip));
+        stateBox.setValue(state);
+        countryBox.setValue(country);
     }
 }
 

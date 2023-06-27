@@ -148,7 +148,7 @@ public class ScheduleController implements Initializable {
         if (selectedAppointment != null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
-            alert.setContentText("Would you like to delete the selected part?");
+            alert.setContentText("Would you like to delete the selected appointment?");
             ButtonType yesButton = new ButtonType("Yes");
             ButtonType noButton = new ButtonType("No");
             alert.getButtonTypes().setAll(yesButton, noButton);
@@ -160,18 +160,62 @@ public class ScheduleController implements Initializable {
         else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setContentText("Please select a part to delete!");
+            alert.setContentText("Please select an appointment to delete!");
             alert.showAndWait();
         }
     }
 
 
     public void DeleteCustomer(ActionEvent actionEvent) {
+        Customers selectedCustomer = (Customers) customerTableView.getSelectionModel().getSelectedItem();
+        if (selectedCustomer != null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setContentText("Would you like to delete the selected customer?");
+            ButtonType yesButton = new ButtonType("Yes");
+            ButtonType noButton = new ButtonType("No");
+            alert.getButtonTypes().setAll(yesButton, noButton);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == yesButton) {
+                Customers.deleteCustomer(selectedCustomer);
+            }
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Please select a customer to delete!");
+            alert.showAndWait();
+        }
     }
 
 
 
     public void UpdateCustomer(ActionEvent actionEvent) {
+        Customers selectedCustomer = (Customers) customerTableView.getSelectionModel().getSelectedItem();
+        if (selectedCustomer != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerEditor.fxml"));
+            Stage stage = (Stage) mainWindow.getScene().getWindow();
+            stage.close();
+            try {
+                Parent addPartParent = loader.load();
+                CustomerEditorController CustomerEditorController = loader.getController();
+                CustomerEditorController.setData(
+                        selectedCustomer.getCustomerId(),
+                        selectedCustomer.getName(),
+                        selectedCustomer.getPhone(),
+                        selectedCustomer.getAddress(),
+                        selectedCustomer.getZip(),
+                        selectedCustomer.getState(),
+                        selectedCustomer.getCountry()
+                );
+                Scene scene = new Scene(addPartParent);
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
 
