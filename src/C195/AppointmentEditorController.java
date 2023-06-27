@@ -48,7 +48,7 @@ public class AppointmentEditorController {
 
         Appointments appointment = new Appointments(appointmentId, title, description, location, contact, type, startDate, endDate, customerId, userId);
 
-        AppointmentList.addAppointment(appointment);
+        Lists.addAppointment(appointment);
 
 
 

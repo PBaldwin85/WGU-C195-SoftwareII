@@ -1,6 +1,6 @@
 package C195;
 
-public class Appointments extends AppointmentList {
+public class Appointments extends Lists {
 
     private Integer appointmentId;
 

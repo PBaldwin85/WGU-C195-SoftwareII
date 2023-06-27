@@ -6,9 +6,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="mainWindow" prefHeight="479.0" prefWidth="861.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="C195.ScheduleController">
+<AnchorPane fx:id="mainWindow" prefHeight="636.0" prefWidth="972.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="C195.ScheduleController">
     <children>
-        <TableView fx:id="appointmentTableView" layoutX="17.0" layoutY="34.0" prefHeight="243.0" prefWidth="827.0">
+        <TableView fx:id="appointmentTableView" layoutX="65.0" layoutY="34.0" prefHeight="243.0" prefWidth="827.0">
             <columns>
                 <TableColumn fx:id="appointmentId" prefWidth="100.0" text="Appointment_ID" />
                 <TableColumn fx:id="appointmentTitle" prefWidth="50.0" text="Title" />
@@ -22,9 +22,23 @@
                 <TableColumn fx:id="userColumn" prefWidth="91.0" text="User_ID" />
             </columns>
         </TableView>
-        <Button layoutX="34.0" layoutY="286.0" mnemonicParsing="false" onAction="#AddButton" text="Add" />
-        <Button layoutX="90.0" layoutY="286.0" mnemonicParsing="false" text="Update" />
-        <Button layoutX="159.0" layoutY="286.0" mnemonicParsing="false" text="Delete" />
-        <Button layoutX="761.0" layoutY="427.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+        <Button layoutX="73.0" layoutY="286.0" mnemonicParsing="false" onAction="#AddButton" text="Add" />
+        <Button layoutX="129.0" layoutY="286.0" mnemonicParsing="false" onAction="#UpdateAppointment" text="Update" />
+        <Button layoutX="828.0" layoutY="582.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+        <TableView fx:id="customerTableView" layoutX="65.0" layoutY="324.0" prefHeight="243.0" prefWidth="827.0">
+            <columns>
+                <TableColumn fx:id="customerIdColumn" prefWidth="87.0" text="Customer_ID" />
+                <TableColumn fx:id="nameColumn" prefWidth="128.0" text="Name" />
+                <TableColumn fx:id="phoneColumn" prefWidth="105.0" text="Phone Number" />
+                <TableColumn fx:id="addressColumn" prefWidth="187.0" text="Address" />
+                <TableColumn fx:id="postalCodeColumn" prefWidth="125.0" text="Postal Code" />
+                <TableColumn fx:id="stateColumn" prefWidth="108.0" text="State" />
+                <TableColumn fx:id="countryColumn" prefWidth="85.0" text="Country" />
+            </columns>
+        </TableView>
+        <Button layoutX="73.0" layoutY="576.0" mnemonicParsing="false" onAction="#AddCustomer" text="Add" />
+        <Button layoutX="129.0" layoutY="576.0" mnemonicParsing="false" onAction="#UpdateCustomer" text="Update" />
+        <Button layoutX="197.0" layoutY="286.0" mnemonicParsing="false" onAction="#DeleteAppointment" text="Delete" />
+        <Button layoutX="197.0" layoutY="576.0" mnemonicParsing="false" onAction="#DeleteCustomer" text="Delete" />
     </children>
 </AnchorPane>

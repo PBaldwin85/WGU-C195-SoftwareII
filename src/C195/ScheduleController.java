@@ -29,10 +29,18 @@ public class ScheduleController implements Initializable {
     public TableColumn endColumn;
     public TableColumn customerColumn;
     public TableColumn userColumn;
+    public TableColumn customerIdColumn;
+    public TableColumn nameColumn;
+    public TableColumn addressColumn;
+    public TableColumn postalCodeColumn;
+    public TableColumn phoneColumn;
+    public TableView customerTableView;
+    public TableColumn stateColumn;
+    public TableColumn countryColumn;
 
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        appointmentTableView.setItems(AppointmentList.getAppointments());
+        appointmentTableView.setItems(Lists.getAppointments());
         appointmentId.setCellValueFactory(new PropertyValueFactory<>("AppointmentId"));
         appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
         appointmentDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
@@ -43,6 +51,15 @@ public class ScheduleController implements Initializable {
         endColumn.setCellValueFactory(new PropertyValueFactory<>("EndDate"));
         customerColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerId"));
         userColumn.setCellValueFactory(new PropertyValueFactory<>("UserId"));
+
+        customerTableView.setItems(Lists.getCustomerList());
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerId"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<>("Address"));
+        postalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("Zip"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("Phone"));
+        stateColumn.setCellValueFactory(new PropertyValueFactory<>("State"));
+        countryColumn.setCellValueFactory(new PropertyValueFactory<>("Country"));
 
     }
 
@@ -63,6 +80,23 @@ public class ScheduleController implements Initializable {
         stage.show();
     }
 
+    public void AddCustomer(ActionEvent actionEvent) throws IOException {
+        CustomerEditorController.customerId(Main.generateAppointmentId());
+
+
+
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerEditor.fxml"));
+        Stage stage = (Stage) mainWindow.getScene().getWindow();
+        stage.close();
+        Parent addPartParent = loader.load();
+        CustomerEditorController CustomerEditorController = loader.getController();
+        CustomerEditorController.setData(Main.getAppointmentId());
+        Scene scene = new Scene(addPartParent);
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
 
 
@@ -75,4 +109,20 @@ public class ScheduleController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void UpdateAppointment(ActionEvent actionEvent) {
+    }
+
+    public void DeleteAppointment(ActionEvent actionEvent) {
+    }
+
+    public void DeleteCustomer(ActionEvent actionEvent) {
+    }
+
+
+
+    public void UpdateCustomer(ActionEvent actionEvent) {
+    }
+
+
 }
