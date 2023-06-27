@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="mainWindow" prefHeight="636.0" prefWidth="972.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="C195.ScheduleController">
+<AnchorPane fx:id="mainWindow" prefHeight="636.0" prefWidth="972.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="C195.ScheduleController">
     <children>
         <TableView fx:id="appointmentTableView" layoutX="65.0" layoutY="34.0" prefHeight="243.0" prefWidth="827.0">
             <columns>
@@ -30,9 +27,9 @@
                 <TableColumn fx:id="customerIdColumn" prefWidth="87.0" text="Customer_ID" />
                 <TableColumn fx:id="nameColumn" prefWidth="128.0" text="Name" />
                 <TableColumn fx:id="phoneColumn" prefWidth="105.0" text="Phone Number" />
-                <TableColumn fx:id="addressColumn" prefWidth="187.0" text="Address" />
-                <TableColumn fx:id="postalCodeColumn" prefWidth="125.0" text="Postal Code" />
-                <TableColumn fx:id="stateColumn" prefWidth="108.0" text="State" />
+                <TableColumn fx:id="addressColumn" prefWidth="150.0" text="Address" />
+                <TableColumn fx:id="postalCodeColumn" prefWidth="109.0" text="Postal Code" />
+                <TableColumn fx:id="stateColumn" prefWidth="161.0" text="State" />
                 <TableColumn fx:id="countryColumn" prefWidth="85.0" text="Country" />
             </columns>
         </TableView>
