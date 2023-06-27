@@ -6,9 +6,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="C195.Scheduler"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane fx:id="mainWindow" prefHeight="479.0" prefWidth="861.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="C195.ScheduleController">
+    <children>
+        <TableView fx:id="appointmentTableView" layoutX="17.0" layoutY="34.0" prefHeight="243.0" prefWidth="827.0">
+            <columns>
+                <TableColumn fx:id="appointmentId" prefWidth="100.0" text="Appointment_ID" />
+                <TableColumn fx:id="appointmentTitle" prefWidth="50.0" text="Title" />
+                <TableColumn fx:id="appointmentDescription" prefWidth="73.0" text="Description" />
+                <TableColumn fx:id="locationColumn" prefWidth="55.0" text="Location" />
+                <TableColumn fx:id="contactColumn" prefWidth="57.0" text="Contact" />
+                <TableColumn fx:id="typeColumn" minWidth="6.0" prefWidth="54.0" text="Type" />
+                <TableColumn fx:id="startColumn" prefWidth="119.0" text="Start Date and Time" />
+                <TableColumn fx:id="endColumn" prefWidth="137.0" text="End Date and Time" />
+                <TableColumn fx:id="customerColumn" prefWidth="90.0" text="Customer_ID" />
+                <TableColumn fx:id="userColumn" prefWidth="91.0" text="User_ID" />
+            </columns>
+        </TableView>
+        <Button layoutX="34.0" layoutY="286.0" mnemonicParsing="false" onAction="#AddButton" text="Add" />
+        <Button layoutX="90.0" layoutY="286.0" mnemonicParsing="false" text="Update" />
+        <Button layoutX="159.0" layoutY="286.0" mnemonicParsing="false" text="Delete" />
+        <Button layoutX="761.0" layoutY="427.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+    </children>
 </AnchorPane>
