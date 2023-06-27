@@ -1,19 +1,21 @@
 package C195;
 
-import helper.JDBC;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.ZoneId;
 
 public class LoginController {
 
     public AnchorPane mainWindow;
+    public Label setLocation;
 
     public void login() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
@@ -27,5 +29,9 @@ public class LoginController {
     public void exit(ActionEvent actionEvent) {
         Platform.exit();    }
 
-
+    public void initialize() {
+        ZoneId zoneId = ZoneId.systemDefault();
+        String location = zoneId.getId();
+        setLocation.setText(location);
+    }
 }
