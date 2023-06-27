@@ -40,7 +40,6 @@ public class Main extends Application {
 
     public static int generateAppointmentId() {
         appointmentId ++;
-        System.out.println("Appointment Id: " + appointmentId);
         return appointmentId;
     }
 
@@ -53,7 +52,6 @@ public class Main extends Application {
 
     public static int generateCustomerId() {
         customerId ++;
-        System.out.println("Customer id: " + customerId);
         return customerId;
     }
 

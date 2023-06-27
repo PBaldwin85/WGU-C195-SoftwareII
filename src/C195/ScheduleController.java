@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -13,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ScheduleController implements Initializable {
@@ -141,7 +144,27 @@ public class ScheduleController implements Initializable {
 
 
     public void DeleteAppointment(ActionEvent actionEvent) {
+        Appointments selectedAppointment = (Appointments) appointmentTableView.getSelectionModel().getSelectedItem();
+        if (selectedAppointment != null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
+            alert.setContentText("Would you like to delete the selected part?");
+            ButtonType yesButton = new ButtonType("Yes");
+            ButtonType noButton = new ButtonType("No");
+            alert.getButtonTypes().setAll(yesButton, noButton);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == yesButton) {
+                Appointments.deleteAppointment(selectedAppointment);
+            }
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Please select a part to delete!");
+            alert.showAndWait();
+        }
     }
+
 
     public void DeleteCustomer(ActionEvent actionEvent) {
     }

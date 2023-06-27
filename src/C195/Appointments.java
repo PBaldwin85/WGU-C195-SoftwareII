@@ -40,6 +40,10 @@ public class Appointments extends Lists {
         this.userId = userId;
     }
 
+    public static void deleteAppointment(Appointments selectedAppointment) {
+        Lists.appointmentList.remove(selectedAppointment);
+    }
+
     public Integer getAppointmentId() {return appointmentId;}
 
     public String getTitle() {return title;}
