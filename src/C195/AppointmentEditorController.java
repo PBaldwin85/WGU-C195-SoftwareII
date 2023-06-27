@@ -2,15 +2,19 @@ package C195;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class AppointmentEditorController {
+public class AppointmentEditorController implements Initializable {
     public AnchorPane mainWindow;
     public TextField AppointmentIdField;
     public TextField titleField;
@@ -22,6 +26,7 @@ public class AppointmentEditorController {
     public TextField EndDateField;
     public TextField CustomerIdField;
     public TextField userField;
+    public ComboBox contactsBox;
 
     /** Holds the part ID value. */
     public static int appointment;
@@ -34,12 +39,20 @@ public class AppointmentEditorController {
         return appointment;
     }
 
+
+    public void initialize(URL url, ResourceBundle resourceBundle){
+        contactsBox.setItems(Contacts.contacts);
+
+        contactsBox.getSelectionModel().selectFirst();
+
+    }
+
     public void saveButton(ActionEvent actionEvent) throws IOException {
         Integer appointmentId = Integer.valueOf(AppointmentIdField.getText());
         String title = titleField.getText();
         String description = descriptionField.getText();
         String location = locationField.getText();
-        String contact = contactField.getText();
+        String contact = String.valueOf(contactsBox.getValue());
         String type = typeField.getText();
         String startDate = startDateField.getText();
         String endDate = EndDateField.getText();
