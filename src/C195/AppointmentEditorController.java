@@ -36,6 +36,7 @@ public class AppointmentEditorController implements Initializable {
     private ComboBox startDay;
     private ComboBox startMonth;
     private ComboBox startYear;
+    @FXML
     private ComboBox startTime;
 
     Integer savedId;
@@ -61,7 +62,8 @@ public class AppointmentEditorController implements Initializable {
         contactsBox.setItems(Contacts.contacts);
 
         contactsBox.getSelectionModel().selectFirst();
-
+        AppointmentDateTime.populateTime();
+        startTime.setItems(AppointmentDateTime.time);
 
     }
 

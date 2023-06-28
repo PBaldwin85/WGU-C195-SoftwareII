@@ -1,19 +1,31 @@
 package C195;
 
-import javafx.scene.Scene;
-import javafx.scene.control.DatePicker;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.time.LocalTime;
 
 public class AppointmentDateTime {
 
-    public void start(Stage stage) {
-        DatePicker datePicker = new DatePicker();
-        VBox root = new VBox(datePicker);
-        Scene scene = new Scene(root, 300,200);
+        public static ObservableList<String> time = FXCollections.observableArrayList();
+    private final AppointmentDateTime setTime;
 
-        stage.setTitle("Calender");
-        stage.setScene(scene);
-        stage.show();
+    public AppointmentDateTime(AppointmentDateTime appointmentDateTime) {
+        this.setTime = appointmentDateTime;
     }
+
+
+    public static ObservableList populateTime() {
+
+
+        LocalTime startTime = LocalTime.parse("08:00");
+        LocalTime endTime = LocalTime.parse("22:01");
+
+        while (startTime.isBefore(endTime)) {
+            time.add(String.valueOf(startTime));
+            startTime = startTime.plusMinutes(15);
+        }
+        return null;
+    }
+
 }
