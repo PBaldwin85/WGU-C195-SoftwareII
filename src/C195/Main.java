@@ -21,7 +21,6 @@ public class Main extends Application {
         JDBC.openConnection();
 
         Country.populateCountries();
-        States.populateStates();
         Customers.populateCustomers();
         Appointments.populateAppointments();
         Contacts.populateNames();

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import static C195.Lists.appointmentList;
@@ -26,8 +27,6 @@ public class CustomerEditorController implements Initializable {
     public AnchorPane mainWindow;
     public ComboBox stateBox;
     public ComboBox countryBox;
-
-
     public static int customerId;
 
 
@@ -44,10 +43,45 @@ public class CustomerEditorController implements Initializable {
         stateBox.setItems(States.states);
         countryBox.setItems(Country.countries);
 
-        stateBox.getSelectionModel().selectFirst();
         countryBox.getSelectionModel().selectFirst();
 
+        countryBox.setOnAction(event -> {
+            String selectedCountry = (String) countryBox.getValue();
+            if (selectedCountry.equals("U.S")) {
+                States.states.clear();
+                try {
+                    States.getStates(1);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                stateBox.setItems(States.states);
+                stateBox.getSelectionModel().selectFirst();
+            }
+            if (selectedCountry.equals("UK")) {
+                States.states.clear();
+                try {
+                    States.getStates(2);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                stateBox.setItems(States.states);
+                stateBox.getSelectionModel().selectFirst();
+            }
+            if (selectedCountry.equals("Canada")) {
+                States.states.clear();
+                try {
+                    States.getStates(3);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                stateBox.setItems(States.states);
+                stateBox.getSelectionModel().selectFirst();
+            }
+        });
+
     }
+
+
 
 
     public void SaveButton(ActionEvent actionEvent) throws IOException {
