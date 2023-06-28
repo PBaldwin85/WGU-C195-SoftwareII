@@ -156,6 +156,16 @@ public class ScheduleController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == yesButton) {
                 Appointments.deleteAppointment(selectedAppointment);
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation");
+                String confirmationMessage = "Appointment deleted!\n\n";
+                confirmationMessage += "Appointment number: " + selectedAppointment.getAppointmentId() + "\n";
+                confirmationMessage += "Appointment type: " + selectedAppointment.getType() + "\n";
+                alert.setContentText(confirmationMessage);
+                ButtonType okButton = new ButtonType("Ok");
+                alert.getButtonTypes().setAll(okButton);
+                alert.showAndWait();
+
             }
         }
         else {
