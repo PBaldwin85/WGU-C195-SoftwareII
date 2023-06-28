@@ -33,6 +33,11 @@ public class AppointmentEditorController implements Initializable {
     public TextField userField;
     public ComboBox contactsBox;
 
+    private ComboBox startDay;
+    private ComboBox startMonth;
+    private ComboBox startYear;
+    private ComboBox startTime;
+
     Integer savedId;
 
 
@@ -130,9 +135,7 @@ public class AppointmentEditorController implements Initializable {
     }
 
     public void setData(Integer id) {
-
         AppointmentIdField.setText(String.valueOf(id));
-
     }
 
     public void setData(Integer appointmentId, String title, String description, String location, String contact, String type, String startDate, String endDate, Integer customerId, Integer userId) {
@@ -146,7 +149,6 @@ public class AppointmentEditorController implements Initializable {
         EndDateField.setText(String.valueOf(endDate));
         CustomerIdField.setText(String.valueOf(customerId));
         userField.setText(String.valueOf(userId));
-
         savedId = appointmentId;
     }
 }
