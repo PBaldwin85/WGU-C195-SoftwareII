@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -13,6 +15,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static C195.Lists.appointmentList;
@@ -108,7 +111,21 @@ public class CustomerEditorController implements Initializable {
         stage.show();
     }
 
-    public void CancelButton(ActionEvent actionEvent) {
+    public void CancelButton(ActionEvent actionEvent) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will cancel all changes. Would you like to continue?");
+        ButtonType yesButton = new ButtonType("Yes");
+        ButtonType noButton = new ButtonType("No");
+        alert.getButtonTypes().setAll(yesButton, noButton);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == yesButton) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
+            Stage stage = (Stage) mainWindow.getScene().getWindow();
+            stage.close();
+            Parent addPartParent = loader.load();
+            Scene scene = new Scene(addPartParent);
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     public void updateCustomer(Customers customers) {
@@ -142,8 +159,38 @@ public class CustomerEditorController implements Initializable {
         phoneField.setText(String.valueOf(phone));
         addressField.setText(String.valueOf(address));
         zipField.setText(String.valueOf(zip));
-        stateBox.setValue(state);
         countryBox.setValue(country);
+
+        if (country.equals("U.S")) {
+            States.states.clear();
+            try {
+                States.getStates(1);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            stateBox.setItems(States.states);
+            stateBox.getSelectionModel().selectFirst();
+        }
+        if (country.equals("UK")) {
+            States.states.clear();
+            try {
+                States.getStates(2);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            stateBox.setItems(States.states);
+            stateBox.getSelectionModel().selectFirst();
+        }
+        if (country.equals("Canada")) {
+            States.states.clear();
+            try {
+                States.getStates(3);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            stateBox.setItems(States.states);
+            stateBox.getSelectionModel().selectFirst();
+        }
     }
 }
 

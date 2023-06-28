@@ -11,7 +11,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class Main extends Application {
 
@@ -24,6 +27,17 @@ public class Main extends Application {
         Customers.populateCustomers();
         Appointments.populateAppointments();
         Contacts.populateNames();
+
+        LocalDateTime local = LocalDateTime.now();
+        System.out.println("Time now: " + local);
+
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
+        System.out.println("Formatted: " + local.format(test));
+
+
+        Month month = local.getMonth();
+        System.out.println(month);
 
 
 

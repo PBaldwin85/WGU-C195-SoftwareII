@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -12,6 +14,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static C195.Lists.appointmentList;
@@ -63,6 +67,10 @@ public class AppointmentEditorController implements Initializable {
         Integer customerId = Integer.valueOf(CustomerIdField.getText());
         Integer userId = Integer.valueOf(userField.getText());
 
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
+        System.out.println("Formatted: " + startDate.format(String.valueOf(test)));
+
 
         Appointments appointment = new Appointments(appointmentId, title, description, location, contact, type, startDate, endDate, customerId, userId);
 
@@ -82,13 +90,20 @@ public class AppointmentEditorController implements Initializable {
     }
 
     public void cancelButton(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
-        Stage stage = (Stage) mainWindow.getScene().getWindow();
-        stage.close();
-        Parent addPartParent = loader.load();
-        Scene scene = new Scene(addPartParent);
-        stage.setScene(scene);
-        stage.show();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will cancel all changes. Would you like to continue?");
+        ButtonType yesButton = new ButtonType("Yes");
+        ButtonType noButton = new ButtonType("No");
+        alert.getButtonTypes().setAll(yesButton, noButton);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == yesButton) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
+            Stage stage = (Stage) mainWindow.getScene().getWindow();
+            stage.close();
+            Parent addPartParent = loader.load();
+            Scene scene = new Scene(addPartParent);
+            stage.setScene(scene);
+            stage.show();
+        }
 
     }
 
