@@ -1,19 +1,19 @@
 package C195;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -40,6 +40,10 @@ public class AppointmentEditorController implements Initializable {
 
     Integer savedId;
 
+    @FXML
+    private DatePicker selectDate;
+    private Label myLabel;
+
 
     /** Holds the part ID value. */
     public static int appointment;
@@ -53,10 +57,11 @@ public class AppointmentEditorController implements Initializable {
     }
 
 
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         contactsBox.setItems(Contacts.contacts);
 
         contactsBox.getSelectionModel().selectFirst();
+
 
     }
 
@@ -150,5 +155,10 @@ public class AppointmentEditorController implements Initializable {
         CustomerIdField.setText(String.valueOf(customerId));
         userField.setText(String.valueOf(userId));
         savedId = appointmentId;
+    }
+
+    public void getDate(ActionEvent actionEvent) {
+        LocalDate myDate = selectDate.getValue();
+        System.out.println(myDate.toString());
     }
 }
