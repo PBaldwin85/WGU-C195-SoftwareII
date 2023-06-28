@@ -1,5 +1,6 @@
 package C195;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -168,6 +169,18 @@ public class ScheduleController implements Initializable {
 
     public void DeleteCustomer(ActionEvent actionEvent) {
         Customers selectedCustomer = (Customers) customerTableView.getSelectionModel().getSelectedItem();
+        ObservableList<Appointments> appointmentList = Appointments.getAppointments();
+        for (Appointments appointments : appointmentList) {
+            if (appointments.getCustomerId() == selectedCustomer.getCustomerId()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Error");
+                alert.setContentText("The selected customer has an appointment associated with it and can't be deleted.");
+                ButtonType okButton = new ButtonType("Ok");
+                alert.getButtonTypes().setAll(okButton);
+                Optional<ButtonType> result = alert.showAndWait();
+                return;
+            }
+        }
         if (selectedCustomer != null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");

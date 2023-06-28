@@ -1,6 +1,7 @@
 package C195;
 
 import helper.JDBC;
+import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -33,6 +34,10 @@ public class Customers {
 
     public static void deleteCustomer(Customers selectedCustomer) {
         Lists.customerList.remove(selectedCustomer);
+    }
+
+    public static ObservableList<Customers> getCustomers() {
+        return Lists.customerList;
     }
 
 
