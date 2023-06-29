@@ -8,6 +8,8 @@ import java.time.LocalTime;
 public class AppointmentDateTime {
 
     public static ObservableList<String> time = FXCollections.observableArrayList();
+    public static ObservableList<String> endTimeList = FXCollections.observableArrayList();
+
     private final AppointmentDateTime setTime;
 
     public AppointmentDateTime(AppointmentDateTime appointmentDateTime) {
@@ -15,8 +17,8 @@ public class AppointmentDateTime {
     }
 
 
+    public static ObservableList<String> timeToDelete = FXCollections.observableArrayList();
 
-    /**
     public static ObservableList populateTime() {
 
 
@@ -29,9 +31,9 @@ public class AppointmentDateTime {
         }
         return null;
     }
-     */
 
-    public static void populateTimeMinusMatches(LocalTime stringToStartTime, LocalTime stringToEndTime) {
+
+    public static void removeMatches(LocalTime stringToStartTime, LocalTime stringToEndTime) {
 
         LocalTime startTime = LocalTime.parse("08:00:00");
         LocalTime endTime = LocalTime.parse("22:01:00");
@@ -40,8 +42,7 @@ public class AppointmentDateTime {
             if ((startTime.isAfter(stringToStartTime) || startTime.equals(stringToStartTime)) &&
                     (startTime.isBefore(stringToEndTime) ))
                 {
-                System.out.println(startTime);
-                time.remove(startTime);
+                timeToDelete.add(String.valueOf(startTime));
                 startTime = startTime.plusMinutes(15);
             }
             else {
@@ -51,10 +52,43 @@ public class AppointmentDateTime {
 
             }
         }
+        time.removeAll(timeToDelete);
+    }
+
+    public static LocalTime getEndTime(LocalTime selectedStartTime, LocalTime stringToEndTime) {
+
+        LocalTime startTime = selectedStartTime;
+        LocalTime endTime = LocalTime.parse("22:01:00");
+
+        while (startTime.isBefore(endTime)) {
+            if (startTime.equals(stringToEndTime))
+            {
+                System.out.println("Start time equals end time: " + stringToEndTime);
+                return stringToEndTime;
+            }
+            else {
+                startTime = startTime.plusMinutes(15);
+
+            }
+        }
+        return null;
     }
 
 
+    public static void setEndTimes(LocalTime selectedTime, LocalTime endTimeFound) {
+
+        LocalTime startTime = selectedTime;
+        LocalTime endTime = endTimeFound;
+
+        System.out.println("setEndTimes loop: " + startTime);
+        System.out.println("setEndTimes loop: " + endTime);
 
 
+            while (startTime.isBefore(endTime)) {
+                System.out.println("setEndTimes loop: " + startTime);
+                endTimeList.add(String.valueOf(startTime));
+                startTime = startTime.plusMinutes(15);
+            }
+        }
 
 }

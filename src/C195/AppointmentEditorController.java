@@ -81,48 +81,22 @@ public class AppointmentEditorController implements Initializable {
         selectDate.setOnAction(event-> {
             LocalDate selectedDate = selectDate.getValue();
             selectEndDate.setValue(selectedDate);
+            AppointmentDateTime.populateTime();
 
-
-
-            /** Working on date and time matching */
             for (Appointments existing : appointmentList) {
-                /** prints as date + time. need to get rid of time
-                System.out.println(existing.getStartDate());
-                 */
-
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
                 LocalDateTime endDate = LocalDateTime.parse(existing.getEndDate(), formatter);
-
-
                 LocalDate stringToStartDate = startDate.toLocalDate();
                 LocalTime stringToStartTime = startDate.toLocalTime();
                 LocalDate stringToEndDate = endDate.toLocalDate();
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
-
-                System.out.println(stringToStartDate);
-
-
-                System.out.println(selectDate.getValue());
-
-
-
                 if (selectDate.getValue().isEqual(stringToStartDate)) {
-                    System.out.println("Match: " + selectDate.getValue());
-                    System.out.println("Start time selected: " + stringToStartTime);
-                    System.out.println("End time selected: " + stringToEndTime);
-
-                    AppointmentDateTime.populateTimeMinusMatches(stringToStartTime, stringToEndTime);
-
-
+                    AppointmentDateTime.removeMatches(stringToStartTime, stringToEndTime);
                     startTime.setItems(AppointmentDateTime.time);
                 }
-
-
             }
-
-
 
 
             /** Works to set time list
@@ -138,6 +112,25 @@ public class AppointmentEditorController implements Initializable {
             LocalDate selectedDate = selectDate.getValue();
             LocalTime selectedTime = LocalTime.parse((CharSequence) startTime.getValue());
             dateTimeMerge = LocalDateTime.of(selectedDate, selectedTime);
+
+            for (Appointments existing : appointmentList) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
+                LocalDateTime endDate = LocalDateTime.parse(existing.getEndDate(), formatter);
+                LocalDate stringToStartDate = startDate.toLocalDate();
+                LocalTime stringToStartTime = startDate.toLocalTime();
+                LocalDate stringToEndDate = endDate.toLocalDate();
+                LocalTime stringToEndTime = endDate.toLocalTime();
+
+                if (selectDate.getValue().isEqual(stringToStartDate) && selectedTime.isBefore(LocalTime.from(stringToStartTime))) {
+                    LocalTime test = stringToStartTime;
+
+                    AppointmentDateTime.setEndTimes(selectedTime, test);
+                    endTime.setItems(AppointmentDateTime.endTimeList);
+
+                }
+            }
+
         });
 
         endTime.setOnAction(event -> {
