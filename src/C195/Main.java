@@ -30,8 +30,11 @@ public class Main extends Application {
 
         Appointments appointment = new Appointments(3, "t", "test", "test", "Test",
                 "Test", "2023-06-30 08:00:00", "2023-06-30 09:00:00", 1, 1);
+        Appointments appointment2 = new Appointments(4, "t", "test", "test", "Test",
+                "Test", "2023-06-30 11:00:00", "2023-06-30 12:00:00", 1, 1);
 
         Appointments.addAppointment(appointment);
+        Appointments.addAppointment(appointment2);
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);

@@ -73,7 +73,9 @@ public class AppointmentEditorController implements Initializable {
         contactsBox.setItems(Contacts.contacts);
         contactsBox.getSelectionModel().selectFirst();
 
+        /**
         AppointmentDateTime.populateTime();
+         */
 
         selectDate.setOnAction(event-> {
             LocalDate selectedDate = selectDate.getValue();
@@ -88,11 +90,14 @@ public class AppointmentEditorController implements Initializable {
                  */
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime test = LocalDateTime.parse(existing.getStartDate(), formatter);
+                LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
+                LocalDateTime endDate = LocalDateTime.parse(existing.getEndDate(), formatter);
 
 
-                LocalDate stringToStartDate = test.toLocalDate();
-                LocalTime stringToStartTime = test.toLocalTime();
+                LocalDate stringToStartDate = startDate.toLocalDate();
+                LocalTime stringToStartTime = startDate.toLocalTime();
+                LocalDate stringToEndDate = endDate.toLocalDate();
+                LocalTime stringToEndTime = endDate.toLocalTime();
 
 
                 System.out.println(stringToStartDate);
@@ -102,6 +107,11 @@ public class AppointmentEditorController implements Initializable {
 
                 if (selectDate.getValue().isEqual(stringToStartDate)) {
                     System.out.println("Match: " + selectDate.getValue());
+                    System.out.println("Start time selected: " + stringToStartTime);
+                    System.out.println("End time selected: " + stringToEndTime);
+
+                    AppointmentDateTime.populateTimeMinusMatches(stringToStartTime, stringToEndTime);
+                    startTime.setItems(AppointmentDateTime.time);
                 }
 
 
@@ -110,9 +120,10 @@ public class AppointmentEditorController implements Initializable {
 
 
 
-            /** Works to set time list */
+            /** Works to set time list
             startTime.setItems(AppointmentDateTime.time);
             endTime.setItems(AppointmentDateTime.time);
+            */
         });
 
 
