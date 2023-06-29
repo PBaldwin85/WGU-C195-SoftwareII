@@ -19,7 +19,7 @@ public class AppointmentDateTime {
 
     public static ObservableList<String> timeToDelete = FXCollections.observableArrayList();
 
-    public static ObservableList populateTime() {
+    public static void populateTime() {
 
 
         LocalTime startTime = LocalTime.parse("08:00:00");
@@ -29,28 +29,31 @@ public class AppointmentDateTime {
             time.add(String.valueOf(startTime));
             startTime = startTime.plusMinutes(15);
         }
-        return null;
+        return;
     }
 
 
     public static void removeMatches(LocalTime stringToStartTime, LocalTime stringToEndTime) {
+            System.out.println("after cleared list: " + time);
 
-        LocalTime startTime = LocalTime.parse("08:00:00");
-        LocalTime endTime = LocalTime.parse("22:01:00");
+            LocalTime startTime = LocalTime.parse("08:00:00");
+            LocalTime endTime = LocalTime.parse("22:01:00");
 
-        while (startTime.isBefore(endTime)) {
-            if ((startTime.isAfter(stringToStartTime) || startTime.equals(stringToStartTime)) &&
-                    (startTime.isBefore(stringToEndTime))) {
-                timeToDelete.add(String.valueOf(startTime));
-                startTime = startTime.plusMinutes(15);
-            } else {
+            while (startTime.isBefore(endTime)) {
+                if ((startTime.isAfter(stringToStartTime) || startTime.equals(stringToStartTime)) &&
+                        (startTime.isBefore(stringToEndTime))) {
+                    timeToDelete.add(String.valueOf(startTime));
+                    startTime = startTime.plusMinutes(15);
+                } else {
 
-                time.add(String.valueOf(startTime));
-                startTime = startTime.plusMinutes(15);
+                    startTime = startTime.plusMinutes(15);
 
+                }
             }
-        }
-        time.removeAll(timeToDelete);
+            time.removeAll(timeToDelete);
+            System.out.println("Time list: " + time);
+            System.out.println("Remove time list: " + timeToDelete);
+
     }
 
     public static LocalTime getEndTime(LocalTime selectedStartTime, LocalTime stringToEndTime) {

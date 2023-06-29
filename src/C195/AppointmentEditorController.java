@@ -79,6 +79,9 @@ public class AppointmentEditorController implements Initializable {
          */
 
         selectDate.setOnAction(event-> {
+            AppointmentDateTime.time.clear();
+            AppointmentDateTime.endTimeList.clear();
+
             LocalDate selectedDate = selectDate.getValue();
             selectEndDate.setValue(selectedDate);
             AppointmentDateTime.populateTime();
@@ -94,7 +97,6 @@ public class AppointmentEditorController implements Initializable {
 
                 if (selectDate.getValue().isEqual(stringToStartDate)) {
                     AppointmentDateTime.removeMatches(stringToStartTime, stringToEndTime);
-                    startTime.setItems(AppointmentDateTime.time);
                 }
             }
 
@@ -106,7 +108,7 @@ public class AppointmentEditorController implements Initializable {
         });
 
 
-
+        startTime.setItems(AppointmentDateTime.time);
 
         startTime.setOnAction(event -> {
             LocalDate selectedDate = selectDate.getValue();
