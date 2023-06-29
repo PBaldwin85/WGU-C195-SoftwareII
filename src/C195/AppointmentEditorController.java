@@ -40,12 +40,19 @@ public class AppointmentEditorController implements Initializable {
     private ComboBox startYear;
     @FXML
     private ComboBox startTime;
+    @FXML
+    private ComboBox endTime;
 
     Integer savedId;
 
     @FXML
     private DatePicker selectDate;
+    @FXML
+    private DatePicker selectEndDate;
     private Label myLabel;
+
+    private LocalDateTime dateTimeMerge;
+    private LocalDateTime endTimeMerge;
 
 
     /** Holds the part ID value. */
@@ -71,14 +78,28 @@ public class AppointmentEditorController implements Initializable {
         selectDate.setOnAction(event-> {
             startTime.setItems(AppointmentDateTime.time);
         });
+        selectEndDate.setOnAction(event-> {
+            endTime.setItems(AppointmentDateTime.time);
+        });
 
 
 
         startTime.setOnAction(event -> {
             LocalDate selectedDate = selectDate.getValue();
             LocalTime selectedTime = LocalTime.parse((CharSequence) startTime.getValue());
-            LocalDateTime dateTime = LocalDateTime.of(selectedDate, selectedTime);
-            System.out.println(dateTime);
+            dateTimeMerge = LocalDateTime.of(selectedDate, selectedTime);
+            String pattern = "yyyy-MM-dd HH:mm:ss";
+            DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
+            System.out.println("Formatted: " + dateTimeMerge.format(test));
+        });
+
+        endTime.setOnAction(event -> {
+            LocalDate selectedDate = selectDate.getValue();
+            LocalTime selectedTime = LocalTime.parse((CharSequence) endTime.getValue());
+            endTimeMerge = LocalDateTime.of(selectedDate, selectedTime);
+            String pattern = "yyyy-MM-dd HH:mm:ss";
+            DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
+            System.out.println("Formatted: " + dateTimeMerge.format(test));
         });
 
     }
@@ -90,22 +111,19 @@ public class AppointmentEditorController implements Initializable {
         String location = locationField.getText();
         String contact = String.valueOf(contactsBox.getValue());
         String type = typeField.getText();
-        String startDate = startDateField.getText();
-        String endDate = EndDateField.getText();
         Integer customerId = Integer.valueOf(CustomerIdField.getText());
         Integer userId = Integer.valueOf(userField.getText());
 
-        String pattern = "yyyy-MM-dd HH:mm:ss";
-        DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
-        System.out.println("Formatted: " + startDate.format(String.valueOf(test)));
-
-
         DatePicker testDate = selectDate;
 
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
+        String formattedStartDateTime = dateTimeMerge.format(test);
+        String formattedEndDateTime = endTimeMerge.format(test);
 
 
 
-        Appointments appointment = new Appointments(appointmentId, title, description, location, contact, type, startDate, endDate, customerId, userId);
+        Appointments appointment = new Appointments(appointmentId, title, description, location, contact, type, formattedStartDateTime, formattedEndDateTime, customerId, userId);
 
         updateAppointment(appointment);
         System.out.println("Saved id: " + savedId);
@@ -174,11 +192,26 @@ public class AppointmentEditorController implements Initializable {
         locationField.setText(String.valueOf(location));
         contactsBox.setValue(contact);
         typeField.setText(String.valueOf(type));
-        startDateField.setText(String.valueOf(startDate));
-        EndDateField.setText(String.valueOf(endDate));
+
         CustomerIdField.setText(String.valueOf(customerId));
         userField.setText(String.valueOf(userId));
         savedId = appointmentId;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        dateTimeMerge = LocalDateTime.parse(startDate, formatter);
+        endTimeMerge = LocalDateTime.parse(endDate, formatter);
+
+        LocalDate stringToStartDate = dateTimeMerge.toLocalDate();
+        LocalTime stringToStartTime = dateTimeMerge.toLocalTime();
+        LocalDate stringToEndDate = endTimeMerge.toLocalDate();
+        LocalTime stringToEndTime = endTimeMerge.toLocalTime();
+
+        selectDate.setValue(stringToStartDate);
+        startTime.setValue(stringToStartTime);
+        selectEndDate.setValue(stringToEndDate);
+        endTime.setValue(stringToEndTime);
+
+
     }
 
     public void getDate(ActionEvent actionEvent) {

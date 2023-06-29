@@ -56,6 +56,8 @@ public class ScheduleController implements Initializable {
         customerColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerId"));
         userColumn.setCellValueFactory(new PropertyValueFactory<>("UserId"));
 
+        System.out.println(Appointments.getAppointments());
+
         customerTableView.setItems(Lists.getCustomerList());
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerId"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));

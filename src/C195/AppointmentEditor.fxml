@@ -20,21 +20,27 @@
         <Label layoutX="28.0" layoutY="196.0" text="Contact" />
         <TextField fx:id="typeField" layoutX="141.0" layoutY="228.0" />
         <Label layoutX="28.0" layoutY="232.0" text="Type" />
-        <TextField fx:id="startDateField" layoutX="425.0" layoutY="52.0" />
-        <Label layoutX="312.0" layoutY="56.0" text="Start Date and Time" />
-        <TextField fx:id="EndDateField" layoutX="429.0" layoutY="216.0" />
-        <Label layoutX="312.0" layoutY="220.0" text="End Date and Time" />
         <TextField fx:id="CustomerIdField" layoutX="141.0" layoutY="264.0" />
         <Label layoutX="28.0" layoutY="268.0" text="Customer ID" />
         <TextField fx:id="userField" layoutX="141.0" layoutY="303.0" />
         <Label layoutX="28.0" layoutY="307.0" text="User ID" />
-        <Button layoutX="128.0" layoutY="356.0" mnemonicParsing="false" onAction="#saveButton" text="Save" />
-        <Button layoutX="199.0" layoutY="356.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
+        <Button layoutX="156.0" layoutY="356.0" mnemonicParsing="false" onAction="#saveButton" text="Save" />
+        <Button layoutX="225.0" layoutY="356.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
       <ComboBox fx:id="contactsBox" layoutX="141.0" layoutY="192.0" prefWidth="150.0" />
-      <AnchorPane layoutX="321.0" layoutY="80.0" prefHeight="124.0" prefWidth="257.0" style="-fx-border-color: black; -fx-border-radius: 10;">
+      <AnchorPane layoutX="308.0" layoutY="54.0" prefHeight="124.0" prefWidth="257.0" style="-fx-border-color: black; -fx-border-radius: 10;">
          <children>
             <DatePicker fx:id="selectDate" layoutX="88.0" layoutY="26.0" onAction="#getDate" />
             <ComboBox fx:id="startTime" layoutX="88.0" layoutY="75.0" prefWidth="150.0" />
+              <Label layoutX="27.0" layoutY="30.0" text="Start Date" />
+            <Label layoutX="27.0" layoutY="79.0" text="Start Time" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="304.0" layoutY="215.0" prefHeight="124.0" prefWidth="257.0" style="-fx-border-color: black; -fx-border-radius: 10;">
+         <children>
+            <DatePicker fx:id="selectEndDate" editable="false" layoutX="88.0" layoutY="26.0" onAction="#getDate" />
+            <ComboBox fx:id="endTime" layoutX="88.0" layoutY="75.0" prefWidth="150.0" />
+            <Label layoutX="27.0" layoutY="30.0" text="End Date" />
+            <Label layoutX="27.0" layoutY="79.0" text="End Time" />
          </children>
       </AnchorPane>
     </children>

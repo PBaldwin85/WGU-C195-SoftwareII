@@ -4,6 +4,7 @@ import helper.JDBC;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 
 public class Appointments extends Lists {
 
@@ -79,13 +80,15 @@ public class Appointments extends Lists {
                 String description = result.getString("Description");
                 String location = result.getString("Location");
                 String type = result.getString("Type");
-                String start = result.getString("Start");
+                String start =  result.getString("Start");
                 String end = result.getString("End");
                 Integer customerId = Integer.valueOf(result.getString("Customer_ID"));
                 Integer userId = Integer.valueOf(result.getString("User_ID"));
 
                 Integer contactId = Integer.valueOf(result.getString("Contact_ID"));
                 String contact = (String) Contacts.getName(contactId);
+
+                System.out.println(start);
 
                 Appointments appointments = new Appointments(id, title, description, location, contact, type, start
                         , end, customerId, userId);
