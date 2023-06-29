@@ -18,8 +18,8 @@ public class AppointmentDateTime {
     public static ObservableList populateTime() {
 
 
-        LocalTime startTime = LocalTime.parse("08:00");
-        LocalTime endTime = LocalTime.parse("22:01");
+        LocalTime startTime = LocalTime.parse("08:00:00");
+        LocalTime endTime = LocalTime.parse("22:01:00");
 
         while (startTime.isBefore(endTime)) {
             time.add(String.valueOf(startTime));

@@ -29,7 +29,7 @@ public class Main extends Application {
         Contacts.populateNames();
 
         Appointments appointment = new Appointments(3, "t", "test", "test", "Test",
-                "Test", "2023-06-30 08:00", "2023-06-30 09:00", 1, 1);
+                "Test", "2023-06-30 08:00:00", "2023-06-30 09:00:00", 1, 1);
 
         Appointments.addAppointment(appointment);
 

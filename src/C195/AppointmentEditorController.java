@@ -16,11 +16,13 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static C195.Lists.appointmentList;
+import static C195.Lists.customerList;
 
 public class AppointmentEditorController implements Initializable {
     public AnchorPane mainWindow;
@@ -76,6 +78,39 @@ public class AppointmentEditorController implements Initializable {
         selectDate.setOnAction(event-> {
             LocalDate selectedDate = selectDate.getValue();
             selectEndDate.setValue(selectedDate);
+
+
+
+            /** Working on date and time matching */
+            for (Appointments existing : appointmentList) {
+                /** prints as date + time. need to get rid of time
+                System.out.println(existing.getStartDate());
+                 */
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime test = LocalDateTime.parse(existing.getStartDate(), formatter);
+
+
+                LocalDate stringToStartDate = test.toLocalDate();
+                LocalTime stringToStartTime = test.toLocalTime();
+
+
+                System.out.println(stringToStartDate);
+
+
+                System.out.println(selectDate.getValue());
+
+                if (selectDate.getValue().isEqual(stringToStartDate)) {
+                    System.out.println("Match: " + selectDate.getValue());
+                }
+
+
+            }
+
+
+
+
+            /** Works to set time list */
             startTime.setItems(AppointmentDateTime.time);
             endTime.setItems(AppointmentDateTime.time);
         });
