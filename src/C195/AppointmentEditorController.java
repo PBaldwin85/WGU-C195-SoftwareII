@@ -69,9 +69,7 @@ public class AppointmentEditorController implements Initializable {
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         contactsBox.setItems(Contacts.contacts);
-
         contactsBox.getSelectionModel().selectFirst();
-
 
         AppointmentDateTime.populateTime();
 
@@ -88,18 +86,12 @@ public class AppointmentEditorController implements Initializable {
             LocalDate selectedDate = selectDate.getValue();
             LocalTime selectedTime = LocalTime.parse((CharSequence) startTime.getValue());
             dateTimeMerge = LocalDateTime.of(selectedDate, selectedTime);
-            String pattern = "yyyy-MM-dd HH:mm:ss";
-            DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
-            System.out.println("Formatted: " + dateTimeMerge.format(test));
         });
 
         endTime.setOnAction(event -> {
             LocalDate selectedDate = selectDate.getValue();
             LocalTime selectedTime = LocalTime.parse((CharSequence) endTime.getValue());
             endTimeMerge = LocalDateTime.of(selectedDate, selectedTime);
-            String pattern = "yyyy-MM-dd HH:mm:ss";
-            DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
-            System.out.println("Formatted: " + dateTimeMerge.format(test));
         });
 
     }
@@ -114,7 +106,6 @@ public class AppointmentEditorController implements Initializable {
         Integer customerId = Integer.valueOf(CustomerIdField.getText());
         Integer userId = Integer.valueOf(userField.getText());
 
-        DatePicker testDate = selectDate;
 
         String pattern = "yyyy-MM-dd HH:mm:ss";
         DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
@@ -126,9 +117,6 @@ public class AppointmentEditorController implements Initializable {
         Appointments appointment = new Appointments(appointmentId, title, description, location, contact, type, formattedStartDateTime, formattedEndDateTime, customerId, userId);
 
         updateAppointment(appointment);
-        System.out.println("Saved id: " + savedId);
-        System.out.println("Appointment ID: " + appointmentId);
-
 
 
 
