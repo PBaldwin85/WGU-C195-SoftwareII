@@ -37,7 +37,7 @@
       </AnchorPane>
       <AnchorPane layoutX="304.0" layoutY="215.0" prefHeight="124.0" prefWidth="257.0" style="-fx-border-color: black; -fx-border-radius: 10;">
          <children>
-            <DatePicker fx:id="selectEndDate" editable="false" layoutX="88.0" layoutY="26.0" onAction="#getDate" />
+            <DatePicker fx:id="selectEndDate" disable="true" editable="false" layoutX="88.0" layoutY="26.0" onAction="#getDate" />
             <ComboBox fx:id="endTime" layoutX="88.0" layoutY="75.0" prefWidth="150.0" />
             <Label layoutX="27.0" layoutY="30.0" text="End Date" />
             <Label layoutX="27.0" layoutY="79.0" text="End Time" />

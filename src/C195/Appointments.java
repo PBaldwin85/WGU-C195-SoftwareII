@@ -88,7 +88,6 @@ public class Appointments extends Lists {
                 Integer contactId = Integer.valueOf(result.getString("Contact_ID"));
                 String contact = (String) Contacts.getName(contactId);
 
-                System.out.println(start);
 
                 Appointments appointments = new Appointments(id, title, description, location, contact, type, start
                         , end, customerId, userId);

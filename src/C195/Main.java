@@ -28,17 +28,6 @@ public class Main extends Application {
         Appointments.populateAppointments();
         Contacts.populateNames();
 
-        LocalDateTime local = LocalDateTime.now();
-        System.out.println("Time now: " + local);
-
-        String pattern = "yyyy-MM-dd HH:mm:ss";
-        DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
-        System.out.println("Formatted: " + local.format(test));
-
-
-        Month month = local.getMonth();
-        System.out.println(month);
-
 
 
 

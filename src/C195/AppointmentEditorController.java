@@ -74,11 +74,12 @@ public class AppointmentEditorController implements Initializable {
         AppointmentDateTime.populateTime();
 
         selectDate.setOnAction(event-> {
+            LocalDate selectedDate = selectDate.getValue();
+            selectEndDate.setValue(selectedDate);
             startTime.setItems(AppointmentDateTime.time);
-        });
-        selectEndDate.setOnAction(event-> {
             endTime.setItems(AppointmentDateTime.time);
         });
+
 
 
 
@@ -152,7 +153,6 @@ public class AppointmentEditorController implements Initializable {
         for (Appointments existing : appointmentList) {
             if (existing.getAppointmentId() == appointments.getAppointmentId()) {
                 found = true;
-                System.out.println("match");
                 existing.setTitle(appointments.getTitle());
                 existing.setDescription(appointments.getDescription());
                 existing.setLocation(appointments.getLocation());
