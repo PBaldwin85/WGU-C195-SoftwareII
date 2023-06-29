@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -62,8 +64,22 @@ public class AppointmentEditorController implements Initializable {
         contactsBox.setItems(Contacts.contacts);
 
         contactsBox.getSelectionModel().selectFirst();
+
+
         AppointmentDateTime.populateTime();
-        startTime.setItems(AppointmentDateTime.time);
+
+        selectDate.setOnAction(event-> {
+            startTime.setItems(AppointmentDateTime.time);
+        });
+
+
+
+        startTime.setOnAction(event -> {
+            LocalDate selectedDate = selectDate.getValue();
+            LocalTime selectedTime = LocalTime.parse((CharSequence) startTime.getValue());
+            LocalDateTime dateTime = LocalDateTime.of(selectedDate, selectedTime);
+            System.out.println(dateTime);
+        });
 
     }
 
@@ -84,11 +100,17 @@ public class AppointmentEditorController implements Initializable {
         System.out.println("Formatted: " + startDate.format(String.valueOf(test)));
 
 
+        DatePicker testDate = selectDate;
+
+
+
+
         Appointments appointment = new Appointments(appointmentId, title, description, location, contact, type, startDate, endDate, customerId, userId);
 
         updateAppointment(appointment);
         System.out.println("Saved id: " + savedId);
         System.out.println("Appointment ID: " + appointmentId);
+
 
 
 
