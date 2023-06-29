@@ -73,6 +73,7 @@ public class AppointmentEditorController implements Initializable {
         contactsBox.setItems(Contacts.contacts);
         contactsBox.getSelectionModel().selectFirst();
 
+
         /**
         AppointmentDateTime.populateTime();
          */
@@ -105,12 +106,16 @@ public class AppointmentEditorController implements Initializable {
 
                 System.out.println(selectDate.getValue());
 
+
+
                 if (selectDate.getValue().isEqual(stringToStartDate)) {
                     System.out.println("Match: " + selectDate.getValue());
                     System.out.println("Start time selected: " + stringToStartTime);
                     System.out.println("End time selected: " + stringToEndTime);
 
                     AppointmentDateTime.populateTimeMinusMatches(stringToStartTime, stringToEndTime);
+
+
                     startTime.setItems(AppointmentDateTime.time);
                 }
 

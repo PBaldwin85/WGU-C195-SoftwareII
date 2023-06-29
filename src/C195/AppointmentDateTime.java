@@ -14,6 +14,8 @@ public class AppointmentDateTime {
         this.setTime = appointmentDateTime;
     }
 
+
+
     /**
     public static ObservableList populateTime() {
 
@@ -39,35 +41,20 @@ public class AppointmentDateTime {
                     (startTime.isBefore(stringToEndTime) ))
                 {
                 System.out.println(startTime);
+                time.remove(startTime);
                 startTime = startTime.plusMinutes(15);
             }
             else {
-                System.out.println("Missed loop: " + startTime);
+
                 time.add(String.valueOf(startTime));
                 startTime = startTime.plusMinutes(15);
+
             }
         }
     }
 
-    public static void populateEndTimes(LocalTime stringToStartTime, LocalTime stringToEndTime) {
 
-        LocalTime startTime = stringToStartTime;
-        LocalTime endTime = LocalTime.parse("22:01:00");
 
-        while (startTime.isBefore(endTime)) {
-            if ((startTime.isAfter(stringToStartTime) || startTime.equals(stringToStartTime)) &&
-                    (startTime.isBefore(stringToEndTime) ))
-            {
-                System.out.println(startTime);
-                startTime = startTime.plusMinutes(15);
-            }
-            else {
-                System.out.println("Missed loop: " + startTime);
-                time.add(String.valueOf(startTime));
-                startTime = startTime.plusMinutes(15);
-            }
-        }
-    }
 
 
 }
