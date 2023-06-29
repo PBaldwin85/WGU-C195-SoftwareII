@@ -40,12 +40,10 @@ public class AppointmentDateTime {
 
         while (startTime.isBefore(endTime)) {
             if ((startTime.isAfter(stringToStartTime) || startTime.equals(stringToStartTime)) &&
-                    (startTime.isBefore(stringToEndTime) ))
-                {
+                    (startTime.isBefore(stringToEndTime))) {
                 timeToDelete.add(String.valueOf(startTime));
                 startTime = startTime.plusMinutes(15);
-            }
-            else {
+            } else {
 
                 time.add(String.valueOf(startTime));
                 startTime = startTime.plusMinutes(15);
@@ -61,12 +59,10 @@ public class AppointmentDateTime {
         LocalTime endTime = LocalTime.parse("22:01:00");
 
         while (startTime.isBefore(endTime)) {
-            if (startTime.equals(stringToEndTime))
-            {
+            if (startTime.equals(stringToEndTime)) {
                 System.out.println("Start time equals end time: " + stringToEndTime);
                 return stringToEndTime;
-            }
-            else {
+            } else {
                 startTime = startTime.plusMinutes(15);
 
             }
@@ -76,12 +72,16 @@ public class AppointmentDateTime {
 
 
     public static void setEndTimes(LocalTime selectedTime, LocalTime endTimeFound) {
+        if (!endTimeList.isEmpty()) {
+            return;
+        } else {
 
-        LocalTime startTime = selectedTime;
-        LocalTime endTime = endTimeFound;
 
-        System.out.println("setEndTimes loop: " + startTime);
-        System.out.println("setEndTimes loop: " + endTime);
+            LocalTime startTime = selectedTime;
+            LocalTime endTime = endTimeFound;
+
+            System.out.println("setEndTimes loop: " + startTime);
+            System.out.println("setEndTimes loop: " + endTime);
 
 
             while (startTime.isBefore(endTime)) {
@@ -91,4 +91,5 @@ public class AppointmentDateTime {
             }
         }
 
+    }
 }
