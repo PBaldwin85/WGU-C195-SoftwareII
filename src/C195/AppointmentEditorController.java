@@ -123,6 +123,9 @@ public class AppointmentEditorController implements Initializable {
 
 
         startTime.setOnAction(event -> {
+            if (startTime.getValue() == null) {
+                return;
+            }
 
 
 
@@ -130,6 +133,7 @@ public class AppointmentEditorController implements Initializable {
             LocalDate selectedDate = selectDate.getValue();
             LocalTime selectedTime = LocalTime.parse((CharSequence) startTime.getValue());
             dateTimeMerge = LocalDateTime.of(selectedDate, selectedTime);
+
 
             for (Appointments existing : appointmentList) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -143,8 +147,8 @@ public class AppointmentEditorController implements Initializable {
                 System.out.println("selectDate: " + selectDate.getValue());
                 System.out.println("stringToStartDate: " + stringToStartDate);
 
-                if (selectDate.getValue() != null && (selectDate.getValue().isEqual(stringToStartDate))) {
 
+                if (selectDate.getValue() != null && (selectDate.getValue().isEqual(stringToStartDate))) {
                     if (stringToStartTime.isAfter(selectedTime)) {
                         appointmentsAfter = true;
                     }
@@ -152,15 +156,22 @@ public class AppointmentEditorController implements Initializable {
                     if (selectDate.getValue().isEqual(stringToStartDate) && selectedTime.isBefore(LocalTime.from(stringToStartTime))) {
                         LocalTime test = stringToStartTime;
 
-
+                        AppointmentDateTime.endTimeList.clear();
+                        System.out.println("endTimeList after cleared" + AppointmentDateTime.endTimeList);
                         AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, test);
                         endTime.setItems(AppointmentDateTime.endTimeList);
+                        System.out.println("After endTime list is set: " + AppointmentDateTime.endTimeList);
+
                     }
                 }
             }
             if (appointmentsAfter == false) {
-                AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, LocalTime.parse("22:01:00"));
+                AppointmentDateTime.endTimeList.clear();
+                System.out.println("endTimeList after cleared" + AppointmentDateTime.endTimeList);
+                AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, LocalTime.parse("22:00:00"));
+                System.out.println("After setEndTimes is called: " + AppointmentDateTime.endTimeList);
                 endTime.setItems(AppointmentDateTime.endTimeList);
+                System.out.println("After endTime list is set: " + AppointmentDateTime.endTimeList);
 
             }
 
@@ -168,6 +179,9 @@ public class AppointmentEditorController implements Initializable {
 
 
         endTime.setOnAction(event -> {
+            if (endTime.getValue() == null) {
+                return;
+            }
             LocalDate selectedDate = selectDate.getValue();
             LocalTime selectedTime = LocalTime.parse((CharSequence) endTime.getValue());
             endTimeMerge = LocalDateTime.of(selectedDate, selectedTime);
