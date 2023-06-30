@@ -109,21 +109,14 @@ public class AppointmentEditorController implements Initializable {
 
         startTime.setItems(AppointmentDateTime.time);
 
-
-
-
         startTime.setOnAction(event -> {
             if (startTime.getValue() == null) {
                 return;
             }
-
-
-
             boolean appointmentsAfter = false;
             LocalDate selectedDate = selectDate.getValue();
             LocalTime selectedTime = LocalTime.parse((CharSequence) startTime.getValue());
             dateTimeMerge = LocalDateTime.of(selectedDate, selectedTime);
-
 
             for (Appointments existing : appointmentList) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -134,15 +127,12 @@ public class AppointmentEditorController implements Initializable {
                 LocalDate stringToEndDate = endDate.toLocalDate();
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
-
                 if (selectDate.getValue() != null && (selectDate.getValue().isEqual(stringToStartDate))) {
                     if (stringToStartTime.isAfter(selectedTime)) {
                         appointmentsAfter = true;
                     }
-
                     if (selectDate.getValue().isEqual(stringToStartDate) && selectedTime.isBefore(LocalTime.from(stringToStartTime))) {
                         LocalTime test = stringToStartTime;
-
                         AppointmentDateTime.endTimeList.clear();
                         boolean needOffset = false;
                         AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, test, needOffset);
@@ -156,12 +146,8 @@ public class AppointmentEditorController implements Initializable {
                 boolean needOffset = true;
                 AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, LocalTime.parse("22:00:01"), needOffset);
                 endTime.setItems(AppointmentDateTime.endTimeList);
-
             }
-
         });
-
-
         endTime.setOnAction(event -> {
             if (endTime.getValue() == null) {
                 return;
@@ -184,19 +170,14 @@ public class AppointmentEditorController implements Initializable {
         Integer customerId = Integer.valueOf(CustomerIdField.getText());
         Integer userId = Integer.valueOf(userField.getText());
 
-
         String pattern = "yyyy-MM-dd HH:mm:ss";
         DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
         String formattedStartDateTime = dateTimeMerge.format(test);
         String formattedEndDateTime = endTimeMerge.format(test);
 
-
-
         Appointments appointment = new Appointments(appointmentId, title, description, location, contact, type, formattedStartDateTime, formattedEndDateTime, customerId, userId);
 
         updateAppointment(appointment);
-
-
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
         Stage stage = (Stage) mainWindow.getScene().getWindow();
@@ -275,7 +256,6 @@ public class AppointmentEditorController implements Initializable {
         startTime.setValue(stringToStartTime);
         selectEndDate.setValue(stringToEndDate);
         endTime.setValue(stringToEndTime);
-
 
     }
 
