@@ -74,35 +74,27 @@ public class AppointmentDateTime {
 
     }
 
-    public static LocalTime getEndTime(LocalTime selectedStartTime, LocalTime stringToEndTime) {
-
-        LocalTime startTime = selectedStartTime;
-        LocalTime endTime = LocalTime.parse("22:01:00");
-
-        while (startTime.isBefore(endTime)) {
-            if (startTime.equals(stringToEndTime)) {
-                return stringToEndTime;
-            } else {
-                startTime = startTime.plusMinutes(15);
-
-            }
-        }
-        return null;
-    }
-
-
-    public static void setEndTimes(LocalTime selectedTime, LocalTime endTimeFound) {
+    public static void setEndTimes(ZoneId timeZone, LocalTime selectedTime, LocalTime endTimeFound) {
         if (!endTimeList.isEmpty()) {
             return;
         }
         else {
+            ZoneId est = ZoneId.of("America/New_York");
+
+            ZoneOffset offset1 = ZonedDateTime.now(est).getOffset();
+            ZoneOffset offset2 = ZonedDateTime.now(timeZone).getOffset();
+            int offsetDiff = offset1.compareTo(offset2);
 
             LocalTime startTime = selectedTime;
             LocalTime endTime = endTimeFound;
+
+            LocalTime adjustedStartTime = startTime.plusSeconds(offsetDiff);
+            LocalTime adjustedEndtTime = endTime.plusSeconds(offsetDiff);
+
             startTime = startTime.plusMinutes(15);
 
 
-            while (startTime.isBefore(endTime) || (startTime.equals(endTime))) {
+            while (startTime.isBefore(adjustedEndtTime) || (startTime.equals(adjustedEndtTime))) {
                 endTimeList.add(String.valueOf(startTime));
                 startTime = startTime.plusMinutes(15);
             }

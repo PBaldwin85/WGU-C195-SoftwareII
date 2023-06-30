@@ -92,6 +92,7 @@ public class AppointmentEditorController implements Initializable {
             }
 
             selectEndDate.setValue(selectedDate);
+
             AppointmentDateTime.populateTime(ZoneId.systemDefault());
 
             for (Appointments existing : appointmentList) {
@@ -138,7 +139,7 @@ public class AppointmentEditorController implements Initializable {
                     if (selectDate.getValue().isEqual(stringToStartDate) && selectedTime.isBefore(LocalTime.from(stringToStartTime))) {
                         LocalTime test = stringToStartTime;
 
-                        AppointmentDateTime.setEndTimes(selectedTime, test);
+                        AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, test);
                         endTime.setItems(AppointmentDateTime.endTimeList);
 
                     }
@@ -147,7 +148,7 @@ public class AppointmentEditorController implements Initializable {
             if (appointmentsAfter == false) {
                 System.out.println(appointmentsAfter);
                 System.out.println("Is false");
-                AppointmentDateTime.setEndTimes(selectedTime, LocalTime.parse("22:01:00"));
+                AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, LocalTime.parse("22:01:00"));
                 endTime.setItems(AppointmentDateTime.endTimeList);
 
             }
