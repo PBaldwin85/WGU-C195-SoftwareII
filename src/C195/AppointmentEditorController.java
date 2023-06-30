@@ -77,8 +77,11 @@ public class AppointmentEditorController implements Initializable {
          */
 
         selectDate.setOnAction(event-> {
+            /** Causes null pointer. do i need?
             AppointmentDateTime.time.clear();
             AppointmentDateTime.endTimeList.clear();
+             */
+
 
             LocalDate selectedDate = selectDate.getValue();
             DayOfWeek selectedDay = selectedDate.getDayOfWeek();
@@ -105,6 +108,7 @@ public class AppointmentEditorController implements Initializable {
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
                 if (selectDate.getValue().isEqual(stringToStartDate)) {
+                    System.out.println("Calling for AppointmentDateTime.removeMatches");
                     AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
                 }
             }
@@ -113,8 +117,10 @@ public class AppointmentEditorController implements Initializable {
 
         startTime.setItems(AppointmentDateTime.time);
 
+
         startTime.setOnAction(event -> {
             AppointmentDateTime.endTimeList.clear();
+
 
             boolean appointmentsAfter = false;
             LocalDate selectedDate = selectDate.getValue();
@@ -131,6 +137,7 @@ public class AppointmentEditorController implements Initializable {
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
                 if (selectDate.getValue().isEqual(stringToStartDate)) {
+
                     if (stringToStartTime.isAfter(selectedTime)) {
                         appointmentsAfter = true;
                         System.out.println(appointmentsAfter);
@@ -139,21 +146,21 @@ public class AppointmentEditorController implements Initializable {
                     if (selectDate.getValue().isEqual(stringToStartDate) && selectedTime.isBefore(LocalTime.from(stringToStartTime))) {
                         LocalTime test = stringToStartTime;
 
+
                         AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, test);
                         endTime.setItems(AppointmentDateTime.endTimeList);
-
                     }
                 }
             }
             if (appointmentsAfter == false) {
                 System.out.println(appointmentsAfter);
-                System.out.println("Is false");
                 AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, LocalTime.parse("22:01:00"));
                 endTime.setItems(AppointmentDateTime.endTimeList);
 
             }
 
         });
+
 
         endTime.setOnAction(event -> {
             LocalDate selectedDate = selectDate.getValue();

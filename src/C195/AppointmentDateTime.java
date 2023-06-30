@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 
 public class AppointmentDateTime {
 
@@ -22,7 +21,7 @@ public class AppointmentDateTime {
 
 
 
-    public static ObservableList<String> populateTime(ZoneId timeZone) {
+    public static void populateTime(ZoneId timeZone) {
         ZoneId est = ZoneId.of("America/New_York");
 
         ZoneOffset offset1 = ZonedDateTime.now(est).getOffset();
@@ -40,7 +39,6 @@ public class AppointmentDateTime {
             time.add(String.valueOf(adjustedStartTime));
             adjustedStartTime = adjustedStartTime.plusMinutes(15);
         }
-        return null;
     }
 
 
@@ -70,12 +68,14 @@ public class AppointmentDateTime {
             }
         }
         time.removeAll(timeToDelete);
+        System.out.println(timeToDelete);
 
 
     }
 
     public static void setEndTimes(ZoneId timeZone, LocalTime selectedTime, LocalTime endTimeFound) {
         if (!endTimeList.isEmpty()) {
+            System.out.println("Is not empty");
             return;
         }
         else {
@@ -88,13 +88,15 @@ public class AppointmentDateTime {
             LocalTime startTime = selectedTime;
             LocalTime endTime = endTimeFound;
 
-            LocalTime adjustedStartTime = startTime.plusSeconds(offsetDiff);
+
             LocalTime adjustedEndtTime = endTime.plusSeconds(offsetDiff);
 
             startTime = startTime.plusMinutes(15);
 
 
             while (startTime.isBefore(adjustedEndtTime) || (startTime.equals(adjustedEndtTime))) {
+                System.out.println("Start time: " + startTime);
+                System.out.println("End time: " + adjustedEndtTime);
                 endTimeList.add(String.valueOf(startTime));
                 startTime = startTime.plusMinutes(15);
             }
