@@ -32,7 +32,7 @@ public class Main extends Application {
                 "Test", "2023-06-30 08:00:00", "2023-06-30 09:00:00", 1, 1);
         Appointments appointment2 = new Appointments(4, "t", "test", "test", "Test",
                 "Test", "2023-06-30 11:00:00", "2023-06-30 12:00:00", 1, 1);
-        Appointments appointment3 = new Appointments(4, "t", "test", "test", "Test",
+        Appointments appointment3 = new Appointments(5, "t", "test", "test", "Test",
                 "Test", "2023-06-30 13:00:00", "2023-06-30 15:00:00", 1, 1);
 
         Appointments.addAppointment(appointment);
