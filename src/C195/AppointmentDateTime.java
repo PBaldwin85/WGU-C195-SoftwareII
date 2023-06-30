@@ -2,6 +2,7 @@ package C195;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.time.*;
 
@@ -22,6 +23,8 @@ public class AppointmentDateTime {
 
 
     public static void populateTime(ZoneId timeZone) {
+        AppointmentDateTime.time.clear();
+
         ZoneId est = ZoneId.of("America/New_York");
 
         ZoneOffset offset1 = ZonedDateTime.now(est).getOffset();
@@ -67,8 +70,10 @@ public class AppointmentDateTime {
 
             }
         }
+
         time.removeAll(timeToDelete);
         System.out.println(timeToDelete);
+
 
 
     }

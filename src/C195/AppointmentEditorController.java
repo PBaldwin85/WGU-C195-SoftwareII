@@ -77,8 +77,10 @@ public class AppointmentEditorController implements Initializable {
          */
 
         selectDate.setOnAction(event-> {
-            /** Causes null pointer. do i need?
+            /**
             AppointmentDateTime.time.clear();
+
+
             AppointmentDateTime.endTimeList.clear();
              */
 
@@ -108,20 +110,20 @@ public class AppointmentEditorController implements Initializable {
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
                 if (selectDate.getValue().isEqual(stringToStartDate)) {
-                    System.out.println("Calling for AppointmentDateTime.removeMatches");
                     AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
+
+                    System.out.println(AppointmentDateTime.time);
                 }
             }
         });
 
-
         startTime.setItems(AppointmentDateTime.time);
 
 
+
+
         startTime.setOnAction(event -> {
-            if (!AppointmentDateTime.endTimeList.isEmpty()) {
-                AppointmentDateTime.endTimeList.clear();
-            }
+
 
 
             boolean appointmentsAfter = false;
@@ -138,11 +140,13 @@ public class AppointmentEditorController implements Initializable {
                 LocalDate stringToEndDate = endDate.toLocalDate();
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
-                if (selectDate.getValue().isEqual(stringToStartDate)) {
+                System.out.println("selectDate: " + selectDate.getValue());
+                System.out.println("stringToStartDate: " + stringToStartDate);
+
+                if (selectDate.getValue() != null && (selectDate.getValue().isEqual(stringToStartDate))) {
 
                     if (stringToStartTime.isAfter(selectedTime)) {
                         appointmentsAfter = true;
-                        System.out.println(appointmentsAfter);
                     }
 
                     if (selectDate.getValue().isEqual(stringToStartDate) && selectedTime.isBefore(LocalTime.from(stringToStartTime))) {
@@ -155,7 +159,6 @@ public class AppointmentEditorController implements Initializable {
                 }
             }
             if (appointmentsAfter == false) {
-                System.out.println(appointmentsAfter);
                 AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, LocalTime.parse("22:01:00"));
                 endTime.setItems(AppointmentDateTime.endTimeList);
 
