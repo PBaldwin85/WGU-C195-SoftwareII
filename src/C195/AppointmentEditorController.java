@@ -144,7 +144,8 @@ public class AppointmentEditorController implements Initializable {
                         LocalTime test = stringToStartTime;
 
                         AppointmentDateTime.endTimeList.clear();
-                        AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, test);
+                        boolean needOffset = false;
+                        AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, test, needOffset);
                         endTime.setItems(AppointmentDateTime.endTimeList);
 
                     }
@@ -152,7 +153,8 @@ public class AppointmentEditorController implements Initializable {
             }
             if (appointmentsAfter == false) {
                 AppointmentDateTime.endTimeList.clear();
-                AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, LocalTime.parse("22:00:01"));
+                boolean needOffset = true;
+                AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, LocalTime.parse("22:00:01"), needOffset);
                 endTime.setItems(AppointmentDateTime.endTimeList);
 
             }

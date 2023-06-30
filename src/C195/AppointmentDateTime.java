@@ -57,14 +57,16 @@ public class AppointmentDateTime {
 
 
         LocalTime startTime = LocalTime.parse("08:00:00");
-        LocalTime endTime = LocalTime.parse("22:01:00");
+        LocalTime endTime = LocalTime.parse("22:00:00");
 
         LocalTime adjustedStartTime = startTime.plusSeconds(offsetDiff);
-        LocalTime adjustedEndtTime = endTime.plusSeconds(offsetDiff);
+        LocalTime adjustedEndTime = endTime.plusSeconds(offsetDiff);
 
-        while (adjustedStartTime.isBefore(adjustedEndtTime)) {
+        System.out.println(stringToEndTime);
+
+        while (adjustedStartTime.isBefore(adjustedEndTime) || (adjustedStartTime.equals(adjustedEndTime))) {
             if ((adjustedStartTime.isAfter(stringToStartTime) || adjustedStartTime.equals(stringToStartTime)) &&
-                    (adjustedStartTime.isBefore(stringToEndTime))) {
+                    ((adjustedStartTime.isBefore(stringToEndTime)) || adjustedStartTime.equals(stringToEndTime))) {
                 timeToDelete.add(String.valueOf(adjustedStartTime));
                 adjustedStartTime = adjustedStartTime.plusMinutes(15);
             } else {
@@ -74,6 +76,7 @@ public class AppointmentDateTime {
             }
         }
         time.removeAll(timeToDelete);
+
 
         if (time.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -85,14 +88,22 @@ public class AppointmentDateTime {
 
     }
 
-    public static void setEndTimes(ZoneId timeZone, LocalTime selectedTime, LocalTime endTimeFound) {
+    public static void setEndTimes(ZoneId timeZone, LocalTime selectedTime, LocalTime endTimeFound, boolean needOffset) {
+
+        ZoneId est = ZoneId.of("America/New_York");
+
+        ZoneOffset offset1 = ZonedDateTime.now(est).getOffset();
+        ZoneOffset offset2 = ZonedDateTime.now(timeZone).getOffset();
+        int offsetDiff = offset1.compareTo(offset2);
 
         LocalTime startTime = selectedTime;
         LocalTime endTime = endTimeFound;
 
-        startTime = startTime.plusMinutes(15);
+        if (needOffset == true) {
+            endTime = endTime.plusSeconds(offsetDiff);
+        }
 
-        System.out.println(endTimeFound);
+        startTime = startTime.plusMinutes(15);
 
         while (startTime.isBefore(endTime) || (startTime.equals(endTime))) {
             endTimeList.add(String.valueOf(startTime));
@@ -101,4 +112,5 @@ public class AppointmentDateTime {
         }
 
     }
+
 }
