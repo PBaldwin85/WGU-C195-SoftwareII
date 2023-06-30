@@ -83,8 +83,8 @@ public class AppointmentDateTime {
             LocalTime startTime = selectedTime;
             LocalTime endTime = endTimeFound;
 
-            System.out.println("setEndTimes loop: " + startTime);
-            System.out.println("setEndTimes loop: " + endTime);
+            System.out.println("setEndTimes loop startTime: " + startTime);
+            System.out.println("setEndTimes loop endTime: " + endTime);
 
 
             while (startTime.isBefore(endTime)) {

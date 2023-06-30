@@ -111,6 +111,7 @@ public class AppointmentEditorController implements Initializable {
         startTime.setItems(AppointmentDateTime.time);
 
         startTime.setOnAction(event -> {
+            boolean appointmentsAfter = false;
             LocalDate selectedDate = selectDate.getValue();
             LocalTime selectedTime = LocalTime.parse((CharSequence) startTime.getValue());
             dateTimeMerge = LocalDateTime.of(selectedDate, selectedTime);
@@ -124,6 +125,13 @@ public class AppointmentEditorController implements Initializable {
                 LocalDate stringToEndDate = endDate.toLocalDate();
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
+                System.out.println("Selected start time: " + selectedTime);
+                System.out.println("stringToStartTime: " + stringToStartTime);
+
+                if (stringToStartTime.isAfter(selectedTime)) {
+                    appointmentsAfter = true;
+                }
+
                 if (selectDate.getValue().isEqual(stringToStartDate) && selectedTime.isBefore(LocalTime.from(stringToStartTime))) {
                     LocalTime test = stringToStartTime;
 
@@ -131,6 +139,11 @@ public class AppointmentEditorController implements Initializable {
                     endTime.setItems(AppointmentDateTime.endTimeList);
 
                 }
+            }
+            if (appointmentsAfter == false) {
+                AppointmentDateTime.setEndTimes(selectedTime, LocalTime.parse("22:01:00"));
+                endTime.setItems(AppointmentDateTime.endTimeList);
+
             }
 
         });
