@@ -80,13 +80,11 @@ public class States {
             Statement statement = JDBC.getConnection().createStatement();
             ResultSet result = statement.executeQuery(query);
 
-
             while (result.next()) {
                 Integer countryId = Integer.valueOf(result.getString("Country_ID"));
                 if (countryId == passedCountryId) {
                     String state = result.getString("Division");
                     states.add(state);
-                    System.out.println(state);
                 }
             }
         } catch (Exception e) {
