@@ -16,8 +16,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import static C195.Lists.appointmentList;
 
 public class ScheduleController implements Initializable {
 
@@ -250,6 +255,22 @@ public class ScheduleController implements Initializable {
 
 
     public void currentWeek(ActionEvent actionEvent) {
+
+        LocalDateTime timeToCheck = LocalDateTime.now();
+        System.out.println(timeToCheck.getDayOfWeek());
+
+        if (timeToCheck.getDayOfWeek() == DayOfWeek.FRIDAY) {
+            timeToCheck = timeToCheck.minusDays(4);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String startDate = timeToCheck.format(formatter);
+            System.out.println("Monday is " + startDate);
+
+            for (Appointments existing : appointmentList){
+
+            }
+        }
+
+
     }
 
     public void currentMonth(ActionEvent actionEvent) {
