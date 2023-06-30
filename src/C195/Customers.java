@@ -1,6 +1,7 @@
 package C195;
 
 import helper.JDBC;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
@@ -40,6 +41,15 @@ public class Customers {
         return Lists.customerList;
     }
 
+    public static ObservableList<Integer> getCustomerNames() {
+        ObservableList<Integer> id = FXCollections.observableArrayList();
+
+        for (Customers customer : Lists.customerList){
+            id.add(customer.getCustomerId());
+        }
+        return id;
+    }
+
 
     public Integer getCustomerId() {return customerId;}
 
@@ -54,6 +64,7 @@ public class Customers {
     public String getState() {return state;}
 
     public String getCountry() {return country;}
+
 
 
     public static void populateCustomers() {
@@ -83,6 +94,8 @@ public class Customers {
             System.out.println("Error:" + e.getMessage());
         }
     }
+
+
 
     public void setName(String name) {
         this.name = name;

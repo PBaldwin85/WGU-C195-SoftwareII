@@ -46,8 +46,6 @@ public class CustomerEditorController implements Initializable {
         stateBox.setItems(States.states);
         countryBox.setItems(Country.countries);
 
-        countryBox.getSelectionModel().selectFirst();
-
         countryBox.setOnAction(event -> {
             String selectedCountry = (String) countryBox.getValue();
             if (selectedCountry.equals("U.S")) {

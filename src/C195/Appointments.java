@@ -83,6 +83,8 @@ public class Appointments extends Lists {
                 Integer customerId = Integer.valueOf(result.getString("Customer_ID"));
                 Integer userId = Integer.valueOf(result.getString("User_ID"));
 
+                Lists.addUser(userId);
+
                 Integer contactId = Integer.valueOf(result.getString("Contact_ID"));
                 String contact = (String) Contacts.getName(contactId);
 

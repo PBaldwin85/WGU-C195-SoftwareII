@@ -20,9 +20,7 @@
         <Label layoutX="28.0" layoutY="196.0" text="Contact" />
         <TextField fx:id="typeField" layoutX="141.0" layoutY="228.0" />
         <Label layoutX="28.0" layoutY="232.0" text="Type" />
-        <TextField fx:id="CustomerIdField" layoutX="141.0" layoutY="264.0" />
         <Label layoutX="28.0" layoutY="268.0" text="Customer ID" />
-        <TextField fx:id="userField" layoutX="141.0" layoutY="303.0" />
         <Label layoutX="28.0" layoutY="307.0" text="User ID" />
         <Button layoutX="156.0" layoutY="356.0" mnemonicParsing="false" onAction="#saveButton" text="Save" />
         <Button layoutX="225.0" layoutY="356.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
@@ -43,5 +41,7 @@
             <Label layoutX="27.0" layoutY="79.0" text="End Time" />
          </children>
       </AnchorPane>
+      <ComboBox fx:id="customerBox" layoutX="141.0" layoutY="264.0" prefWidth="150.0" />
+      <ComboBox fx:id="userBox" layoutX="141.0" layoutY="303.0" prefWidth="150.0" />
     </children>
 </AnchorPane>

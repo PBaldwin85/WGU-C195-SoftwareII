@@ -259,9 +259,7 @@ public class ScheduleController implements Initializable {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
             LocalDate stringToStartDate = startDate.toLocalDate();
-
             WeekFields weekFields = WeekFields.of(Locale.getDefault());
-
             int currentWeek = timeToCheck.get(weekFields.weekOfWeekBasedYear());
             int appointmentsWeek = startDate.get(weekFields.weekOfWeekBasedYear());
 

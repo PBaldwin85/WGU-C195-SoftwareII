@@ -31,6 +31,12 @@ public class Lists {
         customerList.add(customer);
     }
 
+    public static ObservableList<Integer> users = FXCollections.observableArrayList();
+
+    public static void addUser(Integer user) {
+        users.add(user);
+    }
+
 }
 
 

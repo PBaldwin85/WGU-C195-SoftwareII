@@ -1,5 +1,7 @@
 package C195;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,6 +45,11 @@ public class AppointmentEditorController implements Initializable {
     @FXML
     private ComboBox endTime;
 
+    @FXML
+    private ComboBox userBox;
+    @FXML
+    private ComboBox customerBox;
+
     Integer savedId;
 
     @FXML
@@ -69,7 +76,10 @@ public class AppointmentEditorController implements Initializable {
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         contactsBox.setItems(Contacts.contacts);
-        contactsBox.getSelectionModel().selectFirst();
+
+        customerBox.setItems(Customers.getCustomerNames());
+        userBox.setItems(Lists.users);
+
 
 
         /**
@@ -167,8 +177,8 @@ public class AppointmentEditorController implements Initializable {
         String location = locationField.getText();
         String contact = String.valueOf(contactsBox.getValue());
         String type = typeField.getText();
-        Integer customerId = Integer.valueOf(CustomerIdField.getText());
-        Integer userId = Integer.valueOf(userField.getText());
+        Integer customerId = (Integer) customerBox.getValue();
+        Integer userId = (Integer) userBox.getValue();
 
         String pattern = "yyyy-MM-dd HH:mm:ss";
         DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
@@ -239,8 +249,9 @@ public class AppointmentEditorController implements Initializable {
         contactsBox.setValue(contact);
         typeField.setText(String.valueOf(type));
 
-        CustomerIdField.setText(String.valueOf(customerId));
-        userField.setText(String.valueOf(userId));
+        customerBox.setValue(customerId);
+        userBox.setValue(userId);
+
         savedId = appointmentId;
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
