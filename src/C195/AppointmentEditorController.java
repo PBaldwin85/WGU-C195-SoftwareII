@@ -119,7 +119,9 @@ public class AppointmentEditorController implements Initializable {
 
 
         startTime.setOnAction(event -> {
-            AppointmentDateTime.endTimeList.clear();
+            if (!AppointmentDateTime.endTimeList.isEmpty()) {
+                AppointmentDateTime.endTimeList.clear();
+            }
 
 
             boolean appointmentsAfter = false;

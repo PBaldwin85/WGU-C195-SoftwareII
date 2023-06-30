@@ -75,7 +75,6 @@ public class AppointmentDateTime {
 
     public static void setEndTimes(ZoneId timeZone, LocalTime selectedTime, LocalTime endTimeFound) {
         if (!endTimeList.isEmpty()) {
-            System.out.println("Is not empty");
             return;
         }
         else {
@@ -95,8 +94,6 @@ public class AppointmentDateTime {
 
 
             while (startTime.isBefore(adjustedEndtTime) || (startTime.equals(adjustedEndtTime))) {
-                System.out.println("Start time: " + startTime);
-                System.out.println("End time: " + adjustedEndtTime);
                 endTimeList.add(String.valueOf(startTime));
                 startTime = startTime.plusMinutes(15);
             }
