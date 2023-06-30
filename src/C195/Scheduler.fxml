@@ -33,6 +33,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
+            <Button fx:id="reports" layoutX="667.0" layoutY="300.0" mnemonicParsing="false" text="Reports" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="63.0" layoutY="14.0" prefHeight="374.0" prefWidth="926.0" style="-fx-border-color: black; -fx-border-radius: 10;">
@@ -54,20 +55,18 @@
               <Button layoutX="58.0" layoutY="335.0" mnemonicParsing="false" onAction="#AddButton" text="Add" />
               <Button layoutX="114.0" layoutY="335.0" mnemonicParsing="false" onAction="#UpdateAppointment" text="Update" />
               <Button layoutX="182.0" layoutY="335.0" mnemonicParsing="false" onAction="#DeleteAppointment" text="Delete" />
-            <RadioButton fx:id="displayAll" layoutX="81.0" layoutY="54.0" mnemonicParsing="false" onAction="#displayAll" selected="true" text="Display all appointments">
+            <RadioButton fx:id="displayAll" layoutX="226.0" layoutY="54.0" mnemonicParsing="false" onAction="#displayAll" selected="true" text="Display all appointments">
                <toggleGroup>
                   <ToggleGroup fx:id="filterAppointments" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="currentWeek" layoutX="267.0" layoutY="54.0" mnemonicParsing="false" onAction="#currentWeek" text="Display current week" toggleGroup="$filterAppointments" />
+            <RadioButton fx:id="currentWeek" layoutX="404.0" layoutY="54.0" mnemonicParsing="false" onAction="#currentWeek" text="Display current week" toggleGroup="$filterAppointments" />
             <RadioButton fx:id="currentMonth" layoutX="561.0" layoutY="54.0" mnemonicParsing="false" onAction="#currentMonth" text="Display current Month" toggleGroup="$filterAppointments" />
             <Label layoutX="388.0" layoutY="6.0" text="Appointments">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <RadioButton fx:id="nextWeek" layoutX="421.0" layoutY="54.0" mnemonicParsing="false" onAction="#nextWeek" text="Display next week" toggleGroup="$filterAppointments" />
-            <RadioButton fx:id="nextMonth" layoutX="722.0" layoutY="54.0" mnemonicParsing="false" onAction="#nextMonth" text="Display next Month" toggleGroup="$filterAppointments" />
          </children>
       </AnchorPane>
     </children>

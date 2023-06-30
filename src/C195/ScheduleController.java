@@ -1,5 +1,6 @@
 package C195;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -17,8 +18,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.WeekFields;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -77,8 +82,6 @@ public class ScheduleController implements Initializable {
         AppointmentEditorController.AppointmentId(Main.generateAppointmentId());
 
 
-
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AppointmentEditor.fxml"));
         Stage stage = (Stage) mainWindow.getScene().getWindow();
         stage.close();
@@ -92,8 +95,6 @@ public class ScheduleController implements Initializable {
 
     public void AddCustomer(ActionEvent actionEvent) throws IOException {
         CustomerEditorController.customerId(Main.generateCustomerId());
-
-
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerEditor.fxml"));
@@ -149,7 +150,6 @@ public class ScheduleController implements Initializable {
     }
 
 
-
     public void DeleteAppointment(ActionEvent actionEvent) {
         Appointments selectedAppointment = (Appointments) appointmentTableView.getSelectionModel().getSelectedItem();
         if (selectedAppointment != null) {
@@ -173,8 +173,7 @@ public class ScheduleController implements Initializable {
                 alert.showAndWait();
 
             }
-        }
-        else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setContentText("Please select an appointment to delete!");
@@ -214,15 +213,13 @@ public class ScheduleController implements Initializable {
                 alert.getButtonTypes().setAll(okButton);
                 alert.showAndWait();
             }
-        }
-        else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setContentText("Please select a customer to delete!");
             alert.showAndWait();
         }
     }
-
 
 
     public void UpdateCustomer(ActionEvent actionEvent) {
@@ -255,33 +252,45 @@ public class ScheduleController implements Initializable {
 
 
     public void currentWeek(ActionEvent actionEvent) {
-
         LocalDateTime timeToCheck = LocalDateTime.now();
-        System.out.println(timeToCheck.getDayOfWeek());
+        ObservableList<Appointments> appointments = FXCollections.observableArrayList();
 
-        if (timeToCheck.getDayOfWeek() == DayOfWeek.FRIDAY) {
-            timeToCheck = timeToCheck.minusDays(4);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String startDate = timeToCheck.format(formatter);
-            System.out.println("Monday is " + startDate);
+        for (Appointments existing : appointmentList) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
+            LocalDate stringToStartDate = startDate.toLocalDate();
 
-            for (Appointments existing : appointmentList){
+            WeekFields weekFields = WeekFields.of(Locale.getDefault());
 
+            int currentWeek = timeToCheck.get(weekFields.weekOfWeekBasedYear());
+            int appointmentsWeek = startDate.get(weekFields.weekOfWeekBasedYear());
+
+            if ((currentWeek == appointmentsWeek) && timeToCheck.getYear() == startDate.getYear()) {
+                appointments.add(existing);
             }
+            appointmentTableView.setItems(appointments);
         }
-
-
     }
+
+
 
     public void currentMonth(ActionEvent actionEvent) {
-    }
+        LocalDateTime timeToCheck = LocalDateTime.now();
+        ObservableList<Appointments> appointments = FXCollections.observableArrayList();
 
-    public void nextWeek(ActionEvent actionEvent) {
-    }
+        for (Appointments existing : appointmentList) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
+            LocalDate stringToStartDate = startDate.toLocalDate();
 
-    public void nextMonth(ActionEvent actionEvent) {
+            if ((startDate.getMonth() == timeToCheck.getMonth()) && startDate.getYear() == timeToCheck.getYear()) {
+                appointments.add(existing);
+            }
+            appointmentTableView.setItems(appointments);
+        }
     }
 
     public void displayAll(ActionEvent actionEvent) {
+        appointmentTableView.setItems(Lists.getAppointments());
     }
 }
