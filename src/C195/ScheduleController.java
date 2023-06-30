@@ -249,4 +249,18 @@ public class ScheduleController implements Initializable {
     }
 
 
+    public void currentWeek(ActionEvent actionEvent) {
+    }
+
+    public void currentMonth(ActionEvent actionEvent) {
+    }
+
+    public void nextWeek(ActionEvent actionEvent) {
+    }
+
+    public void nextMonth(ActionEvent actionEvent) {
+    }
+
+    public void displayAll(ActionEvent actionEvent) {
+    }
 }
