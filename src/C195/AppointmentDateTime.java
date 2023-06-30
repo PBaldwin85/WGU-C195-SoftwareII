@@ -3,7 +3,8 @@ package C195;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.time.LocalTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class AppointmentDateTime {
 
@@ -19,40 +20,57 @@ public class AppointmentDateTime {
 
     public static ObservableList<String> timeToDelete = FXCollections.observableArrayList();
 
-    public static void populateTime() {
+
+
+    public static ObservableList<String> populateTime(ZoneId timeZone) {
+        ZoneId est = ZoneId.of("America/New_York");
+
+        ZoneOffset offset1 = ZonedDateTime.now(est).getOffset();
+        ZoneOffset offset2 = ZonedDateTime.now(timeZone).getOffset();
+        int offsetDiff = offset1.compareTo(offset2);
+
+        LocalTime startTime = LocalTime.parse("08:00:00");
+        LocalTime endTime = LocalTime.parse("22:01:00");
+
+        LocalTime adjustedStartTime = startTime.plusSeconds(offsetDiff);
+        LocalTime adjustedEndtTime = endTime.plusSeconds(offsetDiff);
+
+
+        while (adjustedStartTime.isBefore(adjustedEndtTime)) {
+            time.add(String.valueOf(adjustedStartTime));
+            adjustedStartTime = adjustedStartTime.plusMinutes(15);
+        }
+        return null;
+    }
+
+
+    public static void removeMatches(ZoneId timeZone, LocalTime stringToStartTime, LocalTime stringToEndTime) {
+        ZoneId est = ZoneId.of("America/New_York");
+
+        ZoneOffset offset1 = ZonedDateTime.now(est).getOffset();
+        ZoneOffset offset2 = ZonedDateTime.now(timeZone).getOffset();
+        int offsetDiff = offset1.compareTo(offset2);
 
 
         LocalTime startTime = LocalTime.parse("08:00:00");
         LocalTime endTime = LocalTime.parse("22:01:00");
 
-        while (startTime.isBefore(endTime)) {
-            time.add(String.valueOf(startTime));
-            startTime = startTime.plusMinutes(15);
-        }
-        return;
-    }
+        LocalTime adjustedStartTime = startTime.plusSeconds(offsetDiff);
+        LocalTime adjustedEndtTime = endTime.plusSeconds(offsetDiff);
 
+        while (adjustedStartTime.isBefore(adjustedEndtTime)) {
+            if ((adjustedStartTime.isAfter(stringToStartTime) || adjustedStartTime.equals(stringToStartTime)) &&
+                    (adjustedStartTime.isBefore(stringToEndTime))) {
+                timeToDelete.add(String.valueOf(adjustedStartTime));
+                adjustedStartTime = adjustedStartTime.plusMinutes(15);
+            } else {
 
-    public static void removeMatches(LocalTime stringToStartTime, LocalTime stringToEndTime) {
-            System.out.println("after cleared list: " + time);
+                adjustedStartTime = adjustedStartTime.plusMinutes(15);
 
-            LocalTime startTime = LocalTime.parse("08:00:00");
-            LocalTime endTime = LocalTime.parse("22:01:00");
-
-            while (startTime.isBefore(endTime)) {
-                if ((startTime.isAfter(stringToStartTime) || startTime.equals(stringToStartTime)) &&
-                        (startTime.isBefore(stringToEndTime))) {
-                    timeToDelete.add(String.valueOf(startTime));
-                    startTime = startTime.plusMinutes(15);
-                } else {
-
-                    startTime = startTime.plusMinutes(15);
-
-                }
             }
-            time.removeAll(timeToDelete);
-            System.out.println("Time list: " + time);
-            System.out.println("Remove time list: " + timeToDelete);
+        }
+        time.removeAll(timeToDelete);
+
 
     }
 
@@ -63,7 +81,6 @@ public class AppointmentDateTime {
 
         while (startTime.isBefore(endTime)) {
             if (startTime.equals(stringToEndTime)) {
-                System.out.println("Start time equals end time: " + stringToEndTime);
                 return stringToEndTime;
             } else {
                 startTime = startTime.plusMinutes(15);
@@ -86,7 +103,6 @@ public class AppointmentDateTime {
 
 
             while (startTime.isBefore(endTime) || (startTime.equals(endTime))) {
-                System.out.println("setEndTimes loop: " + startTime);
                 endTimeList.add(String.valueOf(startTime));
                 startTime = startTime.plusMinutes(15);
             }

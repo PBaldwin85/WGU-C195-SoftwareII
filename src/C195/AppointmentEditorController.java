@@ -13,10 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -95,7 +92,7 @@ public class AppointmentEditorController implements Initializable {
             }
 
             selectEndDate.setValue(selectedDate);
-            AppointmentDateTime.populateTime();
+            AppointmentDateTime.populateTime(ZoneId.systemDefault());
 
             for (Appointments existing : appointmentList) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -107,7 +104,7 @@ public class AppointmentEditorController implements Initializable {
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
                 if (selectDate.getValue().isEqual(stringToStartDate)) {
-                    AppointmentDateTime.removeMatches(stringToStartTime, stringToEndTime);
+                    AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
                 }
             }
         });
