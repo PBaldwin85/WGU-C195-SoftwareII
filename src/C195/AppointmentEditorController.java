@@ -148,6 +148,7 @@ public class AppointmentEditorController implements Initializable {
 
         });
 
+
         endTime.setOnAction(event -> {
             LocalDate selectedDate = selectDate.getValue();
             LocalTime selectedTime = LocalTime.parse((CharSequence) endTime.getValue());
