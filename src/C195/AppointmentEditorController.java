@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -83,6 +84,16 @@ public class AppointmentEditorController implements Initializable {
             AppointmentDateTime.endTimeList.clear();
 
             LocalDate selectedDate = selectDate.getValue();
+            DayOfWeek selectedDay = selectedDate.getDayOfWeek();
+
+            if (selectedDay == DayOfWeek.SATURDAY || selectedDay == DayOfWeek.SUNDAY) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning");
+                alert.setContentText("Weekends are not allowed! Please select a weekday.");
+                alert.showAndWait();
+                return;
+            }
+
             selectEndDate.setValue(selectedDate);
             AppointmentDateTime.populateTime();
 
@@ -99,12 +110,6 @@ public class AppointmentEditorController implements Initializable {
                     AppointmentDateTime.removeMatches(stringToStartTime, stringToEndTime);
                 }
             }
-
-
-            /** Works to set time list
-            startTime.setItems(AppointmentDateTime.time);
-            endTime.setItems(AppointmentDateTime.time);
-            */
         });
 
 

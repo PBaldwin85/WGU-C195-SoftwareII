@@ -82,9 +82,10 @@ public class AppointmentDateTime {
 
             LocalTime startTime = selectedTime;
             LocalTime endTime = endTimeFound;
+            startTime = startTime.plusMinutes(15);
 
 
-            while (startTime.isBefore(endTime)) {
+            while (startTime.isBefore(endTime) || (startTime.equals(endTime))) {
                 System.out.println("setEndTimes loop: " + startTime);
                 endTimeList.add(String.valueOf(startTime));
                 startTime = startTime.plusMinutes(15);
