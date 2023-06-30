@@ -75,6 +75,14 @@ public class AppointmentDateTime {
         }
         time.removeAll(timeToDelete);
 
+        if (time.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setContentText("There are no more appointments available for the selected day.");
+            alert.showAndWait();
+            return;
+        }
+
     }
 
     public static void setEndTimes(ZoneId timeZone, LocalTime selectedTime, LocalTime endTimeFound) {
