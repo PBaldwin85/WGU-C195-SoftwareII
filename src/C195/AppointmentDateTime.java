@@ -91,7 +91,6 @@ public class AppointmentDateTime {
             startTime = startTime.plusMinutes(15);
 
         }
-        System.out.println(endTimeList);
 
     }
 }
