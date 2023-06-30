@@ -127,22 +127,24 @@ public class AppointmentEditorController implements Initializable {
                 LocalDate stringToEndDate = endDate.toLocalDate();
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
-                System.out.println("Selected start time: " + selectedTime);
-                System.out.println("stringToStartTime: " + stringToStartTime);
+                if (selectDate.getValue().isEqual(stringToStartDate)) {
+                    if (stringToStartTime.isAfter(selectedTime)) {
+                        appointmentsAfter = true;
+                        System.out.println(appointmentsAfter);
+                    }
 
-                if (stringToStartTime.isAfter(selectedTime)) {
-                    appointmentsAfter = true;
-                }
+                    if (selectDate.getValue().isEqual(stringToStartDate) && selectedTime.isBefore(LocalTime.from(stringToStartTime))) {
+                        LocalTime test = stringToStartTime;
 
-                if (selectDate.getValue().isEqual(stringToStartDate) && selectedTime.isBefore(LocalTime.from(stringToStartTime))) {
-                    LocalTime test = stringToStartTime;
+                        AppointmentDateTime.setEndTimes(selectedTime, test);
+                        endTime.setItems(AppointmentDateTime.endTimeList);
 
-                    AppointmentDateTime.setEndTimes(selectedTime, test);
-                    endTime.setItems(AppointmentDateTime.endTimeList);
-
+                    }
                 }
             }
             if (appointmentsAfter == false) {
+                System.out.println(appointmentsAfter);
+                System.out.println("Is false");
                 AppointmentDateTime.setEndTimes(selectedTime, LocalTime.parse("22:01:00"));
                 endTime.setItems(AppointmentDateTime.endTimeList);
 

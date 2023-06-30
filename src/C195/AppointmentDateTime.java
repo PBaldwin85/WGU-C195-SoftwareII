@@ -77,14 +77,11 @@ public class AppointmentDateTime {
     public static void setEndTimes(LocalTime selectedTime, LocalTime endTimeFound) {
         if (!endTimeList.isEmpty()) {
             return;
-        } else {
-
+        }
+        else {
 
             LocalTime startTime = selectedTime;
             LocalTime endTime = endTimeFound;
-
-            System.out.println("setEndTimes loop startTime: " + startTime);
-            System.out.println("setEndTimes loop endTime: " + endTime);
 
 
             while (startTime.isBefore(endTime)) {
