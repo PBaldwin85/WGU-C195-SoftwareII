@@ -46,6 +46,9 @@ public class AppointmentDateTime {
 
 
     public static void removeMatches(ZoneId timeZone, LocalTime stringToStartTime, LocalTime stringToEndTime) {
+        time.clear();
+        populateTime(timeZone);
+
         ZoneId est = ZoneId.of("America/New_York");
 
         ZoneOffset offset1 = ZonedDateTime.now(est).getOffset();
@@ -70,36 +73,23 @@ public class AppointmentDateTime {
 
             }
         }
-
         time.removeAll(timeToDelete);
-        System.out.println(timeToDelete);
-
-
 
     }
 
     public static void setEndTimes(ZoneId timeZone, LocalTime selectedTime, LocalTime endTimeFound) {
 
-        ZoneId est = ZoneId.of("America/New_York");
-
-        ZoneOffset offset1 = ZonedDateTime.now(est).getOffset();
-        ZoneOffset offset2 = ZonedDateTime.now(timeZone).getOffset();
-        int offsetDiff = offset1.compareTo(offset2);
-
         LocalTime startTime = selectedTime;
         LocalTime endTime = endTimeFound;
 
-
-        LocalTime adjustedEndTime = endTime.plusSeconds(offsetDiff);
-
         startTime = startTime.plusMinutes(15);
 
+        System.out.println(endTimeFound);
 
-
-        while (startTime.isBefore(adjustedEndTime)) {
+        while (startTime.isBefore(endTime) || (startTime.equals(endTime))) {
             endTimeList.add(String.valueOf(startTime));
             startTime = startTime.plusMinutes(15);
-            System.out.println(startTime);
+
         }
         System.out.println(endTimeList);
 
