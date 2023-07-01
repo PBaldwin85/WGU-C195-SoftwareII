@@ -80,7 +80,9 @@ public class AppointmentEditorController implements Initializable {
         customerBox.setItems(Customers.getCustomerNames());
         userBox.setItems(Lists.users);
 
-
+        /** Lamba expression used for setting times when a date is selected.
+         * When a date is selected, I have it load only the available times.
+         */
         selectDate.setOnAction(event-> {
             LocalDate selectedDate = selectDate.getValue();
             DayOfWeek selectedDay = selectedDate.getDayOfWeek();
@@ -146,7 +148,10 @@ public class AppointmentEditorController implements Initializable {
         startTime.setItems(AppointmentDateTime.time);
         endTime.setItems(AppointmentDateTime.time);
 
-        /** Customer selection trigger */
+        /** Lamba expression used for setting times when a customer is selected.
+         * When a customer is selected, the times are filtered for that particular customer.
+         * Without this, the times wouldn't repopulate.
+         */
         customerBox.setOnAction(event -> {
             AppointmentDateTime.populateTime(ZoneId.systemDefault());
             AppointmentDateTime.timeToDelete.clear();
@@ -176,8 +181,10 @@ public class AppointmentEditorController implements Initializable {
 
 
 
-
-
+        /** Lamba expression used for setting the appointment end times.
+         * When a time is selected, the end time selection is populated based on the current time.
+         * This allows for no overlaps in scheduling for the customer as only available times are loaded.
+         */
         startTime.setOnAction(event -> {
             if (startTime.getValue() == null) {
                 return;
@@ -220,7 +227,9 @@ public class AppointmentEditorController implements Initializable {
             }
         });
 
-
+        /** Lamba expression used for setting storing the selected time.
+         * When a time is selcted, the selected end date and time is stored together into one variable.
+         */
         endTime.setOnAction(event -> {
             if (endTime.getValue() == null) {
                 return;
