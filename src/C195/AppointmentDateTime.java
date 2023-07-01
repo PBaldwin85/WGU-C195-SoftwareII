@@ -47,7 +47,6 @@ public class AppointmentDateTime {
 
     public static void removeMatches(ZoneId timeZone, LocalTime stringToStartTime, LocalTime stringToEndTime) {
         time.clear();
-        timeToDelete.clear();
         populateTime(timeZone);
 
         ZoneId est = ZoneId.of("America/New_York");
@@ -95,6 +94,7 @@ public class AppointmentDateTime {
             alert.setTitle("Warning");
             alert.setContentText("There are no more appointments available for the selected day.");
             alert.showAndWait();
+            time.clear();
             return;
         }
 

@@ -75,21 +75,17 @@ public class AppointmentEditorController implements Initializable {
 
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        AppointmentDateTime.time.clear();
         contactsBox.setItems(Contacts.contacts);
 
         customerBox.setItems(Customers.getCustomerNames());
         userBox.setItems(Lists.users);
 
 
-
-        /**
-        AppointmentDateTime.populateTime();
-         */
-
         selectDate.setOnAction(event-> {
             LocalDate selectedDate = selectDate.getValue();
             DayOfWeek selectedDay = selectedDate.getDayOfWeek();
+            AppointmentDateTime.populateTime(ZoneId.systemDefault());
+            AppointmentDateTime.timeToDelete.clear();
 
             if (selectedDay == DayOfWeek.SATURDAY || selectedDay == DayOfWeek.SUNDAY) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -137,14 +133,16 @@ public class AppointmentEditorController implements Initializable {
                     System.out.println("Existing stringToEndTime: " + stringToEndTime);
 
                     AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
+
+
                 }
-                else {
-                    AppointmentDateTime.populateTime(ZoneId.systemDefault());
-                }
+
                 }
 
         });
 
+        AppointmentDateTime.timeToDelete.clear();
+        startTime.setItems(AppointmentDateTime.time);
 
         /** Customer selection trigger */
         customerBox.setOnAction(event -> {
@@ -163,8 +161,7 @@ public class AppointmentEditorController implements Initializable {
 
                     if (selectDate.getValue().isEqual(stringToStartDate) && (customerBox.getValue() == existing.getCustomerId())) {
                         AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
-                    } else {
-                        AppointmentDateTime.populateTime(ZoneId.systemDefault());
+                        startTime.setItems(AppointmentDateTime.time);
                     }
                 }
             }
@@ -175,8 +172,6 @@ public class AppointmentEditorController implements Initializable {
 
 
 
-
-        startTime.setItems(AppointmentDateTime.time);
 
         startTime.setOnAction(event -> {
             if (startTime.getValue() == null) {
