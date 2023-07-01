@@ -75,6 +75,7 @@ public class AppointmentEditorController implements Initializable {
 
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        AppointmentDateTime.time.clear();
         contactsBox.setItems(Contacts.contacts);
 
         customerBox.setItems(Customers.getCustomerNames());
@@ -98,6 +99,14 @@ public class AppointmentEditorController implements Initializable {
                 return;
             }
 
+            if (customerBox.getSelectionModel().getSelectedItem() == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning");
+                alert.setContentText("Please select a customer Id before selecting a date.");
+                alert.showAndWait();
+                return;
+            }
+
             selectEndDate.setValue(selectedDate);
 
             AppointmentDateTime.populateTime(ZoneId.systemDefault());
@@ -112,10 +121,46 @@ public class AppointmentEditorController implements Initializable {
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
                 if (selectDate.getValue().isEqual(stringToStartDate)) {
-                    AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
+                    if (customerBox.getValue() == existing.getCustomerId()) {
+                        AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
+                    }
+                    else {
+                        AppointmentDateTime.populateTime(ZoneId.systemDefault());
+                    }
                 }
             }
         });
+
+
+        /** Customer selection trigger */
+        customerBox.setOnAction(event -> {
+            if (customerBox.getValue() == null) {
+                return;
+            }
+            for (Appointments existing : appointmentList) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
+                LocalDateTime endDate = LocalDateTime.parse(existing.getEndDate(), formatter);
+                LocalDate stringToStartDate = startDate.toLocalDate();
+                LocalTime stringToStartTime = startDate.toLocalTime();
+                LocalDate stringToEndDate = endDate.toLocalDate();
+                LocalTime stringToEndTime = endDate.toLocalTime();
+
+                if ((selectDate.getValue() != null)&& (selectDate.getValue().isEqual(stringToStartDate))) {
+                    if (customerBox.getValue() == existing.getCustomerId()) {
+                        AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
+                    }
+                    else {
+                        AppointmentDateTime.populateTime(ZoneId.systemDefault());
+                    }
+                }
+            }
+        });
+
+
+
+
+
 
         startTime.setItems(AppointmentDateTime.time);
 
