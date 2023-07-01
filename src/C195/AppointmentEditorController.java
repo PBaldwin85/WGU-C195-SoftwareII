@@ -109,7 +109,6 @@ public class AppointmentEditorController implements Initializable {
 
             selectEndDate.setValue(selectedDate);
 
-            AppointmentDateTime.populateTime(ZoneId.systemDefault());
 
             for (Appointments existing : appointmentList) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -120,15 +119,30 @@ public class AppointmentEditorController implements Initializable {
                 LocalDate stringToEndDate = endDate.toLocalDate();
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
-                if (selectDate.getValue().isEqual(stringToStartDate)) {
-                    if (customerBox.getValue() == existing.getCustomerId()) {
-                        AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
-                    }
-                    else {
-                        AppointmentDateTime.populateTime(ZoneId.systemDefault());
-                    }
+                System.out.println("Before if statement:");
+                System.out.println("selectDate: " + selectDate.getValue());
+                System.out.println("stringToStartDate: " + stringToStartDate);
+                System.out.println("Customer box: " + customerBox.getValue());
+                System.out.println("Existing customer Id: " + existing.getCustomerId());
+                System.out.println("Existing stringToStartTime: " + stringToStartTime);
+                System.out.println("Existing stringToEndTime: " + stringToEndTime);
+
+                if (selectDate.getValue().isEqual(stringToStartDate) && (customerBox.getValue().equals(existing.getCustomerId()))) {
+                    System.out.println("After if statement:");
+                    System.out.println("selectDate: " + selectDate.getValue());
+                    System.out.println("stringToStartDate: " + stringToStartDate);
+                    System.out.println("Customer box: " + customerBox.getValue());
+                    System.out.println("Existing customer Id: " + existing.getCustomerId());
+                    System.out.println("Existing stringToStartTime: " + stringToStartTime);
+                    System.out.println("Existing stringToEndTime: " + stringToEndTime);
+
+                    AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
                 }
-            }
+                else {
+                    AppointmentDateTime.populateTime(ZoneId.systemDefault());
+                }
+                }
+
         });
 
 
@@ -137,24 +151,24 @@ public class AppointmentEditorController implements Initializable {
             if (customerBox.getValue() == null) {
                 return;
             }
-            for (Appointments existing : appointmentList) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
-                LocalDateTime endDate = LocalDateTime.parse(existing.getEndDate(), formatter);
-                LocalDate stringToStartDate = startDate.toLocalDate();
-                LocalTime stringToStartTime = startDate.toLocalTime();
-                LocalDate stringToEndDate = endDate.toLocalDate();
-                LocalTime stringToEndTime = endDate.toLocalTime();
+            if (selectDate != null) {
+                for (Appointments existing : appointmentList) {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
+                    LocalDateTime endDate = LocalDateTime.parse(existing.getEndDate(), formatter);
+                    LocalDate stringToStartDate = startDate.toLocalDate();
+                    LocalTime stringToStartTime = startDate.toLocalTime();
+                    LocalDate stringToEndDate = endDate.toLocalDate();
+                    LocalTime stringToEndTime = endDate.toLocalTime();
 
-                if ((selectDate.getValue() != null)&& (selectDate.getValue().isEqual(stringToStartDate))) {
-                    if (customerBox.getValue() == existing.getCustomerId()) {
+                    if (selectDate.getValue().isEqual(stringToStartDate) && (customerBox.getValue() == existing.getCustomerId())) {
                         AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
-                    }
-                    else {
+                    } else {
                         AppointmentDateTime.populateTime(ZoneId.systemDefault());
                     }
                 }
             }
+
         });
 
 

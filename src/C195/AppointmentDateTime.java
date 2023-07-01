@@ -47,6 +47,7 @@ public class AppointmentDateTime {
 
     public static void removeMatches(ZoneId timeZone, LocalTime stringToStartTime, LocalTime stringToEndTime) {
         time.clear();
+        timeToDelete.clear();
         populateTime(timeZone);
 
         ZoneId est = ZoneId.of("America/New_York");
@@ -62,20 +63,31 @@ public class AppointmentDateTime {
         LocalTime adjustedStartTime = startTime.plusSeconds(offsetDiff);
         LocalTime adjustedEndTime = endTime.plusSeconds(offsetDiff);
 
-        System.out.println(stringToEndTime);
 
-        while (adjustedStartTime.isBefore(adjustedEndTime) || (adjustedStartTime.equals(adjustedEndTime))) {
-            if ((adjustedStartTime.isAfter(stringToStartTime) || adjustedStartTime.equals(stringToStartTime)) &&
-                    ((adjustedStartTime.isBefore(stringToEndTime)) || adjustedStartTime.equals(stringToEndTime))) {
-                timeToDelete.add(String.valueOf(adjustedStartTime));
-                adjustedStartTime = adjustedStartTime.plusMinutes(15);
-            } else {
 
-                adjustedStartTime = adjustedStartTime.plusMinutes(15);
+
+        while ((stringToStartTime.isBefore(stringToEndTime)) || (stringToStartTime.equals(stringToEndTime))) {
+            if ((stringToStartTime.isAfter(stringToStartTime) || stringToStartTime.equals(stringToStartTime)) &&
+                    ((stringToStartTime.isBefore(stringToEndTime))))  {
+                timeToDelete.add(String.valueOf(stringToStartTime));
+                stringToStartTime = stringToStartTime.plusMinutes(15);
+                if (stringToStartTime.equals(adjustedEndTime)) {
+                    timeToDelete.add(String.valueOf(stringToStartTime));
+                    stringToStartTime = stringToStartTime.plusMinutes(15);
+                }
+            }
+
+
+
+            else {
+                stringToStartTime = stringToStartTime.plusMinutes(15);
 
             }
         }
+
+        System.out.println(timeToDelete);
         time.removeAll(timeToDelete);
+
 
 
         if (time.isEmpty()) {
