@@ -86,6 +86,7 @@ public class AppointmentEditorController implements Initializable {
             DayOfWeek selectedDay = selectedDate.getDayOfWeek();
             AppointmentDateTime.populateTime(ZoneId.systemDefault());
             AppointmentDateTime.timeToDelete.clear();
+            AppointmentDateTime.endTimeList.clear();
 
             if (selectedDay == DayOfWeek.SATURDAY || selectedDay == DayOfWeek.SUNDAY) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -143,9 +144,13 @@ public class AppointmentEditorController implements Initializable {
 
         AppointmentDateTime.timeToDelete.clear();
         startTime.setItems(AppointmentDateTime.time);
+        endTime.setItems(AppointmentDateTime.time);
 
         /** Customer selection trigger */
         customerBox.setOnAction(event -> {
+            AppointmentDateTime.populateTime(ZoneId.systemDefault());
+            AppointmentDateTime.timeToDelete.clear();
+            AppointmentDateTime.endTimeList.clear();
             if (customerBox.getValue() == null) {
                 return;
             }
