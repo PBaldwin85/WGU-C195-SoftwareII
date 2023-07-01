@@ -182,6 +182,8 @@ public class AppointmentEditorController implements Initializable {
                 LocalDate stringToEndDate = endDate.toLocalDate();
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
+                /** New area. bugs */
+
                 if (selectDate.getValue() != null && (selectDate.getValue().isEqual(stringToStartDate))) {
                     if (stringToStartTime.isAfter(selectedTime)) {
                         appointmentsAfter = true;
