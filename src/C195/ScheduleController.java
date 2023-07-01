@@ -79,6 +79,8 @@ public class ScheduleController implements Initializable {
 
         if (Main.loggedIn == false) {
             Main.loggedIn = true;
+            boolean upcomingAppointments = false;
+
             for (Appointments existing : appointmentList) {
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -89,16 +91,24 @@ public class ScheduleController implements Initializable {
                 LocalTime adjusted = currentTime.plusMinutes(15);
 
                 if (stringToStartTime.isAfter(currentTime) && stringToStartTime.isBefore(adjusted)) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Warning");
+                    upcomingAppointments = true;
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Appontment Information");
+                    alert.setHeaderText("Appontment Information");
                     String appointmentComingUp = "There is an appointment scheduled in the next 15 minutes:\n";
                     appointmentComingUp += "Appointment Id: " + existing.getAppointmentId() + "\n";
                     appointmentComingUp += "Date: " + stringToStartDate + "\n";
                     appointmentComingUp += "Time: " + stringToStartTime + "\n";
                     alert.setContentText(appointmentComingUp);
                     alert.showAndWait();
-                    return;
                 }
+            }
+            if (upcomingAppointments == false) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Appontment Information");
+                alert.setHeaderText("Appontment Information");
+                alert.setContentText("There are no appointments coming up in the next 15 minutes.");
+                alert.showAndWait();
             }
         }
 
