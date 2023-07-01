@@ -21,6 +21,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
@@ -75,6 +76,31 @@ public class ScheduleController implements Initializable {
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("Phone"));
         stateColumn.setCellValueFactory(new PropertyValueFactory<>("State"));
         countryColumn.setCellValueFactory(new PropertyValueFactory<>("Country"));
+
+        if (Main.loggedIn == false) {
+            Main.loggedIn = true;
+            for (Appointments existing : appointmentList) {
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
+                LocalDate stringToStartDate = startDate.toLocalDate();
+                LocalTime stringToStartTime = startDate.toLocalTime();
+                LocalTime currentTime = LocalTime.now();
+                LocalTime adjusted = currentTime.plusMinutes(15);
+
+                if (stringToStartTime.isAfter(currentTime) && stringToStartTime.isBefore(adjusted)) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning");
+                    String appointmentComingUp = "There is an appointment scheduled in the next 15 minutes:\n";
+                    appointmentComingUp += "Appointment Id: " + existing.getAppointmentId() + "\n";
+                    appointmentComingUp += "Date: " + stringToStartDate + "\n";
+                    appointmentComingUp += "Time: " + stringToStartTime + "\n";
+                    alert.setContentText(appointmentComingUp);
+                    alert.showAndWait();
+                    return;
+                }
+            }
+        }
 
     }
 

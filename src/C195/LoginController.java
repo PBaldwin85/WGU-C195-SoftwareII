@@ -33,5 +33,6 @@ public class LoginController {
         ZoneId zoneId = ZoneId.systemDefault();
         String location = zoneId.getId();
         setLocation.setText(location);
+        Main.loggedIn = false;
     }
 }

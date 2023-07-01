@@ -50,6 +50,8 @@ public class Main extends Application {
         stage.show();
     }
 
+    public static boolean loggedIn = false;
+
     private static int appointmentId = 0;
 
     public static int generateAppointmentId() {
