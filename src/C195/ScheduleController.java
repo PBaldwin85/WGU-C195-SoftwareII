@@ -185,6 +185,16 @@ public class ScheduleController implements Initializable {
         stage.show();
     }
 
+    public void reports(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Reports.fxml"));
+        Stage stage = (Stage) mainWindow.getScene().getWindow();
+        stage.close();
+        Parent addPartParent = loader.load();
+        Scene scene = new Scene(addPartParent);
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
     public void DeleteAppointment(ActionEvent actionEvent) {
         Appointments selectedAppointment = (Appointments) appointmentTableView.getSelectionModel().getSelectedItem();
