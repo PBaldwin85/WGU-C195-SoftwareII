@@ -151,10 +151,10 @@ public class AppointmentEditorController implements Initializable {
             AppointmentDateTime.populateTime(ZoneId.systemDefault());
             AppointmentDateTime.timeToDelete.clear();
             AppointmentDateTime.endTimeList.clear();
-            if (customerBox.getValue() == null) {
+            if (selectDate.getValue() == null) {
                 return;
             }
-            if (selectDate != null) {
+            else {
                 for (Appointments existing : appointmentList) {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
@@ -198,7 +198,7 @@ public class AppointmentEditorController implements Initializable {
 
                 /** New area. bugs */
 
-                if (selectDate.getValue() != null && (selectDate.getValue().isEqual(stringToStartDate))) {
+                if (selectDate.getValue().isEqual(stringToStartDate) && (customerBox.getValue() == existing.getCustomerId())) {
                     if (stringToStartTime.isAfter(selectedTime)) {
                         appointmentsAfter = true;
                     }
@@ -219,6 +219,8 @@ public class AppointmentEditorController implements Initializable {
                 endTime.setItems(AppointmentDateTime.endTimeList);
             }
         });
+
+
         endTime.setOnAction(event -> {
             if (endTime.getValue() == null) {
                 return;

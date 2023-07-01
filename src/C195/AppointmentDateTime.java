@@ -84,7 +84,6 @@ public class AppointmentDateTime {
             }
         }
 
-        System.out.println(timeToDelete);
         time.removeAll(timeToDelete);
 
 
@@ -92,7 +91,7 @@ public class AppointmentDateTime {
         if (time.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
-            alert.setContentText("There are no more appointments available for the selected day.");
+            alert.setContentText("There are no more appointments available for the selected customer on the selected day.");
             alert.showAndWait();
             time.clear();
             return;
