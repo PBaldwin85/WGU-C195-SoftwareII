@@ -62,13 +62,21 @@ public class AppointmentEditorController implements Initializable {
     private LocalDateTime endTimeMerge;
 
 
-    /** Holds the part ID value. */
+    /**
+     * Holds the part ID value.
+     */
     public static int appointment;
-    /** Sets the part ID value. */
+
+    /**
+     * Sets the part ID value.
+     */
     public static void AppointmentId(int num) {
         appointment = num;
     }
-    /** Returns the part ID. */
+
+    /**
+     * Returns the part ID.
+     */
     public static int getAppointmentId() {
         return appointment;
     }
@@ -76,14 +84,14 @@ public class AppointmentEditorController implements Initializable {
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         contactsBox.setItems(Contacts.contacts);
-
         customerBox.setItems(Customers.getCustomerNames());
         userBox.setItems(Lists.users);
 
         /** Lamba expression used for setting times when a date is selected.
          * When a date is selected, I have it load only the available times.
          */
-        selectDate.setOnAction(event-> {
+
+        selectDate.setOnAction(event -> {
             LocalDate selectedDate = selectDate.getValue();
             DayOfWeek selectedDay = selectedDate.getDayOfWeek();
             AppointmentDateTime.populateTime(ZoneId.systemDefault());
@@ -98,16 +106,8 @@ public class AppointmentEditorController implements Initializable {
                 return;
             }
 
-            if (customerBox.getSelectionModel().getSelectedItem() == null) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Warning");
-                alert.setContentText("Please select a customer Id before selecting a date.");
-                alert.showAndWait();
-                return;
-            }
 
             selectEndDate.setValue(selectedDate);
-
 
             for (Appointments existing : appointmentList) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -118,30 +118,15 @@ public class AppointmentEditorController implements Initializable {
                 LocalDate stringToEndDate = endDate.toLocalDate();
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
-                System.out.println("Before if statement:");
-                System.out.println("selectDate: " + selectDate.getValue());
-                System.out.println("stringToStartDate: " + stringToStartDate);
-                System.out.println("Customer box: " + customerBox.getValue());
-                System.out.println("Existing customer Id: " + existing.getCustomerId());
-                System.out.println("Existing stringToStartTime: " + stringToStartTime);
-                System.out.println("Existing stringToEndTime: " + stringToEndTime);
-
-                if (selectDate.getValue().isEqual(stringToStartDate) && (customerBox.getValue().equals(existing.getCustomerId()))) {
-                    System.out.println("After if statement:");
-                    System.out.println("selectDate: " + selectDate.getValue());
-                    System.out.println("stringToStartDate: " + stringToStartDate);
-                    System.out.println("Customer box: " + customerBox.getValue());
-                    System.out.println("Existing customer Id: " + existing.getCustomerId());
-                    System.out.println("Existing stringToStartTime: " + stringToStartTime);
-                    System.out.println("Existing stringToEndTime: " + stringToEndTime);
-
-                    AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
-
-
+                try {
+                    if (selectDate.getValue().isEqual(stringToStartDate) && (customerBox.getValue().equals(existing.getCustomerId()))) {
+                        AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
+                    }
                 }
-
+                catch (NullPointerException e) {
+                    return;
                 }
-
+            }
         });
 
         AppointmentDateTime.timeToDelete.clear();
@@ -158,8 +143,7 @@ public class AppointmentEditorController implements Initializable {
             AppointmentDateTime.endTimeList.clear();
             if (selectDate.getValue() == null) {
                 return;
-            }
-            else {
+            } else {
                 for (Appointments existing : appointmentList) {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                     LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
@@ -177,8 +161,6 @@ public class AppointmentEditorController implements Initializable {
             }
 
         });
-
-
 
 
         /** Lamba expression used for setting the appointment end times.
@@ -203,7 +185,6 @@ public class AppointmentEditorController implements Initializable {
                 LocalDate stringToEndDate = endDate.toLocalDate();
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
-                /** New area. bugs */
 
                 if (selectDate.getValue().isEqual(stringToStartDate) && (customerBox.getValue() == existing.getCustomerId())) {
                     if (stringToStartTime.isAfter(selectedTime)) {
@@ -243,32 +224,86 @@ public class AppointmentEditorController implements Initializable {
     }
 
     public void saveButton(ActionEvent actionEvent) throws IOException {
-        Integer appointmentId = Integer.valueOf(AppointmentIdField.getText());
-        String title = titleField.getText();
-        String description = descriptionField.getText();
-        String location = locationField.getText();
-        String contact = String.valueOf(contactsBox.getValue());
-        String type = typeField.getText();
-        Integer customerId = (Integer) customerBox.getValue();
-        Integer userId = (Integer) userBox.getValue();
+        try {
+            Integer appointmentId = Integer.valueOf(AppointmentIdField.getText());
+            String title = titleField.getText();
+            String description = descriptionField.getText();
+            String location = locationField.getText();
+            String contact = String.valueOf(contactsBox.getValue());
+            String type = typeField.getText();
+            Integer customerId = (Integer) customerBox.getValue();
+            Integer userId = (Integer) userBox.getValue();
 
-        String pattern = "yyyy-MM-dd HH:mm:ss";
-        DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
-        String formattedStartDateTime = dateTimeMerge.format(test);
-        String formattedEndDateTime = endTimeMerge.format(test);
 
-        Appointments appointment = new Appointments(appointmentId, title, description, location, contact, type, formattedStartDateTime, formattedEndDateTime, customerId, userId);
 
-        updateAppointment(appointment);
+            if (titleField.getText().isEmpty() || descriptionField.getText().isEmpty() || locationField.getText().isEmpty()
+                    || contactsBox.getSelectionModel().isEmpty() || typeField.getText().isEmpty()
+                    || (customerBox.getValue() == null) || (userBox.getValue() == null) || (selectDate.getValue() == null)
+                    || (startTime.getValue() == null) || (endTime.getValue() == null))
+            {
+                throw new NumberFormatException();
+            }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
-        Stage stage = (Stage) mainWindow.getScene().getWindow();
-        stage.close();
-        Parent addPartParent = loader.load();
-        Scene scene = new Scene(addPartParent);
-        stage.setScene(scene);
-        stage.show();
+            String pattern = "yyyy-MM-dd HH:mm:ss";
+            DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
+            String formattedStartDateTime = dateTimeMerge.format(test);
+            String formattedEndDateTime = endTimeMerge.format(test);
+
+
+            Appointments appointment = new Appointments(appointmentId, title, description, location, contact, type, formattedStartDateTime, formattedEndDateTime, customerId, userId);
+
+            updateAppointment(appointment);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
+            Stage stage = (Stage) mainWindow.getScene().getWindow();
+            stage.close();
+            Parent addPartParent = loader.load();
+            Scene scene = new Scene(addPartParent);
+            stage.setScene(scene);
+            stage.show();
+        }
+    catch(NumberFormatException | IOException e) {
+
+        String invalidFields = "The following fields have errors:\n";
+        if (titleField.getText().isEmpty()) {
+            invalidFields += "Title is empty\n";
+        }
+        if (descriptionField.getText().isEmpty()) {
+            invalidFields += "Description is empty\n";
+        }
+        if (locationField.getText().isEmpty()) {
+            invalidFields += "Location is empty\n";
+        }
+        if (contactsBox.getSelectionModel().isEmpty()) {
+            invalidFields += "Contact is empty\n";
+        }
+        if (typeField.getText().isEmpty()) {
+            invalidFields += "Type is empty\n";
+        }
+
+        if (customerBox.getValue() == null) {
+            invalidFields += "Customer ID is empty\n";
+        }
+        if (userBox.getValue() == null) {
+            invalidFields += "User ID is empty\n";
+        }
+        if (selectDate.getValue() == null) {
+            invalidFields += "Start date is empty\n";
+        }
+        if (startTime.getValue() == null) {
+            invalidFields += "Start time is empty\n";
+        }
+        if (endTime.getValue() == null) {
+            invalidFields += "End time is empty\n";
+        }
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setContentText(invalidFields);
+        alert.showAndWait();
     }
+
+}
 
     public void cancelButton(ActionEvent actionEvent) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will cancel all changes. Would you like to continue?");
@@ -277,6 +312,7 @@ public class AppointmentEditorController implements Initializable {
         alert.getButtonTypes().setAll(yesButton, noButton);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == yesButton) {
+            AppointmentDateTime.time.clear();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
             Stage stage = (Stage) mainWindow.getScene().getWindow();
             stage.close();

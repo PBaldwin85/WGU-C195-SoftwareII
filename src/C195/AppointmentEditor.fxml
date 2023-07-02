@@ -27,18 +27,18 @@
       <ComboBox fx:id="contactsBox" layoutX="141.0" layoutY="192.0" prefWidth="150.0" />
       <AnchorPane layoutX="308.0" layoutY="54.0" prefHeight="124.0" prefWidth="257.0" style="-fx-border-color: black; -fx-border-radius: 10;">
          <children>
-            <DatePicker fx:id="selectDate" layoutX="88.0" layoutY="26.0" onAction="#getDate" />
-            <ComboBox fx:id="startTime" layoutX="88.0" layoutY="75.0" prefWidth="150.0" />
-              <Label layoutX="27.0" layoutY="30.0" text="Start Date" />
-            <Label layoutX="27.0" layoutY="79.0" prefWidth="120.0" text="Start Times" />
+            <DatePicker fx:id="selectDate" layoutX="76.0" layoutY="25.0" onAction="#getDate" />
+            <ComboBox fx:id="startTime" layoutX="76.0" layoutY="74.0" prefWidth="150.0" />
+              <Label layoutX="15.0" layoutY="29.0" text="Start Date" />
+            <Label layoutX="15.0" layoutY="78.0" prefWidth="120.0" text="Start Time" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="304.0" layoutY="215.0" prefHeight="124.0" prefWidth="257.0" style="-fx-border-color: black; -fx-border-radius: 10;">
          <children>
-            <DatePicker fx:id="selectEndDate" disable="true" editable="false" layoutX="88.0" layoutY="26.0" onAction="#getDate" />
-            <ComboBox fx:id="endTime" layoutX="88.0" layoutY="75.0" prefWidth="150.0" />
-            <Label layoutX="27.0" layoutY="30.0" text="End Date" />
-            <Label layoutX="27.0" layoutY="79.0" text="End Time" />
+            <DatePicker fx:id="selectEndDate" disable="true" editable="false" layoutX="76.0" layoutY="25.0" onAction="#getDate" />
+            <ComboBox fx:id="endTime" layoutX="76.0" layoutY="74.0" prefWidth="150.0" />
+            <Label layoutX="15.0" layoutY="29.0" text="End Date" />
+            <Label layoutX="15.0" layoutY="78.0" text="End Time" />
          </children>
       </AnchorPane>
       <ComboBox fx:id="customerBox" layoutX="141.0" layoutY="264.0" prefWidth="150.0" />
