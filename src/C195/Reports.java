@@ -3,15 +3,23 @@ package C195;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,6 +32,7 @@ import static C195.Lists.appointmentList;
 
 
 public class Reports implements Initializable {
+    public AnchorPane mainWindow;
 
     @FXML
     private TableView contactsTableView;
@@ -48,11 +57,10 @@ public class Reports implements Initializable {
     public TableColumn startColumn;
     public TableColumn endColumn;
     public TableColumn customerIdColumn;
-
-
-
-
-
+    @FXML
+    private Button back;
+    @FXML
+    private Button logout;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Type.populateTypes();
@@ -69,7 +77,6 @@ public class Reports implements Initializable {
                     count += 1;
                 }
             }
-            System.out.println("Number of selected type: " + count);
             typeOutput.setText("Number of appointments: " + count);
 
         });
@@ -96,8 +103,6 @@ public class Reports implements Initializable {
             FilteredAppointments.filteredAppointmentList.clear();
             for (Appointments existing : appointmentList) {
                 if (contactsBox.getValue().equals(existing.getContact())) {
-                    System.out.println(existing.getAppointmentId());
-                    System.out.println(existing.getTitle());
 
                     Integer id = existing.getAppointmentId();
                     String title = existing.getTitle();
@@ -110,7 +115,6 @@ public class Reports implements Initializable {
                     FilteredAppointments filteredAppointments = new FilteredAppointments(id, title, type, description, startDate, endDate, customerId);
                     FilteredAppointments.filteredAppointmentList.add(filteredAppointments);
 
-                    System.out.println(FilteredAppointments.filteredAppointmentList);
 
                     contactsTableView.setItems(FilteredAppointments.getAppointments());
                     appointmentId.setCellValueFactory(new PropertyValueFactory<>("AppointmentId"));
@@ -127,10 +131,26 @@ public class Reports implements Initializable {
             }
 
         });
+    }
 
+    public void back(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
+        Stage stage = (Stage) mainWindow.getScene().getWindow();
+        stage.close();
+        Parent addPartParent = loader.load();
+        Scene scene = new Scene(addPartParent);
+        stage.setScene(scene);
+        stage.show();
+    }
 
-
-
+    public void logout(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+        Stage stage = (Stage) mainWindow.getScene().getWindow();
+        stage.close();
+        Parent addPartParent = loader.load();
+        Scene scene = new Scene(addPartParent);
+        stage.setScene(scene);
+        stage.show();
     }
 
 

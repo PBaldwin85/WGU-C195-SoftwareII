@@ -7,10 +7,10 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="533.0" prefWidth="725.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="C195.Reports">
+<AnchorPane fx:id="mainWindow" prefHeight="533.0" prefWidth="725.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="C195.Reports">
    <children>
-      <Button layoutX="620.0" layoutY="494.0" mnemonicParsing="false" text="Logout" />
-      <Button layoutX="552.0" layoutY="494.0" mnemonicParsing="false" text="Exit" />
+      <Button fx:id="logout" layoutX="620.0" layoutY="494.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+      <Button fx:id="back" layoutX="539.0" layoutY="494.0" mnemonicParsing="false" onAction="#back" text="Back" />
       <AnchorPane layoutX="9.0" layoutY="160.0" prefHeight="322.0" prefWidth="701.0" style="-fx-border-color: black; -fx-border-radius: 10;">
          <children>
             <TableView fx:id="contactsTableView" layoutX="6.0" layoutY="79.0" prefHeight="235.0" prefWidth="688.0">
