@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -30,14 +31,22 @@ public class LoginController {
     public Label setLocation;
     public TextField username;
     public TextField password;
+    public Label usernameLabel;
+    public Label passwordLabel;
+    public Button login;
+    public Button exit;
+    public Label locationLabel;
 
 
     public void login() throws IOException {
-        /**
-        Locale locale = new Locale("fr");
-         */
 
+         Locale locale = new Locale("fr");
+         ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", locale);
+
+
+        /**
         ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", Locale.getDefault());
+         */
 
 
 
@@ -87,11 +96,22 @@ public class LoginController {
         Platform.exit();    }
 
     public void initialize() {
+        Locale locale = new Locale("fr");
+        ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", locale);
+
         ZoneId zoneId = ZoneId.systemDefault();
         String location = zoneId.getId();
         setLocation.setText(location);
         Main.loggedIn = false;
         Users.getUsers();
+
+        if (Locale.getDefault().equals("fr")) {
+            usernameLabel.setText("Nom d'utilisateur");
+            passwordLabel.setText("Mot de passe");
+            locationLabel.setText("Emplacement");
+            login.setText("Connexion");
+            exit.setText("Se déconnecter");
+        }
 
 
     }
