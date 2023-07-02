@@ -90,6 +90,7 @@ public class AppointmentEditorController implements Initializable {
         /** Lamba expression used for setting times when a date is selected.
          * When a date is selected, I have it load only the available times.
          */
+        selectDate.setOnAction(null);
 
         selectDate.setOnAction(event -> {
             LocalDate selectedDate = selectDate.getValue();
@@ -105,7 +106,6 @@ public class AppointmentEditorController implements Initializable {
                 alert.showAndWait();
                 return;
             }
-
 
             selectEndDate.setValue(selectedDate);
 
@@ -206,6 +206,7 @@ public class AppointmentEditorController implements Initializable {
                 AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, LocalTime.parse("22:00:01"), needOffset);
                 endTime.setItems(AppointmentDateTime.endTimeList);
             }
+
         });
 
         /** Lamba expression used for setting storing the selected time.
@@ -244,10 +245,16 @@ public class AppointmentEditorController implements Initializable {
                 throw new NumberFormatException();
             }
 
+            if (selectDate.getValue().getDayOfWeek() == DayOfWeek.SATURDAY || selectDate.getValue().getDayOfWeek() == DayOfWeek.SUNDAY) {
+                throw new IOException();
+            }
+
             String pattern = "yyyy-MM-dd HH:mm:ss";
             DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
             String formattedStartDateTime = dateTimeMerge.format(test);
             String formattedEndDateTime = endTimeMerge.format(test);
+
+
 
 
             Appointments appointment = new Appointments(appointmentId, title, description, location, contact, type, formattedStartDateTime, formattedEndDateTime, customerId, userId);
@@ -296,6 +303,12 @@ public class AppointmentEditorController implements Initializable {
         if (endTime.getValue() == null) {
             invalidFields += "End time is empty\n";
         }
+        if (selectDate.getValue() != null) {
+            if (selectDate.getValue().getDayOfWeek() == DayOfWeek.SATURDAY || selectDate.getValue().getDayOfWeek() == DayOfWeek.SUNDAY) {
+                invalidFields += "Please select a weekday";
+            }
+        }
+
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
