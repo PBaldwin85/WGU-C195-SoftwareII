@@ -24,6 +24,9 @@ import java.util.ResourceBundle;
 import static C195.Lists.appointmentList;
 import static C195.Lists.customerList;
 
+/** AppointmentEditorController class.
+ * Used for adding and editing appointments.
+ */
 public class AppointmentEditorController implements Initializable {
     public AnchorPane mainWindow;
     public TextField AppointmentIdField;
@@ -31,20 +34,11 @@ public class AppointmentEditorController implements Initializable {
     public TextField descriptionField;
     public TextField locationField;
     public TextField typeField;
-    public TextField startDateField;
-    public TextField EndDateField;
-    public TextField CustomerIdField;
-    public TextField userField;
     public ComboBox contactsBox;
-
-    private ComboBox startDay;
-    private ComboBox startMonth;
-    private ComboBox startYear;
     @FXML
     private ComboBox startTime;
     @FXML
     private ComboBox endTime;
-
     @FXML
     private ComboBox userBox;
     @FXML
@@ -56,32 +50,28 @@ public class AppointmentEditorController implements Initializable {
     private DatePicker selectDate;
     @FXML
     private DatePicker selectEndDate;
-    private Label myLabel;
 
     private LocalDateTime dateTimeMerge;
     private LocalDateTime endTimeMerge;
 
 
-    /**
-     * Holds the part ID value.
-     */
+    /** Holds the appointment ID value. */
     public static int appointment;
 
-    /**
-     * Sets the part ID value.
-     */
+    /** Sets the appointment ID value. */
     public static void AppointmentId(int num) {
         appointment = num;
     }
 
-    /**
-     * Returns the part ID.
-     */
+    /** Returns the appoitment ID. */
     public static int getAppointmentId() {
         return appointment;
     }
 
-
+    /** Initializes all the information upon loading.
+     * Sets all the ComboBoxes and textfields if an appointment is being modified.
+     * Also holds all the Lambda on action expressions.
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         contactsBox.setItems(Contacts.contacts);
         customerBox.setItems(Customers.getCustomerNames());
@@ -90,8 +80,6 @@ public class AppointmentEditorController implements Initializable {
         /** Lamba expression used for setting times when a date is selected.
          * When a date is selected, I have it load only the available times.
          */
-        selectDate.setOnAction(null);
-
         selectDate.setOnAction(event -> {
             LocalDate selectedDate = selectDate.getValue();
             DayOfWeek selectedDay = selectedDate.getDayOfWeek();
@@ -185,7 +173,6 @@ public class AppointmentEditorController implements Initializable {
                 LocalDate stringToEndDate = endDate.toLocalDate();
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
-
                 if (selectDate.getValue().isEqual(stringToStartDate) && (customerBox.getValue() == existing.getCustomerId())) {
                     if (stringToStartTime.isAfter(selectedTime)) {
                         appointmentsAfter = true;
@@ -196,7 +183,6 @@ public class AppointmentEditorController implements Initializable {
                         boolean needOffset = false;
                         AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, test, needOffset);
                         endTime.setItems(AppointmentDateTime.endTimeList);
-
                     }
                 }
             }
@@ -209,8 +195,8 @@ public class AppointmentEditorController implements Initializable {
 
         });
 
-        /** Lamba expression used for setting storing the selected time.
-         * When a time is selcted, the selected end date and time is stored together into one variable.
+        /** Lamba on action expression used for storing the selected time.
+         * When a time is selcted, the selected end date and time is stored.
          */
         endTime.setOnAction(event -> {
             if (endTime.getValue() == null) {
@@ -224,6 +210,9 @@ public class AppointmentEditorController implements Initializable {
 
     }
 
+    /** Saves all the entered information.
+     * If there is information missing before the save, errors are thrown and caught,
+     * letting the user know what they're missing. */
     public void saveButton(ActionEvent actionEvent) throws IOException {
         try {
             Integer appointmentId = Integer.valueOf(AppointmentIdField.getText());
@@ -234,8 +223,6 @@ public class AppointmentEditorController implements Initializable {
             String type = typeField.getText();
             Integer customerId = (Integer) customerBox.getValue();
             Integer userId = (Integer) userBox.getValue();
-
-
 
             if (titleField.getText().isEmpty() || descriptionField.getText().isEmpty() || locationField.getText().isEmpty()
                     || contactsBox.getSelectionModel().isEmpty() || typeField.getText().isEmpty()
@@ -254,13 +241,8 @@ public class AppointmentEditorController implements Initializable {
             String formattedStartDateTime = dateTimeMerge.format(test);
             String formattedEndDateTime = endTimeMerge.format(test);
 
-
-
-
             Appointments appointment = new Appointments(appointmentId, title, description, location, contact, type, formattedStartDateTime, formattedEndDateTime, customerId, userId);
-
             updateAppointment(appointment);
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
             Stage stage = (Stage) mainWindow.getScene().getWindow();
             stage.close();
@@ -270,7 +252,6 @@ public class AppointmentEditorController implements Initializable {
             stage.show();
         }
     catch(NumberFormatException | IOException e) {
-
         String invalidFields = "The following fields have errors:\n";
         if (titleField.getText().isEmpty()) {
             invalidFields += "Title is empty\n";
@@ -287,7 +268,6 @@ public class AppointmentEditorController implements Initializable {
         if (typeField.getText().isEmpty()) {
             invalidFields += "Type is empty\n";
         }
-
         if (customerBox.getValue() == null) {
             invalidFields += "Customer ID is empty\n";
         }
@@ -308,8 +288,6 @@ public class AppointmentEditorController implements Initializable {
                 invalidFields += "Please select a weekday";
             }
         }
-
-
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setContentText(invalidFields);
@@ -318,6 +296,8 @@ public class AppointmentEditorController implements Initializable {
 
 }
 
+    /** Cancels the changes when the Cancel button is pressed and the user presses Yes to confirm.
+     * If the user presses no, the action is cancelled. */
     public void cancelButton(ActionEvent actionEvent) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will cancel all changes. Would you like to continue?");
         ButtonType yesButton = new ButtonType("Yes");
@@ -337,6 +317,10 @@ public class AppointmentEditorController implements Initializable {
 
     }
 
+    /** Adds or updates an existing appointment based on the appointment Id.
+     * If the appointment Id isn't found, it stores it as a new appointment.
+     * @param appointments Used for storing all the appointment information.
+     */
     public void updateAppointment(Appointments appointments) {
         boolean found = false;
         for (Appointments existing : appointmentList) {
@@ -358,10 +342,12 @@ public class AppointmentEditorController implements Initializable {
         }
     }
 
+    /** Sets the Appointment Id as visible when a new appointment is selected. */
     public void setData(Integer id) {
         AppointmentIdField.setText(String.valueOf(id));
     }
 
+    /** Sets all the information in the appointment editor when the modify appointment is selected from the Schedule. */
     public void setData(Integer appointmentId, String title, String description, String location, String contact, String type, String startDate, String endDate, Integer customerId, Integer userId) {
         AppointmentIdField.setText(String.valueOf(appointmentId));
         titleField.setText(String.valueOf(title));
@@ -390,9 +376,8 @@ public class AppointmentEditorController implements Initializable {
         endTime.setValue(stringToEndTime);
 
     }
-
+    /** Gets the date */
     public void getDate(ActionEvent actionEvent) {
         LocalDate myDate = selectDate.getValue();
-        System.out.println(myDate.toString());
     }
 }
