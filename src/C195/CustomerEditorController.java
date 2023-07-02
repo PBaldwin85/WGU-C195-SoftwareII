@@ -130,11 +130,11 @@ public class CustomerEditorController implements Initializable {
                 if (zipField.getText().isEmpty()) {
                     invalidFields += "Postal code is empty\n";
                 }
-                if (stateBox.getSelectionModel().isEmpty()) {
-                    invalidFields += "State is empty\n";
-                }
                 if (countryBox.getSelectionModel().isEmpty()) {
                     invalidFields += "Country is empty\n";
+                }
+                if (stateBox.getSelectionModel().isEmpty()) {
+                    invalidFields += "State is empty\n";
                 }
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
