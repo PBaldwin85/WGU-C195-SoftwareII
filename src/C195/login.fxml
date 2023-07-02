@@ -13,7 +13,7 @@
       <Button fx:id="login" layoutX="272.0" layoutY="212.0" mnemonicParsing="false" onAction="#login" text="Login" />
       <Label fx:id="usernameLabel" layoutX="120.0" layoutY="140.0" text="Username" />
       <Label fx:id="passwordLabel" layoutX="122.0" layoutY="181.0" text="Password" />
-      <Label fx:id="locationLabel" layoutX="397.0" layoutY="333.0" text="Location:" />
+      <Label fx:id="locationLabel" layoutX="369.0" layoutY="333.0" text="Location:" />
       <Label fx:id="setLocation" layoutX="464.0" layoutY="333.0" text="Label" />
    </children>
 </AnchorPane>

@@ -39,14 +39,15 @@ public class LoginController {
 
 
     public void login() throws IOException {
-
+        /**
          Locale locale = new Locale("fr");
          ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", locale);
-
-
-        /**
-        ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", Locale.getDefault());
          */
+
+
+
+        ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", Locale.getDefault());
+
 
 
 
@@ -96,8 +97,7 @@ public class LoginController {
         Platform.exit();    }
 
     public void initialize() {
-        Locale locale = new Locale("fr");
-        ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", locale);
+
 
         ZoneId zoneId = ZoneId.systemDefault();
         String location = zoneId.getId();
@@ -105,13 +105,15 @@ public class LoginController {
         Main.loggedIn = false;
         Users.getUsers();
 
-        if (Locale.getDefault().equals("fr")) {
-            usernameLabel.setText("Nom d'utilisateur");
-            passwordLabel.setText("Mot de passe");
-            locationLabel.setText("Emplacement");
-            login.setText("Connexion");
-            exit.setText("Se déconnecter");
-        }
+        ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", Locale.getDefault());
+
+
+        usernameLabel.setText(rb.getString("Username"));
+        passwordLabel.setText(rb.getString("Password"));
+        locationLabel.setText(rb.getString("Location"));
+        login.setText(rb.getString("Login"));
+        exit.setText(rb.getString("Exit"));
+
 
 
     }
