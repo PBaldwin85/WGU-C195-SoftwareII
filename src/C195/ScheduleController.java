@@ -147,6 +147,14 @@ public class ScheduleController implements Initializable {
 
     public void UpdateAppointment(ActionEvent actionEvent) {
         Appointments selectedAppointment = (Appointments) appointmentTableView.getSelectionModel().getSelectedItem();
+        if (selectedAppointment == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Warning");
+            alert.setContentText("Please select an appointment to update.");
+            alert.showAndWait();
+        }
+
         if (selectedAppointment != null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AppointmentEditor.fxml"));
             Stage stage = (Stage) mainWindow.getScene().getWindow();
@@ -199,6 +207,7 @@ public class ScheduleController implements Initializable {
 
     public void DeleteAppointment(ActionEvent actionEvent) {
         Appointments selectedAppointment = (Appointments) appointmentTableView.getSelectionModel().getSelectedItem();
+
         if (selectedAppointment != null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
@@ -220,10 +229,11 @@ public class ScheduleController implements Initializable {
                 alert.showAndWait();
 
             }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText("Please select an appointment to delete!");
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setContentText("Please select an appointment to delete.");
             alert.showAndWait();
         }
     }
@@ -231,6 +241,7 @@ public class ScheduleController implements Initializable {
 
     public void DeleteCustomer(ActionEvent actionEvent) {
         Customers selectedCustomer = (Customers) customerTableView.getSelectionModel().getSelectedItem();
+        if (selectedCustomer != null) {
         ObservableList<Appointments> appointmentList = Appointments.getAppointments();
         for (Appointments appointments : appointmentList) {
             if (appointments.getCustomerId() == selectedCustomer.getCustomerId()) {
@@ -243,7 +254,6 @@ public class ScheduleController implements Initializable {
                 return;
             }
         }
-        if (selectedCustomer != null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
             alert.setContentText("Would you like to delete the selected customer?");
@@ -260,10 +270,11 @@ public class ScheduleController implements Initializable {
                 alert.getButtonTypes().setAll(okButton);
                 alert.showAndWait();
             }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText("Please select a customer to delete!");
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setContentText("Please select a customer to delete.");
             alert.showAndWait();
         }
     }
@@ -271,6 +282,15 @@ public class ScheduleController implements Initializable {
 
     public void UpdateCustomer(ActionEvent actionEvent) {
         Customers selectedCustomer = (Customers) customerTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedCustomer == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("Warning");
+            alert.setContentText("Please select a customer to update.");
+            alert.showAndWait();
+        }
+
         if (selectedCustomer != null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerEditor.fxml"));
             Stage stage = (Stage) mainWindow.getScene().getWindow();
