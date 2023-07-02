@@ -105,6 +105,7 @@ public class Reports implements Initializable {
 
         contactsBox.setOnAction(event-> {
             FilteredAppointments.filteredAppointmentList.clear();
+
             for (Appointments existing : appointmentList) {
                 if (contactsBox.getValue().equals(existing.getContact())) {
 
@@ -117,18 +118,10 @@ public class Reports implements Initializable {
                     Integer customerId = existing.getCustomerId();
 
                     FilteredAppointments filteredAppointments = new FilteredAppointments(id, title, type, description, startDate, endDate, customerId);
-
-                    if (!FilteredAppointments.filteredAppointmentList.contains(filteredAppointments)) {
-                        System.out.println("Filtered appointment: " + filteredAppointments);
-                        System.out.println("Filtered appointment list: " + FilteredAppointments.filteredAppointmentList);
-                        FilteredAppointments.filteredAppointmentList.add(filteredAppointments);
-                    }
-
-
-
-
+                    FilteredAppointments.addAppointment(filteredAppointments);
                 }
             }
+
             contactsTableView.setItems(FilteredAppointments.getAppointments());
             appointmentId.setCellValueFactory(new PropertyValueFactory<>("AppointmentId"));
             appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
@@ -139,8 +132,6 @@ public class Reports implements Initializable {
             customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerId"));
 
         });
-
-
 
         countryBox.setOnAction(event -> {
             int count = 0;

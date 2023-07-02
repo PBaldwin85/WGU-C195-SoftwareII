@@ -5,46 +5,45 @@ import javafx.collections.ObservableList;
 
 public class FilteredAppointments {
 
-    private static Integer appointmentId;
-    private static String title;
-    private static String type;
-    private static String description;
-    private static String startDate;
-    private static String endDate;
-    private static Integer customerId;
+    private Integer appointmentId;
+    private String title;
+    private String type;
+    private String description;
+    private String startDate;
+    private String endDate;
+    private Integer customerId;
 
 
     public static ObservableList<FilteredAppointments> filteredAppointmentList = FXCollections.observableArrayList();
 
 
-    public static Integer getAppointmentId() {
+    public Integer getAppointmentId() {
         return appointmentId;
     }
 
-    public static String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public static String getType() {
+    public String getType() {
         return type;
     }
 
-    public static String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public static String getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public static String getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public static Integer getCustomerId() {
+    public Integer getCustomerId() {
         return customerId;
     }
-
 
 
     public FilteredAppointments(Integer id, String title, String type, String description, String startDate, String endDate, Integer customerId) {
@@ -59,5 +58,10 @@ public class FilteredAppointments {
 
     public static ObservableList getAppointments() {
         return filteredAppointmentList;
+    }
+
+
+    public static void addAppointment(FilteredAppointments appointment) {
+        filteredAppointmentList.add(appointment);
     }
 }
