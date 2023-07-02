@@ -8,21 +8,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/** Country class used for storing the Countries from the database. */
 public class Country {
+    /** Country name */
     private static Country name;
 
+    /** Observable list that the countries are stored in */
     public static ObservableList<String> countries = FXCollections.observableArrayList();
 
+    /** Stores the Country name */
     public Country(Country country) {
         this.name = country;
     }
-
+    /** Gets the Country name. */
     public static Country getName(Integer contactId) {
         return name;
     }
-
-
-
+    /** Populates the countries from the database.
+     * Called from main to populate countries at startup.
+     */
     public static void populateCountries() {
         try {
             String query = "SELECT Country FROM client_schedule.countries";
@@ -38,7 +42,7 @@ public class Country {
         }
     }
 
-
+    /** Gets the Country name from the Country Id that's stored in the database. */
     public static Object getCountry(Integer passedId) throws SQLException {
         try {
             String query = "SELECT * FROM client_schedule.countries";
