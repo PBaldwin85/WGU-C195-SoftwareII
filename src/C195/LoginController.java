@@ -33,13 +33,11 @@ public class LoginController {
 
 
     public void login() throws IOException {
+        /**
         Locale locale = new Locale("fr");
+         */
 
-        ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", locale);
-
-
-
-
+        ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", Locale.getDefault());
 
 
 
@@ -49,15 +47,16 @@ public class LoginController {
             }
         }
         catch (NumberFormatException e) {
-            String invalidFields = "The following fields have errors:\n";
+            String invalidFields = rb.getString("fieldErrors");
             if (username.getText().isEmpty()) {
-                invalidFields += "Username is empty\n";
+                invalidFields += rb.getString("userNameEmpty");
             }
             if (password.getText().isEmpty()) {
-                invalidFields += "Password is empty\n";
+                invalidFields += rb.getString("passwordEmpty");
             }
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
+            alert.setHeaderText(rb.getString("Error"));
+            alert.setTitle(rb.getString("Error"));
             alert.setContentText(invalidFields);
             alert.showAndWait();
             return;
@@ -75,8 +74,9 @@ public class LoginController {
             }
             else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setContentText("Incorrect username or password");
+                alert.setTitle(rb.getString("Error"));
+                alert.setHeaderText(rb.getString("Error"));
+                alert.setContentText(rb.getString("incorrectLogin"));
                 alert.showAndWait();
                 return;
             }
