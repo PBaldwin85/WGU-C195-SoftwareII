@@ -4,7 +4,6 @@ import helper.JDBC;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.time.LocalDateTime;
 
 public class Appointments extends Lists {
 
