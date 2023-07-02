@@ -28,30 +28,46 @@ import static C195.Lists.customerList;
  * Used for adding and editing appointments.
  */
 public class AppointmentEditorController implements Initializable {
+    /** Anchorpane for the window */
     public AnchorPane mainWindow;
+    /** AppointmentId textfield. */
     public TextField AppointmentIdField;
+    /** Title textfield. */
     public TextField titleField;
+    /** Description textfield. */
     public TextField descriptionField;
+    /** Location textfield. */
     public TextField locationField;
+    /** Type textfield. */
     public TextField typeField;
+    /** Contacts combobox. */
     public ComboBox contactsBox;
+    /** Start time combobox. */
     @FXML
     private ComboBox startTime;
+    /** End Time combobox. */
     @FXML
     private ComboBox endTime;
+    /** User Id combobox. */
     @FXML
     private ComboBox userBox;
+    /** Customer Id combobox. */
     @FXML
     private ComboBox customerBox;
 
+    /** Saves the Appointment Id. */
     Integer savedId;
 
+    /** Start date datepicker. */
     @FXML
     private DatePicker selectDate;
+    /** End date datepicker. */
     @FXML
     private DatePicker selectEndDate;
 
+    /** Stores the full start date and time after selecting a date and time. */
     private LocalDateTime dateTimeMerge;
+    /** Stores the full end date and time after selecting a date and time. */
     private LocalDateTime endTimeMerge;
 
 
