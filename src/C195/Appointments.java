@@ -5,6 +5,9 @@ import helper.JDBC;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+/** Appointments class.
+ * Used for storing all appointments.
+ */
 public class Appointments extends Lists {
 
     private Integer appointmentId;
