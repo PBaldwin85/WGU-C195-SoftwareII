@@ -29,6 +29,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import static C195.Lists.appointmentList;
+import static C195.Lists.customerList;
 
 
 public class Reports implements Initializable {
@@ -36,14 +37,16 @@ public class Reports implements Initializable {
 
     @FXML
     private TableView contactsTableView;
-
+    @FXML
+    private ComboBox countryBox;
     @FXML
     private ComboBox contactsBox;
     @FXML
     private ComboBox monthBox;
     @FXML
     private ComboBox typeBox;
-
+    @FXML
+    public Label countryOutput;
     @FXML
     public Label typeOutput;
 
@@ -65,6 +68,7 @@ public class Reports implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Type.populateTypes();
         Months.populateMonths();
+        countryBox.setItems(Country.countries);
         typeBox.setItems(Type.typeList);
         monthBox.setItems(Months.monthList);
         contactsBox.setItems(Contacts.contacts);
@@ -130,6 +134,16 @@ public class Reports implements Initializable {
                 }
             }
 
+        });
+
+        countryBox.setOnAction(event -> {
+            int count = 0;
+            for (Customers existing : customerList) {
+                if (countryBox.getValue().equals(existing.getCountry())) {
+                    count += 1;
+                }
+            }
+            countryOutput.setText("Number of customers: " + count);
         });
     }
 

@@ -34,5 +34,8 @@
       <Label layoutX="21.0" layoutY="75.0" text="Appointments by type" />
       <Label fx:id="typeOutput" layoutX="368.0" layoutY="71.0" text="" />
       <Label fx:id="monthOutput" layoutX="368.0" layoutY="115.0" />
+      <ComboBox fx:id="countryBox" layoutX="174.0" layoutY="31.0" prefWidth="150.0" />
+      <Label layoutX="22.0" layoutY="35.0" text="Customers per Country" />
+      <Label fx:id="countryOutput" layoutX="354.0" layoutY="35.0" />
    </children>
 </AnchorPane>
