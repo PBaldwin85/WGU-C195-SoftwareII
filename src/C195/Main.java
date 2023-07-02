@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class Main extends Application {
 
@@ -27,6 +29,10 @@ public class Main extends Application {
         Customers.populateCustomers();
         Appointments.populateAppointments();
         Contacts.populateNames();
+
+
+
+
 
         /**
         Appointments appointment = new Appointments(3, "t", "test", "test", "Test",

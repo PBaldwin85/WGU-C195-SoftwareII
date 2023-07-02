@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.ZoneId;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import static C195.Users.userList;
 
@@ -31,13 +33,22 @@ public class LoginController {
 
 
     public void login() throws IOException {
+        Locale locale = new Locale("fr");
+
+        ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", locale);
+
+
+
+
+
+
+
         try {
             if (username.getText().isEmpty() || password.getText().isEmpty()) {
                 throw new NumberFormatException();
             }
         }
         catch (NumberFormatException e) {
-
             String invalidFields = "The following fields have errors:\n";
             if (username.getText().isEmpty()) {
                 invalidFields += "Username is empty\n";
