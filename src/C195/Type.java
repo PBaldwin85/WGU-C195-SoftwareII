@@ -17,7 +17,6 @@ public class Type {
     }
 
     public static void populateTypes() {
-        typeList.clear();
         for (Appointments existing : appointmentList) {
                 if (!typeList.contains(existing.getType())) {
                     typeList.add(existing.getType());

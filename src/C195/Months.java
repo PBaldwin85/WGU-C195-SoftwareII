@@ -17,7 +17,9 @@ public class Months {
     }
 
     public static void populateMonths() {
-        monthList.clear();
+        if (monthList.contains("January")) {
+            return;
+        }
         monthList.add("January");
         monthList.add("February");
         monthList.add("March");

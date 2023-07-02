@@ -89,8 +89,9 @@ public class ScheduleController implements Initializable {
                 LocalTime stringToStartTime = startDate.toLocalTime();
                 LocalTime currentTime = LocalTime.now();
                 LocalTime adjusted = currentTime.plusMinutes(15);
+                LocalDate currentDate = LocalDate.now();
 
-                if (stringToStartTime.isAfter(currentTime) && stringToStartTime.isBefore(adjusted)) {
+                if (stringToStartTime.isAfter(currentTime) && stringToStartTime.isBefore(adjusted) && (stringToStartTime.equals(currentDate))) {
                     upcomingAppointments = true;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Appontment Information");

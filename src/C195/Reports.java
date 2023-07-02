@@ -117,24 +117,30 @@ public class Reports implements Initializable {
                     Integer customerId = existing.getCustomerId();
 
                     FilteredAppointments filteredAppointments = new FilteredAppointments(id, title, type, description, startDate, endDate, customerId);
-                    FilteredAppointments.filteredAppointmentList.add(filteredAppointments);
 
+                    if (!FilteredAppointments.filteredAppointmentList.contains(filteredAppointments)) {
+                        System.out.println("Filtered appointment: " + filteredAppointments);
+                        System.out.println("Filtered appointment list: " + FilteredAppointments.filteredAppointmentList);
+                        FilteredAppointments.filteredAppointmentList.add(filteredAppointments);
+                    }
 
-                    contactsTableView.setItems(FilteredAppointments.getAppointments());
-                    appointmentId.setCellValueFactory(new PropertyValueFactory<>("AppointmentId"));
-                    appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
-                    typeColumn.setCellValueFactory(new PropertyValueFactory<>("Type"));
-                    descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
-                    startColumn.setCellValueFactory(new PropertyValueFactory<>("StartDate"));
-                    endColumn.setCellValueFactory(new PropertyValueFactory<>("EndDate"));
-                    customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerId"));
 
 
 
                 }
             }
+            contactsTableView.setItems(FilteredAppointments.getAppointments());
+            appointmentId.setCellValueFactory(new PropertyValueFactory<>("AppointmentId"));
+            appointmentTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
+            typeColumn.setCellValueFactory(new PropertyValueFactory<>("Type"));
+            descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
+            startColumn.setCellValueFactory(new PropertyValueFactory<>("StartDate"));
+            endColumn.setCellValueFactory(new PropertyValueFactory<>("EndDate"));
+            customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerId"));
 
         });
+
+
 
         countryBox.setOnAction(event -> {
             int count = 0;
