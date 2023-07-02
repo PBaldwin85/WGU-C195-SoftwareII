@@ -86,27 +86,61 @@ public class CustomerEditorController implements Initializable {
 
 
     public void SaveButton(ActionEvent actionEvent) throws IOException {
-        Integer customerId = Integer.valueOf(customerIdField.getText());
-        String name = nameField.getText();
-        String address = addressField.getText();
-        String zipcode = zipField.getText();
-        String phone = phoneField.getText();
-        String state = String.valueOf(stateBox.getValue());
-        String country = String.valueOf(countryBox.getValue());
+        try {
+            Integer customerId = Integer.valueOf(customerIdField.getText());
+            String name = nameField.getText();
+            String address = addressField.getText();
+            String zipcode = zipField.getText();
+            String phone = phoneField.getText();
+            String state = String.valueOf(stateBox.getValue());
+            String country = String.valueOf(countryBox.getValue());
+
+            if (nameField.getText().isEmpty() || addressField.getText().isEmpty() || zipField.getText().isEmpty()
+                    || phoneField.getText().isEmpty() || stateBox.getSelectionModel().isEmpty()
+                    || (countryBox.getSelectionModel() == null))
+            {
+                throw new NumberFormatException();
+            }
 
 
+            Customers customer = new Customers(customerId, name, address, zipcode, phone, state, country);
 
-        Customers customer = new Customers(customerId, name, address, zipcode, phone, state, country);
+            updateCustomer(customer);
 
-        updateCustomer(customer);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
+            Stage stage = (Stage) mainWindow.getScene().getWindow();
+            stage.close();
+            Parent addPartParent = loader.load();
+            Scene scene = new Scene(addPartParent);
+            stage.setScene(scene);
+            stage.show();
+        }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
-        Stage stage = (Stage) mainWindow.getScene().getWindow();
-        stage.close();
-        Parent addPartParent = loader.load();
-        Scene scene = new Scene(addPartParent);
-        stage.setScene(scene);
-        stage.show();
+            catch (NumberFormatException | IOException e) {
+                String invalidFields = "The following fields have errors:\n";
+                if (nameField.getText().isEmpty()) {
+                    invalidFields += "Name is empty\n";
+                }
+                if (phoneField.getText().isEmpty()) {
+                    invalidFields += "Phone is empty\n";
+                }
+                if (addressField.getText().isEmpty()) {
+                    invalidFields += "Address is empty\n";
+                }
+                if (zipField.getText().isEmpty()) {
+                    invalidFields += "Postal code is empty\n";
+                }
+                if (stateBox.getSelectionModel().isEmpty()) {
+                    invalidFields += "State is empty\n";
+                }
+                if (countryBox.getSelectionModel().isEmpty()) {
+                    invalidFields += "Country is empty\n";
+                }
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText(invalidFields);
+                alert.showAndWait();
+        }
     }
 
     public void CancelButton(ActionEvent actionEvent) throws IOException {
