@@ -14,9 +14,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -52,6 +58,12 @@ public class LoginController {
     public void login() throws IOException {
         ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", Locale.getDefault());
 
+        File file = new File("login_activity.text");
+        FileWriter fw = new FileWriter(file, true);
+        PrintWriter pw = new PrintWriter(fw);
+
+
+
         try {
             if (username.getText().isEmpty() || password.getText().isEmpty()) {
                 throw new NumberFormatException();
@@ -65,6 +77,8 @@ public class LoginController {
             if (password.getText().isEmpty()) {
                 invalidFields += rb.getString("passwordEmpty");
             }
+            pw.println("Date: " + LocalDate.now() + "   Time: " + LocalTime.now() + "      Username:        " + username.getText() + "    Password:        " + password.getText() + "   Unsuccessful");
+            pw.close();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(rb.getString("Error"));
             alert.setTitle(rb.getString("Error"));
@@ -74,6 +88,8 @@ public class LoginController {
         }
         for (Users current : userList) {
             if (username.getText().equals(current.getUserName()) && (password.getText().equals(current.getPassword()))) {
+                pw.println("Date: " + LocalDate.now() + "   Time: " + LocalTime.now() + "      Username: " + username.getText() + "       Password: " + password.getText() + "     Successful");
+                pw.close();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
                 Stage stage = (Stage) mainWindow.getScene().getWindow();
                 stage.close();
@@ -84,6 +100,8 @@ public class LoginController {
                 return;
             }
             else {
+                pw.println("Date: " + LocalDate.now() + "   Time: " + LocalTime.now() + "      Username: " + username.getText() + "       Password: " + password.getText() + "         Unsuccessful");
+                pw.close();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(rb.getString("Error"));
                 alert.setHeaderText(rb.getString("Error"));
@@ -92,6 +110,8 @@ public class LoginController {
                 return;
             }
         }
+
+
 
     }
     /** Exits the application */
@@ -116,6 +136,7 @@ public class LoginController {
         locationLabel.setText(rb.getString("Location"));
         login.setText(rb.getString("Login"));
         exit.setText(rb.getString("Exit"));
+
 
     }
 
