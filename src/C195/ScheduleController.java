@@ -26,33 +26,56 @@ import java.time.temporal.WeekFields;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import static C195.Lists.appointmentList;
 
+/** ScheduleController class used for controlling the Schedule page.
+ * Holds the appointment and customer table.
+ */
 public class ScheduleController implements Initializable {
-
+    /** The anchorpage for the schedule page. */
     public AnchorPane mainWindow;
+    /** The appointments table. */
     public TableView appointmentTableView;
+    /** The appointment ID column. */
     public TableColumn appointmentId;
+    /** The appointment title column. */
     public TableColumn appointmentTitle;
+    /** The appointment description column. */
     public TableColumn appointmentDescription;
+    /** The appointment location column. */
     public TableColumn locationColumn;
+    /** The appointment contact column. */
     public TableColumn contactColumn;
+    /** The appointment type column. */
     public TableColumn typeColumn;
+    /** The appointment start date and time column. */
     public TableColumn startColumn;
+    /** The appointment end date and time column. */
     public TableColumn endColumn;
+    /** The appointment customer column. */
     public TableColumn customerColumn;
+    /** The appointment user ID column. */
     public TableColumn userColumn;
+    /** The customer ID column. */
     public TableColumn customerIdColumn;
+    /** The customer name column. */
     public TableColumn nameColumn;
+    /** The customer address column. */
     public TableColumn addressColumn;
+    /** The customer postal code column. */
     public TableColumn postalCodeColumn;
+    /** The customer phone number column. */
     public TableColumn phoneColumn;
+    /** The customer table. */
     public TableView customerTableView;
+    /** The customer State column. */
     public TableColumn stateColumn;
+    /** The customer Country column. */
     public TableColumn countryColumn;
 
-
+    /** Initializes the Schedule page by setting the appointment and customer tables.
+     * Checks to see if any appointments are within 15 minutes and notifies the user.
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentTableView.setItems(Lists.getAppointments());
         appointmentId.setCellValueFactory(new PropertyValueFactory<>("AppointmentId"));
@@ -66,7 +89,6 @@ public class ScheduleController implements Initializable {
         customerColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerId"));
         userColumn.setCellValueFactory(new PropertyValueFactory<>("UserId"));
 
-
         customerTableView.setItems(Lists.getCustomerList());
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerId"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
@@ -79,9 +101,7 @@ public class ScheduleController implements Initializable {
         if (Main.loggedIn == false) {
             Main.loggedIn = true;
             boolean upcomingAppointments = false;
-
             for (Appointments existing : appointmentList) {
-
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
                 LocalDate stringToStartDate = startDate.toLocalDate();
@@ -113,10 +133,10 @@ public class ScheduleController implements Initializable {
         }
 
     }
-
+    /** Adds a new appointment when add is clicked.
+     * Goes to the appointment editor page. */
     public void AddButton(ActionEvent actionEvent) throws IOException {
         AppointmentEditorController.AppointmentId(Main.generateAppointmentId());
-
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AppointmentEditor.fxml"));
         Stage stage = (Stage) mainWindow.getScene().getWindow();
@@ -129,6 +149,9 @@ public class ScheduleController implements Initializable {
         stage.show();
     }
 
+    /** Adds a new customer when the add button is clicked.
+     * Goes to the customer editor page.
+     */
     public void AddCustomer(ActionEvent actionEvent) throws IOException {
         CustomerEditorController.customerId(Main.generateCustomerId());
 
@@ -144,6 +167,9 @@ public class ScheduleController implements Initializable {
         stage.show();
     }
 
+    /** Updates an appointment when the update button is clicked and sets all the proper information on the appointment page.
+     * If an appointment isn't selected then a warning is displayed.
+     */
     public void UpdateAppointment(ActionEvent actionEvent) {
         Appointments selectedAppointment = (Appointments) appointmentTableView.getSelectionModel().getSelectedItem();
         if (selectedAppointment == null) {
@@ -203,7 +229,7 @@ public class ScheduleController implements Initializable {
         stage.show();
     }
 
-
+    /** Deletes an appointment. */
     public void DeleteAppointment(ActionEvent actionEvent) {
         Appointments selectedAppointment = (Appointments) appointmentTableView.getSelectionModel().getSelectedItem();
 
@@ -237,7 +263,7 @@ public class ScheduleController implements Initializable {
         }
     }
 
-
+    /** Deletes a customer. */
     public void DeleteCustomer(ActionEvent actionEvent) {
         Customers selectedCustomer = (Customers) customerTableView.getSelectionModel().getSelectedItem();
         if (selectedCustomer != null) {
@@ -278,7 +304,9 @@ public class ScheduleController implements Initializable {
         }
     }
 
-
+    /** Updates a customer when the update button is clicked and sets all the proper information on the customer page.
+     * If a customer isn't selected then a warning is displayed.
+     */
     public void UpdateCustomer(ActionEvent actionEvent) {
         Customers selectedCustomer = (Customers) customerTableView.getSelectionModel().getSelectedItem();
 
@@ -316,7 +344,9 @@ public class ScheduleController implements Initializable {
         }
     }
 
-
+    /** Current week button.
+     * Filters the appointments table to only show the current weeks appointments.
+     */
     public void currentWeek(ActionEvent actionEvent) {
         LocalDateTime timeToCheck = LocalDateTime.now();
         ObservableList<Appointments> appointments = FXCollections.observableArrayList();
@@ -336,8 +366,9 @@ public class ScheduleController implements Initializable {
         }
     }
 
-
-
+    /** Current Month button.
+     * Filters the appointments table to only show the current Month appointments.
+     */
     public void currentMonth(ActionEvent actionEvent) {
         LocalDateTime timeToCheck = LocalDateTime.now();
         ObservableList<Appointments> appointments = FXCollections.observableArrayList();
@@ -354,6 +385,9 @@ public class ScheduleController implements Initializable {
         }
     }
 
+    /** Display all button.
+     * Shows all the appointments with no filter.
+     */
     public void displayAll(ActionEvent actionEvent) {
         appointmentTableView.setItems(Lists.getAppointments());
     }
