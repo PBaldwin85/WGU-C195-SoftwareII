@@ -11,37 +11,51 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import static C195.Lists.appointmentList;
 import static C195.Lists.customerList;
 
+/** CustomerEditorController class used for the modification and addition of customers.
+ * The text fields and comboBoxes are either empty or populated with data depending on an add or customer modification.
+ */
 public class CustomerEditorController implements Initializable {
+    /** Customer ID text field. */
     public TextField customerIdField;
+    /** Name text field. */
     public TextField nameField;
+    /** Address text field. */
     public TextField addressField;
+    /** Phone text field. */
     public TextField phoneField;
+    /** Postal code text field. */
     public TextField zipField;
+    /** Anchorpane for the page. */
     public AnchorPane mainWindow;
+    /** State combobox. */
     public ComboBox stateBox;
+    /** Country combobox. */
     public ComboBox countryBox;
+    /** Used for storing ther cutomer Id. */
     public static int customerId;
 
 
-    /** Sets the part ID value. */
+    /** Sets the customer ID value. */
     public static void customerId(int num) {
         customerId = num;
     }
-    /** Returns the part ID. */
+    /** Returns the customer ID. */
     public static int getCustomerId() {
         return customerId;
     }
 
+    /** Initializes all the comboboxes and has the lambda expressions for each of the combo boxes.
+     * The Country box has a lambda expression used for detecting when a Country is selected, which then
+     * populates the States or Provinces for the Country.
+     * */
     public void initialize(URL url, ResourceBundle resourceBundle){
         stateBox.setItems(States.states);
         countryBox.setItems(Country.countries);
@@ -82,9 +96,9 @@ public class CustomerEditorController implements Initializable {
 
     }
 
-
-
-
+    /** Saves the customer information.
+     * If there is missing information, exceptions are thrown and handled to notify the user with detailed information for what's missing.
+     */
     public void SaveButton(ActionEvent actionEvent) throws IOException {
         try {
             Integer customerId = Integer.valueOf(customerIdField.getText());
@@ -102,11 +116,8 @@ public class CustomerEditorController implements Initializable {
                 throw new NumberFormatException();
             }
 
-
             Customers customer = new Customers(customerId, name, address, zipcode, phone, state, country);
-
             updateCustomer(customer);
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
             Stage stage = (Stage) mainWindow.getScene().getWindow();
             stage.close();
@@ -143,6 +154,12 @@ public class CustomerEditorController implements Initializable {
         }
     }
 
+    /** Cancels all changes when the cancel button is clicked.
+     * The user is asked if they would like to cancel changes, and if the user presses no, then the user will remain on the editor.
+     * If the user says yes to cancelling the changes, either the new customer won't be added, or the customer won't be updated.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void CancelButton(ActionEvent actionEvent) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will cancel all changes. Would you like to continue?");
         ButtonType yesButton = new ButtonType("Yes");
@@ -160,12 +177,15 @@ public class CustomerEditorController implements Initializable {
         }
     }
 
+    /** Adds or updates a customer depending if the customer already exists.
+     * If the customer exists, information is updated.
+     * If the customer doesn't exist, a new customer is added.
+     */
     public void updateCustomer(Customers customers) {
         boolean found = false;
         for (Customers existing : customerList) {
             if (existing.getCustomerId() == customers.getCustomerId()) {
                 found = true;
-                System.out.println("match");
                 existing.setName(customers.getName());
                 existing.setPhone(customers.getPhone());
                 existing.setAddress(customers.getAddress());
@@ -179,12 +199,23 @@ public class CustomerEditorController implements Initializable {
         }
     }
 
+    /** Sets the customer ID field only when adding a new customer.
+     * The field is disabled so it allows the user to see the customer ID before adding a new customer.
+     */
     public void setData(Integer id) {
-
         customerIdField.setText(String.valueOf(id));
 
     }
 
+    /** Sets all the fields and boxes when a customer is updated.
+     * @param customerId Sets the customer Id
+     * @param name Sets the customer name
+     * @param phone Sets the customer phone number
+     * @param address Sets the customer address
+     * @param zip Sets the customer postal code
+     * @param state Sets the customer State
+     * @param country Sets the customer Country
+     */
     public void setData(Integer customerId, String name, String phone, String address, String zip, String state, String country) {
         customerIdField.setText(String.valueOf(customerId));
         nameField.setText(String.valueOf(name));

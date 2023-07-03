@@ -8,16 +8,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/** States class used for storing all the States and Provinces.
+ */
 public class States {
+    /** Sets the State/Province name */
     private static States name;
-
-
+    /** Observable list for storing all the States. */
     public static ObservableList<String> states = FXCollections.observableArrayList();
-
+    /** Gets the State/Province name. */
     public static States getName() {
         return name;
     }
-
+    /** Populates all the States from the database into the states observable list.
+     */
     public static void populateStates() {
         try {
             String query = "SELECT DIVISION FROM client_schedule.first_level_divisions;";
@@ -32,7 +35,8 @@ public class States {
             System.out.println("Error:" + e.getMessage());
         }
     }
-
+    /** Gets the division (State/Province) from the passed through divison ID.
+     */
     public static Object getDivision(Integer passedId) throws SQLException {
         try {
             String query = "SELECT * FROM client_schedule.first_level_divisions;";
@@ -52,7 +56,7 @@ public class States {
         }
         return null;
     }
-
+    /** Gets the Country ID from the passed through divison ID for filtering the State/Province list. */
     public static Object getCountryId(Integer passedId) throws SQLException {
         try {
             String query = "SELECT * FROM client_schedule.first_level_divisions;";
@@ -73,7 +77,7 @@ public class States {
         return null;
     }
 
-    //* Get the sates from selected Country */
+    /** Get the states from selected Country. */
     public static void getStates(Integer passedCountryId) throws SQLException {
         try {
             String query = "SELECT * FROM client_schedule.first_level_divisions;";
