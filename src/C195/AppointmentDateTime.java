@@ -33,9 +33,22 @@ public class AppointmentDateTime {
         LocalTime startTime = LocalTime.parse("08:00:00");
         LocalTime endTime = LocalTime.parse("22:01:00");
 
+        LocalTime newDay = LocalTime.parse("12:00:00");
+
         LocalTime adjustedStartTime = startTime.plusSeconds(offsetDiff);
         LocalTime adjustedEndtTime = endTime.plusSeconds(offsetDiff);
 
+        System.out.println(adjustedStartTime);
+        System.out.println(adjustedEndtTime);
+
+        if (adjustedStartTime.equals(newDay) || adjustedStartTime.isAfter((newDay))) {
+            while (adjustedStartTime.isAfter(adjustedEndtTime)) {
+                time.add(String.valueOf(adjustedStartTime));
+                adjustedStartTime = adjustedStartTime.plusMinutes(15);
+                System.out.println(adjustedStartTime);
+            }
+            System.out.println("Is");
+        }
 
         while (adjustedStartTime.isBefore(adjustedEndtTime)) {
             time.add(String.valueOf(adjustedStartTime));
@@ -116,6 +129,45 @@ public class AppointmentDateTime {
 
         }
 
+    }
+
+    public static void removeMatchesNew(ZoneId timeZone, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        time.clear();
+        populateTime(timeZone);
+
+        ZoneId est = ZoneId.of("America/New_York");
+
+        ZoneOffset offset1 = ZonedDateTime.now(est).getOffset();
+        ZoneOffset offset2 = ZonedDateTime.now(timeZone).getOffset();
+        int offsetDiff = offset1.compareTo(offset2);
+
+        LocalTime startTime = LocalTime.parse("08:00:00");
+        LocalTime endTime = LocalTime.parse("22:00:00");
+        LocalTime adjustedStartTime = startTime.plusSeconds(offsetDiff);
+        LocalTime adjustedEndTime = endTime.plusSeconds(offsetDiff);
+
+        while ((startDateTime.isBefore(endDateTime)) || (startDateTime.equals(endDateTime))) {
+            if (startDateTime.isBefore(endDateTime))  {
+                timeToDelete.add(String.valueOf(startDateTime));
+                startDateTime = startDateTime.plusMinutes(15);
+                if (startDateTime.equals(adjustedEndTime)) {
+                    timeToDelete.add(String.valueOf(startDateTime));
+                    startDateTime = startDateTime.plusMinutes(15);
+                }
+            }
+            else {
+                startDateTime = startDateTime.plusMinutes(15);
+            }
+        }
+        time.removeAll(timeToDelete);
+        if (time.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setContentText("There are no more appointments available for the selected customer on the selected day.");
+            alert.showAndWait();
+            time.clear();
+            return;
+        }
     }
 
 }

@@ -125,6 +125,7 @@ public class AppointmentEditorController implements Initializable {
                 try {
                     if (selectDate.getValue().isEqual(stringToStartDate) && (customerBox.getValue().equals(existing.getCustomerId()))) {
                         AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
+                        AppointmentDateTime.removeMatchesNew(ZoneId.systemDefault(), startDate, endDate);
                     }
                 }
                 catch (NullPointerException e) {
@@ -136,6 +137,7 @@ public class AppointmentEditorController implements Initializable {
         AppointmentDateTime.timeToDelete.clear();
         startTime.setItems(AppointmentDateTime.time);
         endTime.setItems(AppointmentDateTime.time);
+        System.out.println(AppointmentDateTime.time);
 
         /** Lamba expression used for setting times when a customer is selected.
          * When a customer is selected, the times are filtered for that particular customer.
