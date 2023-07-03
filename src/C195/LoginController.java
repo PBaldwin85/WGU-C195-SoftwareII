@@ -14,42 +14,43 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import static C195.Users.userList;
 
+/** LoginController class used for the login screen.
+ */
 public class LoginController {
 
+    /** Main window anchorpain. */
     public AnchorPane mainWindow;
-    public Label setLocation;
+    /** Username textfield. */
     public TextField username;
+    /** Password textfield. */
     public TextField password;
+    /** Username label to the left of the textfield. */
     public Label usernameLabel;
+    /** Password label to the left of the textfield. */
     public Label passwordLabel;
+    /** Login button. */
     public Button login;
+    /** Exit button. */
     public Button exit;
+    /** The location label used before the user location. */
     public Label locationLabel;
+    /** Shows the users location on the bottom right of the screen. */
+    public Label setLocation;
 
-
+    /** Trigger when the user presses login.
+     * Pulls the users language and translates the exceptions depending on if English or French is selected.
+     * Checks the username and password against the database to verify login information.
+     */
     public void login() throws IOException {
-        /**
-         Locale locale = new Locale("fr");
-         ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", locale);
-         */
-
-
-
         ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", Locale.getDefault());
-
-
-
 
         try {
             if (username.getText().isEmpty() || password.getText().isEmpty()) {
@@ -93,12 +94,15 @@ public class LoginController {
         }
 
     }
+    /** Exits the application */
     public void exit(ActionEvent actionEvent) {
         Platform.exit();    }
 
+    /** Initializs the login screen.
+     * Gets the users Zone ID and sets it on the screen.
+     * Gets the users language and translates the the text to either English or French.
+     */
     public void initialize() {
-
-
         ZoneId zoneId = ZoneId.systemDefault();
         String location = zoneId.getId();
         setLocation.setText(location);
@@ -107,14 +111,11 @@ public class LoginController {
 
         ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", Locale.getDefault());
 
-
         usernameLabel.setText(rb.getString("Username"));
         passwordLabel.setText(rb.getString("Password"));
         locationLabel.setText(rb.getString("Location"));
         login.setText(rb.getString("Login"));
         exit.setText(rb.getString("Exit"));
-
-
 
     }
 
