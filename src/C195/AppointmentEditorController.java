@@ -108,6 +108,7 @@ public class AppointmentEditorController implements Initializable {
             AppointmentDateTime.timeToDelete.clear();
             AppointmentDateTime.endTimeList.clear();
 
+            /**
             if (selectedDay == DayOfWeek.SATURDAY || selectedDay == DayOfWeek.SUNDAY) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning");
@@ -115,6 +116,7 @@ public class AppointmentEditorController implements Initializable {
                 alert.showAndWait();
                 return;
             }
+             */
 
             selectEndDate.setValue(selectedDate);
 
@@ -189,7 +191,6 @@ public class AppointmentEditorController implements Initializable {
             boolean earliestSet = false;
             LocalTime earliest = null;
 
-
             for (Appointments existing : appointmentList) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 LocalDateTime existingStartDateTime = LocalDateTime.parse(existing.getStartDate(), formatter);
@@ -207,15 +208,11 @@ public class AppointmentEditorController implements Initializable {
                         boolean needOffset = false;
                         if (earliestSet==true) {
                             if (existingStartTime.isAfter(earliest)) {
-                                System.out.println("It's after so breaking.");
-                                System.out.println("End time list" + AppointmentDateTime.endTimeList);
                                 AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, earliest, needOffset);
-                                System.out.println("End time list after using earliest" + AppointmentDateTime.endTimeList);
                                 endTime.setItems(AppointmentDateTime.endTimeList);
                                 break;
                             }
                         }
-                        System.out.println("Passed start date and time: " + selectDate + selectedTime);
 
                         AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, existingStartTime, needOffset);
                         earliestSet = true;
@@ -252,8 +249,19 @@ public class AppointmentEditorController implements Initializable {
             else {
                 selectEndDate.setValue(selectedDate);
             }
-
             endTimeMerge = LocalDateTime.of(selectedDate, selectedTime);
+
+            LocalDateTime convertedToEastern = AppointmentDateTime.convertToEastern(ZoneId.systemDefault(),endTimeMerge);
+            DayOfWeek convertedDay = convertedToEastern.getDayOfWeek();
+            DayOfWeek selectedDay = selectedDate.getDayOfWeek();
+            if (convertedDay == DayOfWeek.SATURDAY || convertedDay == DayOfWeek.SUNDAY) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning");
+                alert.setContentText("Weekends are not allowed! Please select a weekday.");
+                alert.showAndWait();
+                return;
+            }
+
         });
 
     }
