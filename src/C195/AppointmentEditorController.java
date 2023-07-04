@@ -254,9 +254,18 @@ public class AppointmentEditorController implements Initializable {
             LocalDateTime convertedToEastern = AppointmentDateTime.convertToEastern(ZoneId.systemDefault(),endTimeMerge);
             DayOfWeek convertedDay = convertedToEastern.getDayOfWeek();
             if (convertedDay == DayOfWeek.SATURDAY || convertedDay == DayOfWeek.SUNDAY) {
+                String pattern = "yyyy-MM-dd HH:mm:ss";
+                DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
+                String startTimeEasternText = AppointmentDateTime.convertToEastern(ZoneId.systemDefault(),dateTimeMerge).format(test);
+                String endTimeEasternText = AppointmentDateTime.convertToEastern(ZoneId.systemDefault(),endTimeMerge).format(test);
+
+                String invalidDay = "Weekends are not allowed. Please select a weekday.\n";
+                invalidDay += "The appointment in Eastern Standard Time is the following:\n";
+                invalidDay += "Start date and time: " + convertedDay + " " + startTimeEasternText + "\n";
+                invalidDay += "End date and time: " + convertedDay + " " +endTimeEasternText + "\n";
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning");
-                alert.setContentText("Weekends are not allowed! Please select a weekday.");
+                alert.setContentText(invalidDay);
                 alert.showAndWait();
 
                 return;
@@ -301,6 +310,19 @@ public class AppointmentEditorController implements Initializable {
 
             Appointments appointment = new Appointments(appointmentId, title, description, location, contact, type, formattedStartDateTime, formattedEndDateTime, customerId, userId);
             updateAppointment(appointment);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            String startTimeEasternText = AppointmentDateTime.convertToEastern(ZoneId.systemDefault(),dateTimeMerge).format(test);
+            String endTimeEasternText = AppointmentDateTime.convertToEastern(ZoneId.systemDefault(),endTimeMerge).format(test);
+
+            String informationText = "The appointment has been saved. \n";
+            informationText += "The appointment in Eastern Standard Time is the following:\n";
+            informationText += "Start date and time: " + startTimeEasternText + "\n";
+            informationText += "End date and time: " + endTimeEasternText + "\n";
+            alert.setContentText(informationText);
+            alert.showAndWait();
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
             Stage stage = (Stage) mainWindow.getScene().getWindow();
             stage.close();
@@ -345,7 +367,16 @@ public class AppointmentEditorController implements Initializable {
             LocalDateTime convertedToEastern = AppointmentDateTime.convertToEastern(ZoneId.systemDefault(),endTimeMerge);
             DayOfWeek convertedDay = convertedToEastern.getDayOfWeek();
             if (convertedDay == DayOfWeek.SATURDAY || convertedDay == DayOfWeek.SUNDAY) {
-                invalidFields += "Please select a weekday";
+                invalidFields += "Please select a weekday\n";
+                String pattern = "yyyy-MM-dd HH:mm:ss";
+                DateTimeFormatter test = DateTimeFormatter.ofPattern(pattern);
+                String startTimeEasternText = AppointmentDateTime.convertToEastern(ZoneId.systemDefault(),dateTimeMerge).format(test);
+                String endTimeEasternText = AppointmentDateTime.convertToEastern(ZoneId.systemDefault(),endTimeMerge).format(test);
+
+                invalidFields += "The appointment in Eastern Standard Time is the following:\n";
+                invalidFields += "Start date and time: " + convertedDay + " " + startTimeEasternText + "\n";
+                invalidFields += "End date and time: " + convertedDay + " " +endTimeEasternText + "\n";
+
             }
         }
         Alert alert = new Alert(Alert.AlertType.ERROR);
