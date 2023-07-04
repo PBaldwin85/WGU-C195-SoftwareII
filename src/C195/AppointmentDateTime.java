@@ -93,6 +93,10 @@ public class AppointmentDateTime {
         }
     }
 
+    /** Converts the users selected date and time from their timezone to eastern time zone.
+     * Used for checking days and dates from time zone differences and giving the information to the user.
+     * @return Returns the converted date and time.
+     */
     public static LocalDateTime convertToEastern(ZoneId timeZone, LocalDateTime selectedTime) {
         ZoneId est = ZoneId.of("America/New_York");
 
