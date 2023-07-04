@@ -38,9 +38,6 @@ public class AppointmentDateTime {
         LocalTime adjustedStartTime = startTime.plusSeconds(offsetDiff);
         LocalTime adjustedEndtTime = endTime.plusSeconds(offsetDiff);
 
-        System.out.println(adjustedStartTime);
-        System.out.println(adjustedEndtTime);
-
         if (adjustedStartTime.equals(newDay) || adjustedStartTime.isAfter((newDay))) {
             while (adjustedStartTime.isAfter(adjustedEndtTime)) {
                 time.add(String.valueOf(adjustedStartTime));
@@ -73,8 +70,7 @@ public class AppointmentDateTime {
         LocalTime adjustedEndTime = endTime.plusSeconds(offsetDiff);
 
         while ((stringToStartTime.isBefore(stringToEndTime)) || (stringToStartTime.equals(stringToEndTime))) {
-            if ((stringToStartTime.isAfter(stringToStartTime) || stringToStartTime.equals(stringToStartTime)) &&
-                    ((stringToStartTime.isBefore(stringToEndTime))))  {
+            if (stringToStartTime.isBefore(stringToEndTime))  {
                 timeToDelete.add(String.valueOf(stringToStartTime));
                 stringToStartTime = stringToStartTime.plusMinutes(15);
                 if (stringToStartTime.equals(adjustedEndTime)) {
@@ -104,7 +100,7 @@ public class AppointmentDateTime {
      * @param endTimeFound Passes an end time that needs to be set based on the currently scheduled appointments.
      * @param needOffset Checks to see if the time needs converting due to a time zone difference.
      */
-    public static void setEndTimes(ZoneId timeZone, LocalTime selectedTime, LocalTime endTimeFound, boolean needOffset) {
+    public static void setEndTimes(ZoneId timeZone, LocalTime selectedTime, LocalTime existingStartTime, boolean needOffset) {
 
         ZoneId est = ZoneId.of("America/New_York");
 
@@ -113,18 +109,18 @@ public class AppointmentDateTime {
         int offsetDiff = offset1.compareTo(offset2);
 
         LocalTime newDay = LocalTime.parse("12:00:00");
+        LocalTime endDay = LocalTime.parse("22:00");
 
         LocalTime startTime = selectedTime;
-        LocalTime endTime = endTimeFound;
+        LocalTime endTime = existingStartTime;
+
+        startTime = startTime.plusMinutes(15);
+        endDay = endDay.plusSeconds(offsetDiff);
 
         if (needOffset == true) {
             endTime = endTime.plusSeconds(offsetDiff);
+            endDay = endDay.plusSeconds(offsetDiff);
         }
-
-        startTime = startTime.plusMinutes(15);
-
-        System.out.println("Start time: " + startTime);
-        System.out.println("End time: " + endTime);
 
         if (startTime.isAfter(endTime)) {
             while (startTime.isAfter(endTime) || (startTime.equals(endTime))) {
@@ -139,13 +135,17 @@ public class AppointmentDateTime {
             }
             return;
         }
+        LocalTime startTimeCheck = LocalTime.parse("00:00:00");
 
         while (startTime.isBefore(endTime) || (startTime.equals(endTime))) {
+            if (startTime.equals(endDay)) {
+                endTimeList.add(String.valueOf(startTime));
+                break;
+            }
             endTimeList.add(String.valueOf(startTime));
             startTime = startTime.plusMinutes(15);
 
         }
-
     }
 
 

@@ -141,7 +141,6 @@ public class AppointmentEditorController implements Initializable {
         AppointmentDateTime.timeToDelete.clear();
         startTime.setItems(AppointmentDateTime.time);
         endTime.setItems(AppointmentDateTime.time);
-        System.out.println(AppointmentDateTime.time);
 
         /** Lamba expression used for setting times when a customer is selected.
          * When a customer is selected, the times are filtered for that particular customer.
@@ -184,31 +183,43 @@ public class AppointmentEditorController implements Initializable {
             boolean appointmentsAfter = false;
             LocalDate selectedDate = selectDate.getValue();
             LocalTime selectedTime = LocalTime.parse((CharSequence) startTime.getValue());
-
             startTemp = selectedTime;
-
-
             dateTimeMerge = LocalDateTime.of(selectedDate, selectedTime);
+
+            boolean earliestSet = false;
+            LocalTime earliest = null;
 
 
             for (Appointments existing : appointmentList) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
-                LocalDateTime endDate = LocalDateTime.parse(existing.getEndDate(), formatter);
-                LocalDate stringToStartDate = startDate.toLocalDate();
-                LocalTime stringToStartTime = startDate.toLocalTime();
-                LocalDate stringToEndDate = endDate.toLocalDate();
-                LocalTime stringToEndTime = endDate.toLocalTime();
+                LocalDateTime existingStartDateTime = LocalDateTime.parse(existing.getStartDate(), formatter);
+                LocalDateTime existingEndDateTime = LocalDateTime.parse(existing.getEndDate(), formatter);
+                LocalDate existingStartDate = existingStartDateTime.toLocalDate();
+                LocalTime existingStartTime = existingStartDateTime.toLocalTime();
 
-                if (selectDate.getValue().isEqual(stringToStartDate) && (customerBox.getValue() == existing.getCustomerId())) {
-                    if (stringToStartTime.isAfter(selectedTime)) {
+                if (selectDate.getValue().isEqual(existingStartDate) && (customerBox.getValue() == existing.getCustomerId())) {
+                    if (existingStartTime.isAfter(selectedTime)) {
                         appointmentsAfter = true;
                     }
-                    if (selectDate.getValue().isEqual(stringToStartDate) && selectedTime.isBefore(LocalTime.from(stringToStartTime))) {
-                        LocalTime test = stringToStartTime;
+                    if (selectDate.getValue().isEqual(existingStartDate) && selectedTime.isBefore(LocalTime.from(existingStartTime))) {
+                        LocalTime test = existingStartTime;
                         AppointmentDateTime.endTimeList.clear();
                         boolean needOffset = false;
-                        AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, test, needOffset);
+                        if (earliestSet==true) {
+                            if (existingStartTime.isAfter(earliest)) {
+                                System.out.println("It's after so breaking.");
+                                System.out.println("End time list" + AppointmentDateTime.endTimeList);
+                                AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, earliest, needOffset);
+                                System.out.println("End time list after using earliest" + AppointmentDateTime.endTimeList);
+                                endTime.setItems(AppointmentDateTime.endTimeList);
+                                break;
+                            }
+                        }
+                        System.out.println("Passed start date and time: " + selectDate + selectedTime);
+
+                        AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), selectedTime, existingStartTime, needOffset);
+                        earliestSet = true;
+                        earliest = existingStartTime;
                         endTime.setItems(AppointmentDateTime.endTimeList);
                     }
                 }
