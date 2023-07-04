@@ -253,12 +253,12 @@ public class AppointmentEditorController implements Initializable {
 
             LocalDateTime convertedToEastern = AppointmentDateTime.convertToEastern(ZoneId.systemDefault(),endTimeMerge);
             DayOfWeek convertedDay = convertedToEastern.getDayOfWeek();
-            DayOfWeek selectedDay = selectedDate.getDayOfWeek();
             if (convertedDay == DayOfWeek.SATURDAY || convertedDay == DayOfWeek.SUNDAY) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Warning");
                 alert.setContentText("Weekends are not allowed! Please select a weekday.");
                 alert.showAndWait();
+
                 return;
             }
 
@@ -288,7 +288,9 @@ public class AppointmentEditorController implements Initializable {
                 throw new NumberFormatException();
             }
 
-            if (selectDate.getValue().getDayOfWeek() == DayOfWeek.SATURDAY || selectDate.getValue().getDayOfWeek() == DayOfWeek.SUNDAY) {
+            LocalDateTime convertedToEastern = AppointmentDateTime.convertToEastern(ZoneId.systemDefault(),endTimeMerge);
+            DayOfWeek convertedDay = convertedToEastern.getDayOfWeek();
+            if (convertedDay == DayOfWeek.SATURDAY || convertedDay == DayOfWeek.SUNDAY) {
                 throw new IOException();
             }
 
@@ -340,7 +342,9 @@ public class AppointmentEditorController implements Initializable {
             invalidFields += "End time is empty\n";
         }
         if (selectDate.getValue() != null) {
-            if (selectDate.getValue().getDayOfWeek() == DayOfWeek.SATURDAY || selectDate.getValue().getDayOfWeek() == DayOfWeek.SUNDAY) {
+            LocalDateTime convertedToEastern = AppointmentDateTime.convertToEastern(ZoneId.systemDefault(),endTimeMerge);
+            DayOfWeek convertedDay = convertedToEastern.getDayOfWeek();
+            if (convertedDay == DayOfWeek.SATURDAY || convertedDay == DayOfWeek.SUNDAY) {
                 invalidFields += "Please select a weekday";
             }
         }
