@@ -70,6 +70,8 @@ public class AppointmentEditorController implements Initializable {
     /** Stores the full end date and time after selecting a date and time. */
     private LocalDateTime endTimeMerge;
 
+    public LocalTime startTemp;
+
 
     /** Holds the appointment ID value. */
     public static int appointment;
@@ -92,6 +94,9 @@ public class AppointmentEditorController implements Initializable {
         contactsBox.setItems(Contacts.contacts);
         customerBox.setItems(Customers.getCustomerNames());
         userBox.setItems(Lists.users);
+
+
+
 
         /** Lamba expression used for setting times when a date is selected.
          * When a date is selected, I have it load only the available times.
@@ -125,7 +130,6 @@ public class AppointmentEditorController implements Initializable {
                 try {
                     if (selectDate.getValue().isEqual(stringToStartDate) && (customerBox.getValue().equals(existing.getCustomerId()))) {
                         AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
-                        AppointmentDateTime.removeMatchesNew(ZoneId.systemDefault(), startDate, endDate);
                     }
                 }
                 catch (NullPointerException e) {
@@ -180,7 +184,12 @@ public class AppointmentEditorController implements Initializable {
             boolean appointmentsAfter = false;
             LocalDate selectedDate = selectDate.getValue();
             LocalTime selectedTime = LocalTime.parse((CharSequence) startTime.getValue());
+
+            startTemp = selectedTime;
+
+
             dateTimeMerge = LocalDateTime.of(selectedDate, selectedTime);
+
 
             for (Appointments existing : appointmentList) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -223,6 +232,16 @@ public class AppointmentEditorController implements Initializable {
             AppointmentDateTime.timeToDelete.clear();
             LocalDate selectedDate = selectDate.getValue();
             LocalTime selectedTime = LocalTime.parse((CharSequence) endTime.getValue());
+            LocalTime newDay = LocalTime.parse("00:00:00");
+
+            if (selectedTime.isBefore(startTemp)) {
+                selectedDate = selectedDate.plusDays(1);
+                selectEndDate.setValue(selectedDate);
+                }
+            else {
+                selectEndDate.setValue(selectedDate);
+            }
+
             endTimeMerge = LocalDateTime.of(selectedDate, selectedTime);
         });
 
