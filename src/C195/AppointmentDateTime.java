@@ -119,7 +119,6 @@ public class AppointmentDateTime {
 
         if (needOffset == true) {
             endTime = endTime.plusSeconds(offsetDiff);
-            endDay = endDay.plusSeconds(offsetDiff);
         }
 
         if (startTime.isAfter(endTime)) {
