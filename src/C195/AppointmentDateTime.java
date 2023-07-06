@@ -107,6 +107,16 @@ public class AppointmentDateTime {
 
     }
 
+    public static LocalDateTime convertToUtc(ZoneId timeZone, LocalDateTime selectedTime) {
+        ZoneId utc = ZoneId.of("UTC");
+
+        ZonedDateTime zonedSelectedTime = ZonedDateTime.of(selectedTime, timeZone);
+        ZonedDateTime convertedTime = zonedSelectedTime.withZoneSameInstant(utc);
+
+        return convertedTime.toLocalDateTime();
+
+    }
+
     /** Sets the end time list.
      * Sets the times based off of the selected start time and what's available for the selected customer.
      * @param timeZone Passes through the users timezone for time conversion.

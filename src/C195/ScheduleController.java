@@ -231,7 +231,7 @@ public class ScheduleController implements Initializable {
     }
 
     /** Deletes an appointment. */
-    public void DeleteAppointment(ActionEvent actionEvent) {
+    public void DeleteAppointment(ActionEvent actionEvent) throws SQLException {
         Appointments selectedAppointment = (Appointments) appointmentTableView.getSelectionModel().getSelectedItem();
 
         if (selectedAppointment != null) {
@@ -244,6 +244,7 @@ public class ScheduleController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == yesButton) {
                 Appointments.deleteAppointment(selectedAppointment);
+                UpdateDatabase.deleteAppointment(selectedAppointment.getAppointmentId());
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation");
                 String confirmationMessage = "Appointment deleted!\n\n";

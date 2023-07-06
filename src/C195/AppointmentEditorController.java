@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.*;
 import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
@@ -311,6 +312,15 @@ public class AppointmentEditorController implements Initializable {
             Appointments appointment = new Appointments(appointmentId, title, description, location, contact, type, formattedStartDateTime, formattedEndDateTime, customerId, userId);
             updateAppointment(appointment);
 
+            LocalDateTime convertedStartTime = AppointmentDateTime.convertToUtc(ZoneId.systemDefault(), dateTimeMerge);
+            LocalDateTime convertedEndTime = AppointmentDateTime.convertToUtc(ZoneId.systemDefault(), endTimeMerge);
+            String convertedStartToUtc = convertedStartTime.format(test);
+            String convertedEndToUtc = convertedEndTime.format(test);
+
+            Integer contactId = Contacts.getContactId(contact);
+
+            UpdateDatabase.addAppointment(appointmentId, title, description, location, type, convertedStartToUtc, convertedEndToUtc, customerId, userId, contactId);
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information");
             String startTimeEasternText = AppointmentDateTime.convertToEastern(ZoneId.systemDefault(),dateTimeMerge).format(test);
@@ -331,7 +341,7 @@ public class AppointmentEditorController implements Initializable {
             stage.setScene(scene);
             stage.show();
         }
-    catch(NumberFormatException | IOException e) {
+    catch(NumberFormatException | IOException | SQLException e) {
         String invalidFields = "The following fields have errors:\n";
         if (titleField.getText().isEmpty()) {
             invalidFields += "Title is empty\n";

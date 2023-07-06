@@ -51,4 +51,23 @@ public class Contacts {
         return null;
     }
 
+    public static Integer getContactId(String passedName) throws SQLException {
+        try {
+            String query = "SELECT * FROM client_schedule.contacts";
+            Statement statement = JDBC.getConnection().createStatement();
+            ResultSet result = statement.executeQuery(query);
+
+            while (result.next()) {
+                String contact = result.getString("Contact_Name");
+                if (contact.equals(passedName)) {
+                    Integer contactId = Integer.valueOf(result.getString("Contact_ID"));
+                    return contactId;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error:" + e.getMessage());
+        }
+        return null;
+    }
+
 }
