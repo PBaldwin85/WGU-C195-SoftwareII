@@ -57,8 +57,8 @@ public class CustomerEditorController implements Initializable {
      * populates the States or Provinces for the Country.
      * */
     public void initialize(URL url, ResourceBundle resourceBundle){
-        stateBox.setItems(States.states);
         countryBox.setItems(Country.countries);
+
 
         countryBox.setOnAction(event -> {
             String selectedCountry = (String) countryBox.getValue();
@@ -193,8 +193,8 @@ public class CustomerEditorController implements Initializable {
                 existing.setPhone(customers.getPhone());
                 existing.setAddress(customers.getAddress());
                 existing.setZip(customers.getZip());
-                existing.setState(customers.getState());
                 existing.setCountry(customers.getCountry());
+                existing.setState(customers.getState());
             }
         }
         if (!found) {
@@ -226,6 +226,36 @@ public class CustomerEditorController implements Initializable {
         addressField.setText(String.valueOf(address));
         zipField.setText(String.valueOf(zip));
         countryBox.setValue(country);
+
+        String selectedCountry = (String) countryBox.getValue();
+        if (selectedCountry.equals("U.S")) {
+            States.states.clear();
+            try {
+                States.getStates(1);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            stateBox.setItems(States.states);
+        }
+        if (selectedCountry.equals("UK")) {
+            States.states.clear();
+            try {
+                States.getStates(2);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            stateBox.setItems(States.states);
+        }
+        if (selectedCountry.equals("Canada")) {
+            States.states.clear();
+            try {
+                States.getStates(3);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            stateBox.setItems(States.states);
+        }
+
         stateBox.setValue(state);
 
 
