@@ -118,6 +118,9 @@ public class CustomerEditorController implements Initializable {
 
             Customers customer = new Customers(customerId, name, address, zipcode, phone, state, country);
             updateCustomer(customer);
+
+            UpdateDatabase.addCustomer(customerId, name, address,zipcode, phone);
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
             Stage stage = (Stage) mainWindow.getScene().getWindow();
             stage.close();
@@ -127,7 +130,7 @@ public class CustomerEditorController implements Initializable {
             stage.show();
         }
 
-            catch (NumberFormatException | IOException e) {
+            catch (NumberFormatException | IOException | SQLException e) {
                 String invalidFields = "The following fields have errors:\n";
                 if (nameField.getText().isEmpty()) {
                     invalidFields += "Name is empty\n";
@@ -223,37 +226,9 @@ public class CustomerEditorController implements Initializable {
         addressField.setText(String.valueOf(address));
         zipField.setText(String.valueOf(zip));
         countryBox.setValue(country);
+        stateBox.setValue(state);
 
-        if (country.equals("U.S")) {
-            States.states.clear();
-            try {
-                States.getStates(1);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-            stateBox.setItems(States.states);
-            stateBox.getSelectionModel().selectFirst();
-        }
-        if (country.equals("UK")) {
-            States.states.clear();
-            try {
-                States.getStates(2);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-            stateBox.setItems(States.states);
-            stateBox.getSelectionModel().selectFirst();
-        }
-        if (country.equals("Canada")) {
-            States.states.clear();
-            try {
-                States.getStates(3);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-            stateBox.setItems(States.states);
-            stateBox.getSelectionModel().selectFirst();
-        }
+
     }
 }
 
