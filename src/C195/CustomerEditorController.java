@@ -236,6 +236,7 @@ public class CustomerEditorController implements Initializable {
                 throwables.printStackTrace();
             }
             stateBox.setItems(States.states);
+
         }
         if (selectedCountry.equals("UK")) {
             States.states.clear();

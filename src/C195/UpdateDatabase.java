@@ -8,8 +8,9 @@ import java.time.LocalDateTime;
 
 public class UpdateDatabase {
     public static void addCustomer(Integer customerId, String name, String address, String zipcode, String phone) throws SQLException {
-        try (Connection connection = JDBC.getConnection();) {
+        try {
             Boolean exists = false;
+            Connection connection = JDBC.getConnection();
             String query = "SELECT * FROM client_schedule.customers WHERE Customer_ID = ?";
             PreparedStatement queryStatement = connection.prepareStatement(query);
             queryStatement.setInt(1, customerId);
@@ -43,9 +44,9 @@ public class UpdateDatabase {
                 statement.setString(4, zipcode);
                 statement.setString(5, phone);
                 statement.setString(6, String.valueOf(LocalDateTime.now()));
-                statement.setString(7, "test");
+                statement.setString(7, "script");
                 statement.setString(8, String.valueOf(LocalDateTime.now()));
-                statement.setString(9, "test");
+                statement.setString(9, "script");
                 statement.setString(10, "1");
 
                 statement.executeUpdate();
@@ -58,5 +59,18 @@ public class UpdateDatabase {
     }
 
 
+    public static void deleteCustomer(Integer customerId) throws SQLException {
+        try {
+            Connection connection = JDBC.getConnection();
+            String deleteStatement = "DELETE FROM client_schedule.customers WHERE Customer_ID = ?";
+            PreparedStatement statement = connection.prepareStatement(deleteStatement);
+            statement.setInt(1, customerId);
 
+            statement.executeUpdate();
+
+        }
+        catch (Exception e){
+            System.out.println("Error:" + e.getMessage());
+        }
+    }
 }

@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -264,7 +265,7 @@ public class ScheduleController implements Initializable {
     }
 
     /** Deletes a customer. */
-    public void DeleteCustomer(ActionEvent actionEvent) {
+    public void DeleteCustomer(ActionEvent actionEvent) throws SQLException {
         Customers selectedCustomer = (Customers) customerTableView.getSelectionModel().getSelectedItem();
         if (selectedCustomer != null) {
         ObservableList<Appointments> appointmentList = Appointments.getAppointments();
@@ -288,6 +289,7 @@ public class ScheduleController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == yesButton) {
                 Customers.deleteCustomer(selectedCustomer);
+                UpdateDatabase.deleteCustomer(selectedCustomer.getCustomerId());
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation");
                 alert.setContentText("Customer deleted!");
