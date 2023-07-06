@@ -15,4 +15,15 @@ public class DateTime {
         String formattedTime = localTime.format(formatter);
         return formattedTime;
     }
+
+    public static LocalDateTime toUtc(ZoneId timeZone, LocalDateTime selectedTime) {
+        ZoneId est = ZoneId.of("UTC");
+
+        ZonedDateTime zonedSelectedTime = ZonedDateTime.of(selectedTime, timeZone);
+        ZonedDateTime convertedTime = zonedSelectedTime.withZoneSameInstant(est);
+
+
+        return convertedTime.toLocalDateTime();
+    }
+
 }
