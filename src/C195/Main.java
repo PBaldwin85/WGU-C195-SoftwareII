@@ -7,16 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 /** Main application class used for starting the application.
  * Calls functions which populate information from the database.
@@ -49,6 +40,10 @@ public class Main extends Application {
         appointmentId ++;
         return appointmentId;
     }
+
+    public static void setAppointmentId(Integer id) {
+        appointmentId = id;
+    }
     /** Gets an appointment Id. */
     public static int getAppointmentId() {
         return appointmentId;
@@ -64,6 +59,10 @@ public class Main extends Application {
     /** Gets the customer Id */
     public static int getCustomerId() {
         return customerId;
+    }
+
+    public static void setCustomerId(Integer id) {
+        customerId = id;
     }
     /** Closes the database connection */
     public void stop() {

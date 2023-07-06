@@ -127,7 +127,7 @@ public class LoginController {
         String location = zoneId.getId();
         setLocation.setText(location);
         Main.loggedIn = false;
-        Users.getUsers();
+        Users.setUsers();
 
         ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", Locale.getDefault());
 

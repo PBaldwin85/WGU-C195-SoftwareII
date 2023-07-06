@@ -78,7 +78,6 @@ public class Customers {
             ResultSet result = statement.executeQuery(query);
 
             while (result.next()) {
-                Main.generateCustomerId();
                 Integer id = Integer.valueOf(result.getString("Customer_ID"));
                 String customerName = result.getString("Customer_Name");
                 String phoneNumber = result.getString("Phone");
@@ -90,6 +89,7 @@ public class Customers {
                 String country = (String) Country.getCountry(countryId);
                 Customers customer = new Customers(id, customerName, address, zip, phoneNumber, division, country);
                 Lists.customerList.add(customer);
+                Main.setCustomerId(id);
             }
         } catch (Exception e) {
             System.out.println("Error:" + e.getMessage());

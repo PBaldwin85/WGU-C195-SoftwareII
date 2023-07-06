@@ -94,6 +94,7 @@ public class AppointmentEditorController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         contactsBox.setItems(Contacts.contacts);
         customerBox.setItems(Customers.getCustomerNames());
+
         userBox.setItems(Lists.users);
 
 

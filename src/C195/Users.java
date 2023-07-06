@@ -38,7 +38,7 @@ public class Users {
     /** Gets the password. */
     public String getPassword() {return password;}
     /** Gets the users and passwords from the database. */
-    public static void getUsers() {
+    public static void setUsers() {
         try {
             String query = "SELECT * FROM client_schedule.users;";
             Statement statement = JDBC.getConnection().createStatement();
@@ -50,6 +50,7 @@ public class Users {
                 String password = result.getString("Password");
                 Users users = new Users(userId, userName, password);
                 userList.add(users);
+                Lists.addUser(userId);
             }
         } catch (Exception e) {
             System.out.println("Error:" + e.getMessage());

@@ -78,7 +78,6 @@ public class Appointments extends Lists {
             Statement statement = JDBC.getConnection().createStatement();
             ResultSet result = statement.executeQuery(query);
             while (result.next()) {
-                Main.generateAppointmentId();
                 Integer id = Integer.valueOf(result.getString("Appointment_ID"));
                 String title = result.getString("Title");
                 String description = result.getString("Description");
@@ -86,7 +85,6 @@ public class Appointments extends Lists {
                 String type = result.getString("Type");
                 Integer customerId = Integer.valueOf(result.getString("Customer_ID"));
                 Integer userId = Integer.valueOf(result.getString("User_ID"));
-                Lists.addUser(userId);
                 Integer contactId = Integer.valueOf(result.getString("Contact_ID"));
                 String contact = (String) Contacts.getName(contactId);
                 String start =  result.getString("Start");
@@ -95,6 +93,7 @@ public class Appointments extends Lists {
                 String convertedEnd = DateTime.toLocal(end);
                 Appointments appointments = new Appointments(id, title, description, location, contact, type, convertedStart
                         , convertedEnd, customerId, userId);
+                Main.setAppointmentId(id);
                 Lists.appointmentList.add(appointments);
             }
         } catch (Exception e) {
