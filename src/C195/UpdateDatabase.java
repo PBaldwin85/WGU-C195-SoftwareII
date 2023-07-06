@@ -34,7 +34,7 @@ public class UpdateDatabase {
                     statement.setString(3, zipcode);
                     statement.setString(4, phone);
                     statement.setString(5, timeStamp);
-                    statement.setString(6, "test");
+                    statement.setString(6, "script");
                     statement.setString(7, "1");
                     statement.setString(8, String.valueOf(customerId));
 
