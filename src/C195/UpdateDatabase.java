@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 
 
 public class UpdateDatabase {
-    public static void addCustomer(Integer customerId, String name, String address, String zipcode, String phone) throws SQLException {
+    public static void addCustomer(Integer customerId, String name, String address, String zipcode, String phone, String divisionId) throws SQLException {
         try {
             Boolean exists = false;
             Connection connection = JDBC.getConnection();
@@ -21,7 +21,6 @@ public class UpdateDatabase {
             ResultSet result = queryStatement.executeQuery();
             while (result.next()) {
                 Integer databaseCustomerId = Integer.valueOf(result.getString("Customer_ID"));
-                System.out.println(databaseCustomerId);
                 if (customerId == databaseCustomerId) {
                     String updateStatement = "UPDATE client_schedule.customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
                     PreparedStatement statement = connection.prepareStatement(updateStatement);
@@ -35,7 +34,7 @@ public class UpdateDatabase {
                     statement.setString(4, phone);
                     statement.setString(5, timeStamp);
                     statement.setString(6, "script");
-                    statement.setString(7, "1");
+                    statement.setString(7, String.valueOf(divisionId));
                     statement.setString(8, String.valueOf(customerId));
 
                     statement.executeUpdate();
@@ -59,7 +58,7 @@ public class UpdateDatabase {
                 statement.setString(7, "script");
                 statement.setString(8, timeStamp);
                 statement.setString(9, "script");
-                statement.setString(10, "1");
+                statement.setString(10, String.valueOf(divisionId));
 
                 statement.executeUpdate();
             }

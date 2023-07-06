@@ -56,6 +56,26 @@ public class States {
         }
         return null;
     }
+
+    public static String getDivisionId(String passedDivision) throws SQLException {
+        try {
+            String query = "SELECT * FROM client_schedule.first_level_divisions";
+            Statement statement = JDBC.getConnection().createStatement();
+            ResultSet result = statement.executeQuery(query);
+
+
+            while (result.next()) {
+                String division = result.getString("Division");
+                if (division.equals(passedDivision)) {
+                    String divisionId = result.getString("Division_ID");
+                    return divisionId;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error:" + e.getMessage());
+        }
+        return null;
+    }
     /** Gets the Country ID from the passed through divison ID for filtering the State/Province list. */
     public static Object getCountryId(Integer passedId) throws SQLException {
         try {

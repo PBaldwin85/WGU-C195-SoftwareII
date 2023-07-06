@@ -118,8 +118,9 @@ public class CustomerEditorController implements Initializable {
 
             Customers customer = new Customers(customerId, name, address, zipcode, phone, state, country);
             updateCustomer(customer);
+            String divisionId = States.getDivisionId(state);
 
-            UpdateDatabase.addCustomer(customerId, name, address,zipcode, phone);
+            UpdateDatabase.addCustomer(customerId, name, address,zipcode, phone, divisionId);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Scheduler.fxml"));
             Stage stage = (Stage) mainWindow.getScene().getWindow();
