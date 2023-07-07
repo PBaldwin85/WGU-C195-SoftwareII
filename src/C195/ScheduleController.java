@@ -105,20 +105,11 @@ public class ScheduleController implements Initializable {
             for (Appointments existing : appointmentList) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
-                LocalDate stringToStartDate = startDate.toLocalDate();
-                LocalTime stringToStartTime = startDate.toLocalTime();
-
-                LocalTime currentTime = LocalTime.now();
-                LocalTime adjusted = currentTime.plusMinutes(15);
-                LocalDate currentDate = LocalDate.now();
-
+                LocalDate stringStartDate = startDate.toLocalDate();
+                LocalTime stringStartTime = startDate.toLocalTime();
 
                 LocalDateTime currentDateTime = LocalDateTime.now();
                 LocalDateTime currentDateTimeEnd = currentDateTime.plusMinutes(15);
-
-                System.out.println("startDate:" + startDate);
-                System.out.println("current date/time:" + currentDateTime);
-                System.out.println("current date/time plus 15:" + currentDateTimeEnd);
 
                 if (startDate.isAfter(currentDateTime) && startDate.isBefore(currentDateTimeEnd)) {
                     upcomingAppointments = true;
@@ -127,8 +118,8 @@ public class ScheduleController implements Initializable {
                     alert.setHeaderText("Appontment Information");
                     String appointmentComingUp = "There is an appointment scheduled in the next 15 minutes:\n";
                     appointmentComingUp += "Appointment Id: " + existing.getAppointmentId() + "\n";
-                    appointmentComingUp += "Date: " + stringToStartDate + "\n";
-                    appointmentComingUp += "Time: " + stringToStartTime + "\n";
+                    appointmentComingUp += "Date: " + stringStartDate + "\n";
+                    appointmentComingUp += "Time: " + stringStartTime + "\n";
                     alert.setContentText(appointmentComingUp);
                     alert.showAndWait();
                 }

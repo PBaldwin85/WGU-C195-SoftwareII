@@ -472,7 +472,17 @@ public class AppointmentEditorController implements Initializable {
         LocalDate stringToEndDate = endTimeMerge.toLocalDate();
         LocalTime stringToEndTime = endTimeMerge.toLocalTime();
 
+        /** Old lines */
         selectDate.setValue(stringToStartDate);
+        /** New lines */
+        for (Appointments existing : appointmentList) {
+            if (selectDate.getValue().isEqual(stringToStartDate) && (customerBox.getValue() == existing.getCustomerId())) {
+                AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
+                startTime.setItems(AppointmentDateTime.time);
+            }
+        }
+        /** End of new lines */
+
         startTime.setValue(stringToStartTime);
         selectEndDate.setValue(stringToEndDate);
         endTime.setValue(stringToEndTime);
