@@ -31,7 +31,8 @@ import java.util.ResourceBundle;
 import static C195.Lists.appointmentList;
 import static C195.Lists.customerList;
 
-/** Reports class used for managing the information on the reports page.
+/** Holds 2 different Lambda expressions.
+ * Reports class used for managing the information on the reports page.
  */
 public class Reports implements Initializable {
     /** Anchorpane window for the page */
@@ -85,7 +86,7 @@ public class Reports implements Initializable {
     /** Initializes the reports page and holds lambda expressions for the comboboxes.
      * Populates and sets the comboboxes.
      * The Month lambda on action expression is used for detecting when the user has made a selection.
-     * Once a Month has been selected by the user, it uses another lambda stream expresssion to filter the exisitng appointment list.
+     * Once a Month has been selected by the user, it uses a lambda stream expresssion to filter the exisitng appointment list.
      * The stream allows me to not use a for loop on the appointment list.
      */
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -107,7 +108,7 @@ public class Reports implements Initializable {
 
         });
 
-        /** Lambda stream for filtering the amount of appointments per month. */
+        /** Lambda on action and stream for filtering the amount of appointments per month. */
         monthBox.setOnAction(event-> {
             int count = (int) appointmentList.stream()
                     .filter(existing -> {
