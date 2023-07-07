@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+/** JDBC class used to connect and disconnect from the database. */
 public abstract class JDBC {
 
     private static final String protocol = "jdbc";
