@@ -8,8 +8,14 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-
+/** UpdateDatabase class is used for adding, modifying, and deleting customers and appointments from the database.
+ *
+ */
 public class UpdateDatabase {
+    /** Adds or modifies a customer in the database.
+     * If the customer ID exists in the database, the customer will be updated.
+     * If the customer ID doesn't exist, a new customer will be added.
+     */
     public static void addCustomer(Integer customerId, String name, String address, String zipcode, String phone, String divisionId) throws SQLException {
         try {
             Boolean exists = false;
@@ -69,7 +75,8 @@ public class UpdateDatabase {
         return;
     }
 
-
+    /** Deletes a customer from the database.
+     */
     public static void deleteCustomer(Integer customerId) throws SQLException {
         try {
             Connection connection = JDBC.getConnection();
@@ -85,7 +92,10 @@ public class UpdateDatabase {
         }
     }
 
-
+    /** Adds or modifies an appointment in the database.
+     * If the appointment ID exists in the database, the appointment be updated.
+     * If the appointment ID doesn't exist, a new appointment will be added.
+     */
     public static void addAppointment(Integer appointmentId, String title, String description, String location, String type, String startDate, String endDate, Integer customerId, Integer userId, Integer contactId) throws SQLException {
         try {
             Boolean exists = false;
@@ -153,6 +163,7 @@ public class UpdateDatabase {
         return;
     }
 
+    /** Deletes an appointment from the database. */
     public static void deleteAppointment(Integer appointmentId) throws SQLException {
         try {
             Connection connection = JDBC.getConnection();

@@ -84,12 +84,9 @@ public class Reports implements Initializable {
 
     /** Initializes the reports page and holds lambda expressions for the comboboxes.
      * Populates and sets the comboboxes.
-     * The typeBox lambda expression is used for detecting when the user has made a selection.
-     * Once a type has been selected, it prints the amount of customers to ther right of the box.
-     * The Month lambda expression is used for detecting when the user has made a selection.
-     * Once a Month has been selected, it prints the amount of customers to ther right of the box.
-     * The contacts lambda expression is used for detecting when the user has made a selection.
-     * Once a contact has been selected, it sets and filters the table to only the contacts appointments.
+     * The Month lambda on action expression is used for detecting when the user has made a selection.
+     * Once a Month has been selected by the user, it uses another lambda stream expresssion to filter the exisitng appointment list.
+     * The stream allows me to not use a for loop on the appointment list.
      */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Type.populateTypes();
@@ -110,20 +107,21 @@ public class Reports implements Initializable {
 
         });
 
+        /** Lambda stream for filtering the amount of appointments per month. */
         monthBox.setOnAction(event-> {
-            int count = 0;
-            for (Appointments existing : appointmentList) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
-                Month month = startDate.getMonth();
-                String toUpper = (String) monthBox.getValue();
-                String selectedMonthToUpper = toUpper.toUpperCase();
-                if (selectedMonthToUpper.equals(month.toString())) {
-                    count += 1;
-                }
-            }
+            int count = (int) appointmentList.stream()
+                    .filter(existing -> {
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                        LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
+                        Month month = startDate.getMonth();
+                        String toUpper = (String) monthBox.getValue();
+                        String selectedMonthToUpper = toUpper.toUpperCase();
+                        return selectedMonthToUpper.equals(month.toString());
+                    })
+                    .count();
             monthOutput.setText("Number of appointments: " + count);
         });
+
 
         contactsBox.setOnAction(event-> {
             FilteredAppointments.filteredAppointmentList.clear();
