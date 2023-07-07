@@ -99,19 +99,28 @@ public class ScheduleController implements Initializable {
         stateColumn.setCellValueFactory(new PropertyValueFactory<>("State"));
         countryColumn.setCellValueFactory(new PropertyValueFactory<>("Country"));
 
-        if (Main.loggedIn == false) {
-            Main.loggedIn = true;
+        if (LoginController.loggedIn == false) {
+            LoginController.loggedIn = true;
             boolean upcomingAppointments = false;
             for (Appointments existing : appointmentList) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
                 LocalDate stringToStartDate = startDate.toLocalDate();
                 LocalTime stringToStartTime = startDate.toLocalTime();
+
                 LocalTime currentTime = LocalTime.now();
                 LocalTime adjusted = currentTime.plusMinutes(15);
                 LocalDate currentDate = LocalDate.now();
 
-                if (stringToStartTime.isAfter(currentTime) && stringToStartTime.isBefore(adjusted) && (stringToStartTime.equals(currentDate))) {
+
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                LocalDateTime currentDateTimeEnd = currentDateTime.plusMinutes(15);
+
+                System.out.println("startDate:" + startDate);
+                System.out.println("current date/time:" + currentDateTime);
+                System.out.println("current date/time plus 15:" + currentDateTimeEnd);
+
+                if (startDate.isAfter(currentDateTime) && startDate.isBefore(currentDateTimeEnd)) {
                     upcomingAppointments = true;
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Appontment Information");

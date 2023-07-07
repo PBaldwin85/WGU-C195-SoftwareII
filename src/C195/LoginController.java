@@ -51,6 +51,8 @@ public class LoginController {
     /** Shows the users location on the bottom right of the screen. */
     public Label setLocation;
 
+    public static boolean loggedIn = false;
+
     /** Trigger when the user presses login.
      * Pulls the users language and translates the exceptions depending on if English or French is selected.
      * Checks the username and password against the database to verify login information.
@@ -128,6 +130,7 @@ public class LoginController {
         setLocation.setText(location);
         Main.loggedIn = false;
         Users.setUsers();
+        loggedIn = false;
 
         ResourceBundle rb = ResourceBundle.getBundle("C195/Nat", Locale.getDefault());
 
