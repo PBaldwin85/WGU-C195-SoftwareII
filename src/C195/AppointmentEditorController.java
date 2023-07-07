@@ -100,6 +100,7 @@ public class AppointmentEditorController implements Initializable {
 
 
 
+
         /** Lamba expression used for setting times when a date is selected.
          * When a date is selected, I have it load only the available times.
          */
@@ -243,6 +244,7 @@ public class AppointmentEditorController implements Initializable {
             LocalDate selectedDate = selectDate.getValue();
             LocalTime selectedTime = LocalTime.parse((CharSequence) endTime.getValue());
             LocalTime newDay = LocalTime.parse("00:00:00");
+
 
             if (selectedTime.isBefore(startTemp)) {
                 selectedDate = selectedDate.plusDays(1);
@@ -472,19 +474,74 @@ public class AppointmentEditorController implements Initializable {
         LocalDate stringToEndDate = endTimeMerge.toLocalDate();
         LocalTime stringToEndTime = endTimeMerge.toLocalTime();
 
-        /** Old lines */
-        selectDate.setValue(stringToStartDate);
-        /** New lines */
-        for (Appointments existing : appointmentList) {
-            if (selectDate.getValue().isEqual(stringToStartDate) && (customerBox.getValue() == existing.getCustomerId())) {
-                AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
-                startTime.setItems(AppointmentDateTime.time);
-            }
-        }
-        /** End of new lines */
+        LocalTime startOfDay = LocalTime.parse("08:00:00");
+        LocalTime endOfDay = LocalTime.parse("22:00:00");
 
+
+        selectDate.setValue(stringToStartDate);
+
+        AppointmentDateTime.timeToDelete.clear();
+        AppointmentDateTime.populateTime(ZoneId.systemDefault());
+        for (Appointments existing : appointmentList) {
+            LocalDateTime existingStartDate = LocalDateTime.parse(existing.getStartDate(), formatter);
+            LocalDateTime existingEndDate = LocalDateTime.parse(existing.getEndDate(), formatter);
+            LocalDate stringStartDate = existingStartDate.toLocalDate();
+            LocalTime stringStartTime = existingStartDate.toLocalTime();
+            LocalDate stringEndDate = existingEndDate.toLocalDate();
+            LocalTime stringEndTime = existingEndDate.toLocalTime();
+            if (selectDate.getValue().isEqual(stringStartDate) && (customerBox.getValue() == existing.getCustomerId()) && (appointmentId != existing.getAppointmentId())) {
+                AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringStartTime, stringEndTime);
+            }
+
+            LocalTime endDay = LocalTime.parse("22:00");
+            Boolean needOffset = true;
+            AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), stringToStartTime, endDay, needOffset);
+        }
+        startTime.setItems(AppointmentDateTime.time);
         startTime.setValue(stringToStartTime);
         selectEndDate.setValue(stringToEndDate);
+
+        boolean appointmentsAfter = false;
+        boolean earliestSet = false;
+        LocalTime earliest = null;
+        for (Appointments existing : appointmentList) {
+            LocalDateTime existingStartDateTime = LocalDateTime.parse(existing.getStartDate(), formatter);
+            LocalDateTime existingEndDateTime = LocalDateTime.parse(existing.getEndDate(), formatter);
+            LocalDate existingStartDate = existingStartDateTime.toLocalDate();
+            LocalTime existingStartTime = existingStartDateTime.toLocalTime();
+
+            if (selectDate.getValue().isEqual(existingStartDate) && (customerBox.getValue() == existing.getCustomerId())) {
+                if (existingStartTime.isAfter((LocalTime) startTime.getValue())) {
+                    appointmentsAfter = true;
+                }
+                if (selectDate.getValue().isEqual(existingStartDate) && ((LocalTime) startTime.getValue()).isBefore(LocalTime.from(existingStartTime))) {
+                    LocalTime test = existingStartTime;
+                    AppointmentDateTime.endTimeList.clear();
+                    boolean needOffset = false;
+                    if (earliestSet==true) {
+                        if (existingStartTime.isAfter(earliest)) {
+                            AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), (LocalTime) startTime.getValue(), earliest, needOffset);
+                            endTime.setItems(AppointmentDateTime.endTimeList);
+                            break;
+                        }
+                    }
+
+                    AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), (LocalTime) startTime.getValue(), existingStartTime, needOffset);
+                    earliestSet = true;
+                    earliest = existingStartTime;
+                    endTime.setItems(AppointmentDateTime.endTimeList);
+                }
+            }
+        }
+        if (appointmentsAfter == false) {
+            AppointmentDateTime.endTimeList.clear();
+            boolean needOffset = true;
+            AppointmentDateTime.setEndTimes(ZoneId.systemDefault(), (LocalTime) startTime.getValue(), LocalTime.parse("22:00:01"), needOffset);
+            endTime.setItems(AppointmentDateTime.endTimeList);
+        }
+
+        startTemp = (LocalTime) startTime.getValue();
+
         endTime.setValue(stringToEndTime);
 
     }
