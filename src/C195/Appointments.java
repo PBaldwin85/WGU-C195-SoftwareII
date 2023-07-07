@@ -88,6 +88,7 @@ public class Appointments extends Lists {
                 Integer contactId = Integer.valueOf(result.getString("Contact_ID"));
                 String contact = (String) Contacts.getName(contactId);
                 String start =  result.getString("Start");
+
                 String convertedStart = DateTime.toLocal(start);
                 String end = result.getString("End");
                 String convertedEnd = DateTime.toLocal(end);
