@@ -94,12 +94,7 @@ public class AppointmentEditorController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         contactsBox.setItems(Contacts.contacts);
         customerBox.setItems(Customers.getCustomerNames());
-
         userBox.setItems(Lists.users);
-
-
-
-
 
         /** Lamba expression used for setting times when a date is selected.
          * When a date is selected, I have it load only the available times.
@@ -111,17 +106,9 @@ public class AppointmentEditorController implements Initializable {
             AppointmentDateTime.timeToDelete.clear();
             AppointmentDateTime.endTimeList.clear();
 
-            /**
-            if (selectedDay == DayOfWeek.SATURDAY || selectedDay == DayOfWeek.SUNDAY) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Warning");
-                alert.setContentText("Weekends are not allowed! Please select a weekday.");
-                alert.showAndWait();
-                return;
-            }
-             */
-
             selectEndDate.setValue(selectedDate);
+            startTime.setValue(null);
+            endTime.setValue(null);
 
             for (Appointments existing : appointmentList) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -132,8 +119,10 @@ public class AppointmentEditorController implements Initializable {
                 LocalDate stringToEndDate = endDate.toLocalDate();
                 LocalTime stringToEndTime = endDate.toLocalTime();
 
+                Integer appointmentId = Integer.valueOf(AppointmentIdField.getText());
+
                 try {
-                    if (selectDate.getValue().isEqual(stringToStartDate) && (customerBox.getValue().equals(existing.getCustomerId()))) {
+                    if (selectDate.getValue().isEqual(stringToStartDate) && (customerBox.getValue().equals(existing.getCustomerId())) && (appointmentId != existing.getAppointmentId())) {
                         AppointmentDateTime.removeMatches(ZoneId.systemDefault(), stringToStartTime, stringToEndTime);
                     }
                 }
@@ -146,6 +135,8 @@ public class AppointmentEditorController implements Initializable {
         AppointmentDateTime.timeToDelete.clear();
         startTime.setItems(AppointmentDateTime.time);
         endTime.setItems(AppointmentDateTime.time);
+
+
 
         /** Lamba expression used for setting times when a customer is selected.
          * When a customer is selected, the times are filtered for that particular customer.
