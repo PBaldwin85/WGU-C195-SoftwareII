@@ -30,6 +30,7 @@ import java.util.ResourceBundle;
 
 import static C195.Lists.appointmentList;
 import static C195.Lists.customerList;
+import static C195.Type.typeList;
 
 /** Holds 2 different Lambda expressions.
  * Reports class used for managing the information on the reports page.
@@ -40,6 +41,8 @@ public class Reports implements Initializable {
     /** Table view for filtered the contacts appointments. */
     @FXML
     private TableView contactsTableView;
+    @FXML
+    private TableView monthTableView;
     /** Country combobox used to select a Country to see how many customers there are in the selected Country. */
     @FXML
     private ComboBox countryBox;
@@ -76,6 +79,9 @@ public class Reports implements Initializable {
     public TableColumn endColumn;
     /** Customer ID column. */
     public TableColumn customerIdColumn;
+    public TableColumn monthColumn;
+    public TableColumn TypeColumnInMonths;
+    public TableColumn appointmentsColumn;
     /** Back button to go back to the appointment and customer view. */
     @FXML
     private Button back;
@@ -85,60 +91,34 @@ public class Reports implements Initializable {
 
     /** Initializes the reports page and holds lambda expressions for the comboboxes.
      * Populates and sets the comboboxes.
-     * The Month lambda on action expression is used for detecting when the user has made a selection.
-     * Once a Month has been selected by the user, it uses a lambda stream expresssion to filter the exisitng appointment list.
+     * The Contact lambda on action expression is used for detecting when the user has made a selection.
+     * Once a contact has been selected by the user, it uses a lambda stream expresssion to filter all the appointments for that contact.
      * The stream allows me to not use a for loop on the appointment list.
      */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Type.populateTypes();
         Months.populateMonths();
         countryBox.setItems(Country.countries);
-        typeBox.setItems(Type.typeList);
         monthBox.setItems(Months.monthList);
         contactsBox.setItems(Contacts.contacts);
 
-        typeBox.setOnAction(event-> {
-            int count = 0;
-            for (Appointments existing : appointmentList) {
-                if (typeBox.getValue().equals(existing.getType())) {
-                    count += 1;
-                }
-            }
-            typeOutput.setText("Number of appointments: " + count);
-
-        });
-
-        /** Lambda on action and stream for filtering the amount of appointments per month. */
-        monthBox.setOnAction(event-> {
-            int count = (int) appointmentList.stream()
-                    .filter(existing -> {
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                        LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
-                        Month month = startDate.getMonth();
-                        String toUpper = (String) monthBox.getValue();
-                        String selectedMonthToUpper = toUpper.toUpperCase();
-                        return selectedMonthToUpper.equals(month.toString());
-                    })
-                    .count();
-            monthOutput.setText("Number of appointments: " + count);
-        });
-
-
+        /** Lambda on action and stream for filtering the appointments for the selected contact. */
         contactsBox.setOnAction(event-> {
             FilteredAppointments.filteredAppointmentList.clear();
-            for (Appointments existing : appointmentList) {
-                if (contactsBox.getValue().equals(existing.getContact())) {
-                    Integer id = existing.getAppointmentId();
-                    String title = existing.getTitle();
-                    String type = existing.getType();
-                    String description = existing.getDescription();
-                    String startDate = existing.getStartDate();
-                    String endDate = existing.getEndDate();
-                    Integer customerId = existing.getCustomerId();
-                    FilteredAppointments filteredAppointments = new FilteredAppointments(id, title, type, description, startDate, endDate, customerId);
-                    FilteredAppointments.addAppointment(filteredAppointments);
-                }
-            }
+
+            appointmentList.stream()
+                    .filter(existing -> contactsBox.getValue().equals(existing.getContact()))
+                    .forEach(existing -> {
+                                Integer id = existing.getAppointmentId();
+                                String title = existing.getTitle();
+                                String type = existing.getType();
+                                String description = existing.getDescription();
+                                String startDate = existing.getStartDate();
+                                String endDate = existing.getEndDate();
+                                Integer customerId = existing.getCustomerId();
+                                FilteredAppointments filteredAppointments = new FilteredAppointments(id, title, type, description, startDate, endDate, customerId);
+                                FilteredAppointments.addAppointment(filteredAppointments);
+            });
 
             contactsTableView.setItems(FilteredAppointments.getAppointments());
             appointmentId.setCellValueFactory(new PropertyValueFactory<>("AppointmentId"));
@@ -148,6 +128,33 @@ public class Reports implements Initializable {
             startColumn.setCellValueFactory(new PropertyValueFactory<>("StartDate"));
             endColumn.setCellValueFactory(new PropertyValueFactory<>("EndDate"));
             customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("CustomerId"));
+
+        });
+
+        MonthReport.monthTypeList.clear();
+
+        monthBox.setOnAction(event-> {
+            MonthReport.monthTypeList.clear();
+            for (String existingType : typeList) {
+                int typeCount = 0;
+                for (Appointments existing : appointmentList) {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    LocalDateTime startDate = LocalDateTime.parse(existing.getStartDate(), formatter);
+                    Month month = startDate.getMonth();
+                    String toUpper = (String) monthBox.getValue();
+                    String selectedMonthToUpper = toUpper.toUpperCase();
+                    if (existingType.equals(existing.getType()) && selectedMonthToUpper.equals(month.toString())) {
+                        typeCount += 1;
+                    }
+                }
+                MonthReport monthReport = new MonthReport((String) monthBox.getValue(), existingType, typeCount);
+                MonthReport.addMonth(monthReport);
+            }
+
+            monthTableView.setItems(MonthReport.getMonths());
+            monthColumn.setCellValueFactory(new PropertyValueFactory<>("Month"));
+            TypeColumnInMonths.setCellValueFactory(new PropertyValueFactory<>("Type"));
+            appointmentsColumn.setCellValueFactory(new PropertyValueFactory<>("Appointments"));
 
         });
 
